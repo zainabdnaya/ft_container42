@@ -1,0 +1,23 @@
+NAME=test
+
+
+SRC=*.cpp
+
+INC=itterators.hpp
+
+all: $(SRC:.cpp=.o)
+	@echo "Compiling..."
+	@echo "Compiling..."
+	@clang++ -std=c++98 -Wall -Wextra -Werror -g $(SRC) -o $(NAME)
+	@echo "Compiling... Done"
+
+fclean:
+	@echo "Cleaning..."
+	@rm -f test
+	@rm -f *.o
+	@echo "Cleaning... Done"
+
+re: fclean all
+	@echo "Cleaning..."
+	@echo "Running..."
+	@echo "Running... Done"
