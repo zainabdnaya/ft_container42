@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   iterators.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
+/*   By: zainabdnayagmail.com <zainabdnayagmail.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/14 17:33:20 by zdnaya            #+#    #+#             */
-/*   Updated: 2021/11/14 19:16:18 by zdnaya           ###   ########.fr       */
+/*   Updated: 2021/11/19 16:02:06 by zainabdnaya      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef ITERATORS_HPP
+#define ITERATORS_HPP
+
 #include <iostream>
-#include <string>
-#include <deque>
-#include <map>
-#include <stack>
-#include <vector>
+#include <cstring>
+#include <cstddef>  // this for signed integer type returned when subtracting two pointers (typedef) ptrdiff_t
 
 /// create a class that implements the iterator traits
 /// for a given container
@@ -29,12 +29,14 @@ public:
     typedef int* pointer;
     typedef int& reference;
 
-    IteratorTraits(int* ptr) : ptr_(ptr) {}
+    // IteratorTraits(int* ptr) : ptr_(ptr) {}
 
-    IteratorTraits& operator++()
-    {
-        ptr_++;
-        return *this;
-    }
+    // IteratorTraits& operator++()
+    // {
+    //     ptr_++;
+    //     return *this;
+    // }
     
 };
+
+#endif
