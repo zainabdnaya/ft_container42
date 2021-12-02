@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   revers_traits.hpp                                  :+:      :+:    :+:   */
+/*   reverse_iterators.hpp                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 18:03:10 by zainabdnaya       #+#    #+#             */
-/*   Updated: 2021/12/02 10:33:49 by zdnaya           ###   ########.fr       */
+/*   Updated: 2021/12/02 11:31:52 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef REVERS_TRAITS_HPP
-#define REVERS_TRAITS_HPP
+#ifndef REVERSE_TRAITS_HPP
+#define REVERSE_TRAITS_HPP
 
 #include "iterator_traits.hpp"
 // reverse_iterator
@@ -76,13 +76,13 @@ namespace ft
             iterator_type tmp = current;
             return *(--tmp);
         };
-        //constexpr reference operator*() const;
-        // Returns a const reference to the element pointed to by the iterator.
-        constexpr reference operator*() const
-        {
-            iterator_type tmp = current;
-            return *(--tmp);
-        };
+        // constexpr reference operator*() const;
+        //  Returns a const reference to the element pointed to by the iterator.
+        // constexpr reference operator*() const
+        // {
+        //     iterator_type tmp = current;
+        //     return *(--tmp);
+        // };
         // (6) dereference operator ==> pointer operator-> ();
         // Returns a pointer to the element pointed to by the iterator.
         pointer operator->()
@@ -90,16 +90,16 @@ namespace ft
             iterator_type tmp = current;
             return &(*(--tmp));
         };
-        //constexpr pointer operator->() const;
-        // Returns a const pointer to the element pointed to by the iterator.
-        constexpr pointer operator->() const
-        {
-            iterator_type tmp = current;
-            return &(*(--tmp));
-        };
-        //re
-        // (7) prefix increment operator ==> reverse_iterator& operator++ ();
-        // Pre-increment operator.
+        // constexpr pointer operator->() const;
+        //  Returns a const pointer to the element pointed to by the iterator.
+        // constexpr pointer operator->() const
+        // {
+        //     iterator_type tmp = current;
+        //     return &(*(--tmp));
+        // };
+        // re
+        //  (7) prefix increment operator ==> reverse_iterator& operator++ ();
+        //  Pre-increment operator.
         reverse_iterator &operator++()
         {
             --current;
@@ -113,12 +113,12 @@ namespace ft
             --current;
             return tmp;
         };
-        constexpr reverse_iterator operator++(int) const
-        {
-            reverse_iterator tmp = *this;
-            --current;
-            return tmp;
-        };
+        // constexpr reverse_iterator operator++(int) const
+        // {
+        //     reverse_iterator tmp = *this;
+        //     --current;
+        //     return tmp;
+        // };
         // (9) prefix decrement operator ==> reverse_iterator& operator-- ();
         // Pre-decrement operator.
         reverse_iterator &operator--()
@@ -126,12 +126,12 @@ namespace ft
             ++current;
             return *this;
         };
-        constexpr reverse_iterator operator--(int)
-        {
-            reverse_iterator tmp = *this;
-            ++current;
-            return tmp;
-        };
+        // constexpr reverse_iterator operator--(int)
+        // {
+        //     reverse_iterator tmp = *this;
+        //     ++current;
+        //     return tmp;
+        // };
         // (10) postfix decrement operator ==> reverse_iterator operator-- (int);
         // Post-decrement operator.
         reverse_iterator operator--(int)
@@ -204,6 +204,82 @@ namespace ft
         {
             return (current >= it.current);
         };
-    }
+        // (21) greater than or equal operator ==> bool operator>= (const reverse_iterator& it) const;
+        // Returns true if the iterator is greater than or equal to the iterator it, false otherwise.
+        bool operator>=(const reverse_iterator &it) const
+        {
+            return (current <= it.current);
+        };
+        // (22) dereference operator ==> reference operator[] (difference_type n);
+        // Returns a reference to the element n positions forward from the element the iterator is pointing to.
+        reference operator[](difference_type n)
+        {
+            iterator_type tmp = current;
+            return *(--(tmp += n));
+        };
+        // constexpr reference operator[] (difference_type n) const;
+        //  Returns a const reference to the element n positions forward from the element the iterator is pointing to.
+        // constexpr reference operator[](difference_type n) const
+        // {
+        //     iterator_type tmp = current;
+        //     return *(--(tmp += n));
+        // };
+        // (23) dereference operator ==> reference operator[] (difference_type n);
+        // Returns a reference to the element n positions backward from the element the iterator is pointing to.
+        reference operator[](difference_type n) const
+        {
+            iterator_type tmp = current;
+            return *(--(tmp -= n));
+        };
+        // constexpr reference operator<=> (const reverse_iterator& it) const;
+        //  Returns true if the iterators are equal, false otherwise.
+        // constexpr bool operator<=>(const reverse_iterator &it) const
+        // {
+        //     return (current <= > it.current);
+        // };
+        // (24) swap function ==> void swap (reverse_iterator& it);
+        // Swaps the iterators.
+        void swap(reverse_iterator &it)
+        {
+            std::swap(current, it.current);
+        };
+        // (25) swap function ==>   friend constexpr void iter_swap(reverse_iterator &it1, reverse_iterator &it2);
+        // Swaps the iterators.
+        // friend constexpr void iter_swap(reverse_iterator &it1, reverse_iterator &it2)
+        // {
+        //     std::swap(current, it2.current);
+        // };
+        // (26) move function ==> reverse_iterator move (reverse_iterator it);
+        // Moves the iterator it to the current iterator.
+        reverse_iterator move(reverse_iterator it)
+        {
+            current = it.current;
+            return *this;
+        };
+        // (27) move function ==> reverse_iterator move (reverse_iterator it);
+        // Moves the iterator it to the current iterator.
+        reverse_iterator move(reverse_iterator it) const
+        {
+            current = it.current;
+            return *this;
+        };
+        // (28) make_reverse_iterator function ==> reverse_iterator make_reverse_iterator (iterator_type it);
+        // Returns a reverse_iterator that points to the same element as the iterator it.
+        static reverse_iterator make_reverse_iterator(iterator_type it)
+        {
+            return reverse_iterator(it);
+        };
+        // static reverse_iterator make_reverse_iterator(iterator_type it) const
+        // {
+        //     return reverse_iterator(it);
+        // };
+        // constexpr reverse_iterator make_reverse_iterator (iterator_type it);
+        // Returns a constexpr reverse_iterator that points to the same element as the iterator it.
+        // constexpr reverse_iterator make_reverse_iterator(iterator_type it) const
+        // {
+        //     return reverse_iterator(it);
+        // };
+    };
+} // namespace ft
 
 #endif // REVERS_TRAITS_HPP
