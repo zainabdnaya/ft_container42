@@ -1,8 +1,8 @@
 # ft_container42
+
 The aim of this project is to The multiple available containers in C++ , so we gonna re-implement them!
 
-
-#  Resources
+# Resources
 
 <a href="https://docs.microsoft.com/fr-fr/cpp/standard-library/vector-class?view=msvc-170&viewFallbackFrom=vs-2019">microsift-vectors-libraty</a>
 
@@ -10,9 +10,10 @@ The aim of this project is to The multiple available containers in C++ , so we g
 
 <a href="https://www.oreilly.com/library/view/c-in-a/059600298X/re673.html">iterators_traits</a>
 
-# Questions: 
+# Questions:
 
 ## what is a container specifically?
+
     An iterator is an object (like a pointer) that points to an element inside the container.
     We can use iterators to move through the contents of the container. They can be
     visualised as something similar to a pointer pointing to some location and we can
@@ -25,6 +26,7 @@ The aim of this project is to The multiple available containers in C++ , so we g
     Depending upon the functionality of iterators they can be classified into five categories,
     as shown in the diagram below with the outer one being the most powerful one and
     consequently the inner one is the least powerful in terms of functionality.
+
 ## Why do I need iterator_traits ?
 
     Synopsis
@@ -42,3 +44,16 @@ The iterator_traits class template declares traits for an iterator. If you use t
 If you write your own specialization, the iterator_category type must be one of the five iterator tag classes. (See the iterator class template.) For an output iterator, difference_type and value_type are void.
 
 When writing a generic algorithm or other function that uses iterators, you can use iterator_traits to specialize the behavior for certain kinds of iterators. See Example 13-19 (under distance), which shows how iterator traits can be used to improve the performance of a function.
+
+## Use of Enable_if
+
+    template <bool, typename T = void>
+    struct enable_if
+    {};
+
+    template <typename T>
+    struct enable_if<true, T> {
+      typedef T type;
+    };
+
+It's so useful because it's a key part in using type traits, a way to restrict templates to types that have certain properties.

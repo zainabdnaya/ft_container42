@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 18:06:10 by zainabdnaya       #+#    #+#             */
-/*   Updated: 2021/12/02 11:12:00 by zdnaya           ###   ########.fr       */
+/*   Updated: 2021/12/02 12:30:06 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@
 	#include <vector>
 	namespace ft = std;
 #else
-	#include <map.hpp>
-	#include <stack.hpp>
-	#include <vector.hpp>
+	// #include <map.hpp>
+	// #include <stack.hpp>
+	// #include <vector.hpp>
 #endif
 
 #include <stdlib.h>

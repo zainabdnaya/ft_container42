@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 15:59:50 by zainabdnaya       #+#    #+#             */
-/*   Updated: 2021/12/02 11:26:34 by zdnaya           ###   ########.fr       */
+/*   Updated: 2021/12/02 12:49:34 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,93 @@ namespace ft
         typedef const T *const pointer;
         typedef const T &reference;
         typedef std::random_access_iterator_tag iterator_category;
+    };
+    // iterator_traits : template< class T > struct iterator_traits<T&const>;
+    template <class T>
+    struct iterator_traits<T &const>
+    {
+        typedef T value_type;
+        typedef ptrdiff_t difference_type;
+        typedef T *const pointer;
+        typedef T &reference;
+        typedef std::random_access_iterator_tag iterator_category;
+    };
+    // enable_if is a type trait that is used to enable or disable a template based on a condition.
+    // enable_if : template< bool B, class T = void > struct enable_if;
+    template <bool B, class T = void>
+    struct enable_if
+    {
+    };
+    // enable_if : template< class T > struct enable_if<true, T>;
+    // Si nous souhaitons par exemple qu'une fonction f() ne soit utilisable que pour un type T .
+    template <class T>
+    struct enable_if<true, T>
+    {
+        typedef T type;
+    };
+    //  is_same is a type trait that is used to check if two types are the same. like enable_if but for two types.
+    // is_same : template< class T, class U > struct is_same;
+    // template <class T, class U>
+    // struct is_same
+    // {
+    //     enum
+    //     {
+    //         value = false
+    //     };
+    // };
+    // is_integral is a type trait that is used to check if a type is an integral type.
+    // is_integral : template< class T > struct is_integral;
+    template <class T>
+    struct is_integral
+    {
+        // Enumeration is a user defined datatype in C/C++ language. It is used to assign names to the integral constants which makes a program easy to read and maintain. The keyword “enum” is used to declare an enumeration.
+        enum
+        {
+            value = false
+        };
+    };
+    // lexicographical_compare is a function that compares two ranges of elements lexicographically.
+    // lexicographical_compare : template< class InputIterator1, class InputIterator2 > bool lexicographical_compare( InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, InputIterator2 last2 );
+    template <class InputIterator1, class InputIterator2>
+    bool lexicographical_compare(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, InputIterator2 last2)
+    {
+        while (first1 != last1 && first2 != last2)
+        {
+            if (*first1 < *first2)
+                return true;
+            if (*first2 < *first1)
+                return false;
+            ++first1;
+            ++first2;
+        }
+        return first1 == last1 && first2 != last2;
+    };
+    template <class InputIterator1, class InputIterator2, class Compare>
+    bool lexicographical_compare(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, InputIterator2 last2, Compare comp)
+    {
+        while (first1 != last1 && first2 != last2)
+        {
+            if (comp(*first1, *first2))
+                return true;
+            if (comp(*first2, *first1))
+                return false;
+            ++first1;
+            ++first2;
+        }
+    };
+    // equal is a function that compares two ranges of elements for equality.
+    // equal : template< class InputIterator1, class InputIterator2 > bool equal( InputIterator1 first1, InputIterator1 last1, InputIterator2 first2 );
+    template <class InputIterator1, class InputIterator2>
+    bool equal(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2)
+    {
+        while (first1 != last1)
+        {
+            if (*first1 != *first2)
+                return false;
+            ++first1;
+            ++first2;
+        }
+        return true;
     };
 
 }
