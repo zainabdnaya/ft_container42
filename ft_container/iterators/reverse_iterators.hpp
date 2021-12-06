@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 18:03:10 by zainabdnaya       #+#    #+#             */
-/*   Updated: 2021/12/02 11:31:52 by zdnaya           ###   ########.fr       */
+/*   Updated: 2021/12/06 19:24:01 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -280,6 +280,53 @@ namespace ft
         //     return reverse_iterator(it);
         // };
     };
-} // namespace ft
+//nonmember functions
+//relational operators
+    template<class Iterator>
+    bool operator==(const reverse_iterator<Iterator> &it1, const reverse_iterator<Iterator> &it2)
+    {
+        return (it1.current == it2.current);
+    };
+    template<class Iterator>
+    bool operator!=(const reverse_iterator<Iterator> &it1, const reverse_iterator<Iterator> &it2)
+    {
+        return (it1.current != it2.current);
+    };
+    template<class Iterator>
+    bool operator<(const reverse_iterator<Iterator> &it1, const reverse_iterator<Iterator> &it2)
+    {
+        return (it1.current > it2.current);
+    };
+    template<class Iterator>
+    bool operator>(const reverse_iterator<Iterator> &it1, const reverse_iterator<Iterator> &it2)
+    {
+        return (it1.current < it2.current);
+    };
+    template<class Iterator>
+    bool operator<=(const reverse_iterator<Iterator> &it1, const reverse_iterator<Iterator> &it2)
+    {
+        return (it1.current >= it2.current);
+    };
+    template<class Iterator>
+    bool operator>=(const reverse_iterator<Iterator> &it1, const reverse_iterator<Iterator> &it2)
+    {
+        return (it1.current <= it2.current);
+    };
+// operator+
+    template<class Iterator>
+    reverse_iterator<Iterator> operator+(typename reverse_iterator<Iterator>::difference_type n,
+                                          const reverse_iterator<Iterator> &it)
+    {
+        return reverse_iterator<Iterator>(it.current - n);
+    };
+// operator-
+    template<class Iterator>
+    reverse_iterator<Iterator> operator-(typename reverse_iterator<Iterator>::difference_type n,
+                                          const reverse_iterator<Iterator> &it)
+    {
+        return reverse_iterator<Iterator>(it.current + n);
+    };
+}
+
 
 #endif // REVERS_TRAITS_HPP

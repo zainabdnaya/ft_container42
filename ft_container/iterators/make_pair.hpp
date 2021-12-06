@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 12:50:11 by zdnaya            #+#    #+#             */
-/*   Updated: 2021/12/02 13:24:30 by zdnaya           ###   ########.fr       */
+/*   Updated: 2021/12/06 18:51:53 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ namespace ft
         pair(const T1 &a, const T2 &b) : first(a), second(b){};
         pair(const pair &p) : first(p.first), second(p.second){};
         // Menber function operators
-        operator=(const pair &p)
-        {
-            first = p.first;
-            second = p.second;
-        };
+        // operator=(const pair &p)
+        // {
+        //     first = p.first;
+        //     second = p.second;
+        // };
         &operator=(const pair &p)
         {
             first = p.first;
