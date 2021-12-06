@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 18:43:21 by zdnaya            #+#    #+#             */
-/*   Updated: 2021/12/06 19:33:21 by zdnaya           ###   ########.fr       */
+/*   Updated: 2021/12/06 21:26:05 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,12 @@
             value = true
         };
     };
-    
+    template < class T>
+    void swap(T& a, T& b)
+    {
+        T tmp = a;
+        a = b;
+        b = tmp;
+    }
         
 #endif

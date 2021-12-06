@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 21:08:01 by zainabdnaya       #+#    #+#             */
-/*   Updated: 2021/12/06 19:44:47 by zdnaya           ###   ########.fr       */
+/*   Updated: 2021/12/06 22:11:39 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,11 @@ namespace ft
     template <typename T, class Alloc = std::allocator<T> >
     class vector
     {
-    public:
+    private:
+        T *_data;
+        size_type _size;
+        size_type _capacity;
+        allocator_type _alloc;
         typedef T value_type;
         typedef Alloc<T> allocator_type;
         typedef Alloc<T &> reference;
@@ -35,8 +39,12 @@ namespace ft
         typedef ptrdiff_t difference_type;
         typedef size_t size_type;
 
+    public:
         // constructors
-            explicit vector(const Alloc& alloc = Alloc()));
+            explicit vector(const Alloc& alloc = Alloc()))
+            : _data(nullptr), _size(0), _capacity(0), _alloc(alloc)
+            {
+            }
             explicit vector(size_type n, const T &value, const Alloc &alloc = Alloc())
             {
                 _alloc = alloc;
@@ -66,7 +74,12 @@ namespace ft
                     _alloc.construct(&_data[i], other._data[i]);
             };
             // destructors
-            ~vector();
+            ~vector()
+            {
+                for (size_type i = 0; i < _size; i++)
+                    _alloc.destroy(&_data[i]);
+                _alloc.deallocate(_data, _capacity);
+            };
             // oprator=
             vector &operator=(const vector &other)
             {
@@ -283,7 +296,7 @@ namespace ft
             };
             // range elements
             template <class InputIterator>
-            void assign(InputIterator first, InputIterator last) 
+            void assign(InputIterator first, InputIterator last)
             {
                 size_type n = last - first;
                 if (n > _capacity)
@@ -306,12 +319,12 @@ namespace ft
                 else if (n == _size)
                     return;
             };
-            //push_back Inserts a new element at the end of the vector, after its current last element. This new element is constructed in place using args as the arguments for its construction.
+            // push_back Inserts a new element at the end of the vector, after its current last element. This new element is constructed in place using args as the arguments for its construction.
             void push_back(const T &val)
             {
                 if (_size == _capacity)
                 {
-                    _capacity *= 2;//why double the capacity ?  because we want to have a bigger capacity than the size of the vector to avoid reallocation of memory when we add elements to the vector  .
+                    _capacity *= 2; // why double the capacity ?  because we want to have a bigger capacity than the size of the vector to avoid reallocation of memory when we add elements to the vector  .
                     T *new_data = _alloc.allocate(_capacity);
                     for (size_type i = 0; i < _capacity; i++)
                         _alloc.construct(&new_data[i], _data[i]);
@@ -323,18 +336,176 @@ namespace ft
                 _alloc.construct(&_data[_size], val);
                 _size++;
             };
-
-        private:
-            T *_data;
-            size_type _size;
-            size_type _capacity;
-            allocator_type _alloc;
+            // pop_back Removes the last element in the vector, effectively reducing the container size by one.
+            void pop_back()
+            {
+                _alloc.destroy(&_data[_size - 1]);
+                _size--;
+            };
+            // insert Inserts a new element at position n in the vector, shifting the element at position n and those after it to the right.
+            iterator insert(const_iterator position, const T &val)
+            {
+                if (_size == _capacity)
+                {
+                    _capacity *= 2;
+                    T *new_data = _alloc.allocate(_capacity);
+                    for (size_type i = 0; i < _capacity; i++)
+                        _alloc.construct(&new_data[i], _data[i]);
+                    for (size_type i = 0; i < _capacity; i++)
+                        _alloc.destroy(&_data[i]);
+                    _alloc.deallocate(_data, _capacity);
+                    _data = new_data;
+                }
+                for (size_type i = _size; i > position - begin(); i--)
+                    _alloc.construct(&_data[i], _data[i - 1]);
+                _alloc.construct(&_data[position - begin()], val);
+                _size++;
+                return iterator(position);
+            };
+            // erase Erases the element at position n in the vector, shifting the elements at and after position n to the left.
+            iterator erase(const_iterator position)
+            {
+                for (size_type i = position - begin(); i < _size - 1; i++)
+                    _alloc.destroy(&_data[i]);
+                _alloc.destroy(&_data[_size - 1]);
+                _size--;
+                return iterator(position);
+            };
+            // erase Erases the elements in the range [first, last), shifting the elements at and after last to the left.
+            iterator erase(const_iterator first, const_iterator last)
+            {
+                for (size_type i = first - begin(); i < _size - 1; i++)
+                    _alloc.destroy(&_data[i]);
+                _alloc.destroy(&_data[_size - 1]);
+                _size -= last - first;
+                return iterator(first);
+            };
+            // swap Exchanges the contents of the container by those of x.
+            void swap(vector &x)
+            {
+                ft::swap(_data, x._data);
+                ft::swap(_size, x._size);
+                ft::swap(_capacity, x._capacity);
+            };
+            // clear Removes all elements from the vector container, leaving the container with a size of 0.
+            void clear()
+            {
+                for (size_type i = 0; i < _size; i++)
+                    _alloc.destroy(&_data[i]);
+                _size = 0;
+            };
+            // get_allocator Returns a copy of the allocator object associated with the vector.
+            allocator_type get_allocator() const
+            {
+                return _alloc;
+            };
+    };
+    // relational operators
+    template <class T, class Alloc>
+    bool operator==(const vector<T, Alloc> &x, const vector<T, Alloc> &y)
+    {
+        if (x.size() != y.size())
+            return false;
+        for (size_t i = 0; i < x.size(); i++)
+            if (x[i] != y[i])
+                return false;
+        return true;
+    };
+    template <class T, class Alloc>
+    bool operator!=(const vector<T, Alloc> &x, const vector<T, Alloc> &y)
+    {
+        return !(x == y);
+    };
+    template <class T, class Alloc>
+    bool operator<(const vector<T, Alloc> &x, const vector<T, Alloc> &y)
+    {
+        if (x.size() < y.size())
+            return true;
+        else if (x.size() > y.size())
+            return false;
+        for (size_t i = 0; i < x.size(); i++)
+            if (x[i] < y[i])
+                return true;
+            else if (x[i] > y[i])
+                return false;
+        return false;
+    };
+    template <class T, class Alloc>
+    bool operator>(const vector<T, Alloc> &x, const vector<T, Alloc> &y)
+    {
+        return y < x;
+    };
+    template <class T, class Alloc>
+    bool operator<=(const vector<T, Alloc> &x, const vector<T, Alloc> &y)
+    {
+        return !(x > y);
+    };
+    template <class T, class Alloc>
+    bool operator>=(const vector<T, Alloc> &x, const vector<T, Alloc> &y)
+    {
+        return !(x < y);
+    };
+    // swap
+    template <class T, class Alloc>
+    void swap(vector<T, Alloc> &x, vector<T, Alloc> &y)
+    {
+        x.swap(y);
     };
 
-    // template <typename T>
-    // vector<T>::vector() : _data(nullptr), _size(0), _capacity(0)
-    // {
-    // }
+    // template sprcialization ==> vector<bool>
+    template <class Alloc>
+    class vector<bool, Alloc>
+    {
+    private:
+        typedef bool value_type;
+        typedef Alloc allocator_type;
+        typedef size_t size_type;
+        typedef ptrdiff_t difference_type;
+        typedef bool &reference;
+        typedef const bool &const_reference;
+        typedef bool *pointer;
+        typedef const bool *const_pointer;
+        typedef bool *iterator;
+        typedef const bool *const_iterator;
+        typedef ft::reverse_iterator<iterator> reverse_iterator;
+        typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
+
+    public:
+        // vector<bool>::reference is a reference to bool
+        // vector<bool>::const_reference is a const reference to bool
+        vector<bool>::reference
+        {
+            friend class vector;
+            reference(); // no public constructor
+        public:
+            ~reference();
+            operator bool() const;                    // convert to bool
+            reference &operator=(const bool x);       // assign from bool
+            reference &operator=(const reference &x); // assign from bit
+            void flip();                              // flip bit value.
+        };
+        // membr functions
+        // flip all bits: Flips all values in the container: All instances of true become false, and all instances of false become true.
+        void flip()
+        {
+            for (size_type i = 0; i < _size; i++)
+                _data[i] = !_data[i];
+        };
+        // swap containers
+        void swap(vector &x)
+        {
+            ft::swap(_data, x._data);
+            ft::swap(_size, x._size);
+            ft::swap(_capacity, x._capacity);
+        };
+        // swap elelements A static signature to swap individual elements (bits) is added on vector<bool>.
+        static void swap(reference x, reference y)
+        {
+            bool temp = x;
+            x = y;
+            y = temp;
+        };
+    };
 
 }
 
