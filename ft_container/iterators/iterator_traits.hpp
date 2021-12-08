@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 15:59:50 by zainabdnaya       #+#    #+#             */
-/*   Updated: 2021/12/06 19:35:11 by zdnaya           ###   ########.fr       */
+/*   Updated: 2021/12/08 16:08:53 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,15 +114,15 @@ namespace ft
         typedef std::random_access_iterator_tag iterator_category;
     };
     // iterator_traits : template< class T > struct iterator_traits<T&const>;
-    template <class T>
-    struct iterator_traits<T &const>
-    {
-        typedef T value_type;
-        typedef ptrdiff_t difference_type;
-        typedef T *const pointer;
-        typedef T &reference;
-        typedef std::random_access_iterator_tag iterator_category;
-    };
+    // template <class T>
+    // struct iterator_traits<T &const>
+    // {
+    //     typedef T value_type;
+    //     typedef ptrdiff_t difference_type;
+    //     typedef T *const pointer;
+    //     typedef T &reference;
+    //     typedef std::random_access_iterator_tag iterator_category;
+    // };
     // enable_if is a type trait that is used to enable or disable a template based on a condition.
     // enable_if : template< bool B, class T = void > struct enable_if;
     template <bool B, class T = void>

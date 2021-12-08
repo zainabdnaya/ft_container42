@@ -9,7 +9,7 @@ INC=iterator_traits.hpp \ reverse_traits.hpp \
 all: $(SRC:.cpp=.o)
 	@echo "Compiling..."
 	@echo "Compiling..."
-	@clang++ -std=c++98 -Wall -Wextra -Werror $(SRC) -o $(NAME)
+	@clang++  -std=c++98 -pedantic -Wall -Wextra -Werror $(SRC) -o $(NAME)
 	@echo "Compiling... Done"
 
 fclean:

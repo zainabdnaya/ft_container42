@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 21:08:01 by zainabdnaya       #+#    #+#             */
-/*   Updated: 2021/12/06 22:11:39 by zdnaya           ###   ########.fr       */
+/*   Updated: 2021/12/08 19:13:57 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,35 +16,32 @@
 #include "../iterators/iterator_traits.hpp"
 #include "../iterators/reverse_iterators.hpp"
 
+class reverse_iterator;
+
 namespace ft
 {
     template <typename T, class Alloc = std::allocator<T> >
-    class vector
+    class vector 
     {
-    private:
-        T *_data;
-        size_type _size;
-        size_type _capacity;
-        allocator_type _alloc;
-        typedef T value_type;
-        typedef Alloc<T> allocator_type;
-        typedef Alloc<T &> reference;
-        typedef Alloc<const T &> const_reference;
-        typedef Alloc<T *> pointer;
-        typedef Alloc<const T *> const_pointer;
-        typedef T *iterator;
+
+    public:
+        typedef   T *iterator;
+        typedef  T value_type;
+        typedef  Alloc::allocator_type;
+        typedef  Alloc<T &> reference;
+        typedef  Alloc<const T &> const_reference;
+        typedef  Alloc<T *> pointer;
+        typedef  Alloc<const T *> const_pointer;
         typedef const T *const_iterator;
         typedef ft::reverse_iterator<iterator> reverse_iterator;
         typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
         typedef ptrdiff_t difference_type;
         typedef size_t size_type;
-
-    public:
         // constructors
             explicit vector(const Alloc& alloc = Alloc()))
-            : _data(nullptr), _size(0), _capacity(0), _alloc(alloc)
+            : _data(nullptr), _size(0), _capacity(0), _alloc(Alloc)
             {
-            }
+            };
             explicit vector(size_type n, const T &value, const Alloc &alloc = Alloc())
             {
                 _alloc = alloc;
@@ -112,17 +109,17 @@ namespace ft
             {
                 return _data + _size;
             };
-            ft::reverse_iterator rbegin()
+            reverse_iterator rbegin()
             {
-                return ft::reverse_iterator(end());
+                return reverse_iterator(end());
             };
             const_reverse_iterator rbegin() const
             {
                 return const_reverse_iterator(end());
             };
-            ft::reverse_iterator rend()
+            reverse_iterator rend()
             {
-                return ft::reverse_iterator(begin());
+                return reverse_iterator(begin());
             };
             const_reverse_iterator rend() const
             {
@@ -133,7 +130,7 @@ namespace ft
             {
                 return _size;
             };
-            max_size size() const
+            size_type max_size() const
             {
                 return _alloc.max_size();
             };
@@ -362,6 +359,27 @@ namespace ft
                 _size++;
                 return iterator(position);
             };
+
+            // insert fill
+            void insert(iterator position, size_type n, const T &val)
+            {
+                if (_size + n > _capacity)
+                {
+                    _capacity = _size + n;
+                    T *new_data = _alloc.allocate(_capacity);
+                    for (size_type i = 0; i < _capacity; i++)
+                        _alloc.construct(&new_data[i], _data[i]);
+                    for (size_type i = 0; i < _capacity; i++)
+                        _alloc.destroy(&_data[i]);
+                    _alloc.deallocate(_data, _capacity);
+                    _data = new_data;
+                }
+                for (size_type i = _size; i > position - begin(); i--)
+                    _alloc.construct(&_data[i], _data[i - 1]);
+                for (size_type i = 0; i < n; i++)
+                    _alloc.construct(&_data[position - begin() + i], val);
+                _size += n;
+            };
             // erase Erases the element at position n in the vector, shifting the elements at and after position n to the left.
             iterator erase(const_iterator position)
             {
@@ -399,6 +417,12 @@ namespace ft
             {
                 return _alloc;
             };
+
+        private:
+            T *_data;
+            size_type _size;
+            size_type _capacity;
+            allocator_type _alloc;
     };
     // relational operators
     template <class T, class Alloc>
