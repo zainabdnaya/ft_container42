@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 15:59:50 by zainabdnaya       #+#    #+#             */
-/*   Updated: 2021/12/08 16:08:53 by zdnaya           ###   ########.fr       */
+/*   Updated: 2021/12/09 15:39:22 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,7 @@ namespace ft
             ++first2;
         }
         return first1 == last1 && first2 != last2;
-    };
+    }
     template <class InputIterator1, class InputIterator2, class Compare>
     bool lexicographical_compare(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, InputIterator2 last2, Compare comp)
     {
@@ -176,7 +176,7 @@ namespace ft
             ++first1;
             ++first2;
         }
-    };
+    }
     // equal is a function that compares two ranges of elements for equality.
     // equal : template< class InputIterator1, class InputIterator2 > bool equal( InputIterator1 first1, InputIterator1 last1, InputIterator2 first2 );
     template <class InputIterator1, class InputIterator2>
@@ -190,7 +190,7 @@ namespace ft
             ++first2;
         }
         return true;
-    };
+    }
 
     //predicate is a function that compares two ranges of elements for equality.
     template <class InputIterator1, class InputIterator2, class Predicate>
@@ -204,7 +204,7 @@ namespace ft
             ++first2;
         }
         return true;
-    };
+    }
 }
 
 // Templete Parameters:

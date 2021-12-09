@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 18:43:21 by zdnaya            #+#    #+#             */
-/*   Updated: 2021/12/06 21:26:05 by zdnaya           ###   ########.fr       */
+/*   Updated: 2021/12/09 17:19:58 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@
 #include <iostream>
 #include <type_traits>
 
-   template <class T>
+namespace ft
+{
+    template <class T>
     struct is_integral
     {
         // Enumeration is a user defined datatype in C/C++ language. It is used to assign names to the integral constants which makes a program easy to read and maintain. The keyword “enum” is used to declare an enumeration.
@@ -25,7 +27,7 @@
             value = false
         };
     };
-    
+
     template <>
     struct is_integral<bool>
     {
@@ -34,7 +36,7 @@
             value = true
         };
     };
-    
+
     template <>
     struct is_integral<char>
     {
@@ -43,7 +45,7 @@
             value = true
         };
     };
-    
+
     template <>
     struct is_integral<signed char>
     {
@@ -52,7 +54,7 @@
             value = true
         };
     };
-    
+
     template <>
     struct is_integral<unsigned char>
     {
@@ -97,7 +99,7 @@
             value = true
         };
     };
-    
+
     template <>
     struct is_integral<unsigned short>
     {
@@ -115,7 +117,7 @@
             value = true
         };
     };
-    
+
     template <>
     struct is_integral<unsigned int>
     {
@@ -124,7 +126,7 @@
             value = true
         };
     };
-    
+
     template <>
     struct is_integral<long>
     {
@@ -133,12 +135,13 @@
             value = true
         };
     };
-    template < class T>
-    void swap(T& a, T& b)
+    template <class T>
+    void swap(T &a, T &b)
     {
         T tmp = a;
         a = b;
         b = tmp;
     }
-        
+}
+
 #endif
