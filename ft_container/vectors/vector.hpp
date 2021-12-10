@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 21:08:01 by zainabdnaya       #+#    #+#             */
-/*   Updated: 2021/12/10 11:31:28 by zdnaya           ###   ########.fr       */
+/*   Updated: 2021/12/10 22:03:25 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,13 @@ namespace ft
         // destructors
         ~vector()
         {
+
             for (size_type i = 0; i < _size; i++)
                 _alloc.destroy(&_data[i]);
-            _alloc.deallocate(_data, _capacity);
+            // if(_capacity)
+            //     _alloc.deallocate(_data, _capacity);
+    // std::cout << "           here \n";
+
         };
         // oprator=
         vector &operator=(const vector &other)
@@ -150,37 +154,55 @@ namespace ft
             return _alloc.max_size();
         };
         // Change size or Resizes the container so that it contains n elements.
-        void resize(size_type n)
+        void resize(size_type n, value_type val = value_type())
         {
-            // If n is also greater than the current container capacity, an automatic reallocation of the allocated storage space takes place.
             if (n > _capacity)
+                reserve(n);
+            if (n > _size)
             {
-                _capacity = n;
-                T *new_data = _alloc.allocate(_capacity);
-                for (size_type i = 0; i < _capacity; i++)
-                    _alloc.construct(&new_data[i], _data[i]);
-                for (size_type i = 0; i < _capacity; i++)
-                    _alloc.destroy(&_data[i]);
-                _alloc.deallocate(_data, _capacity);
-                _data = new_data;
+                for (size_type i = _size; i < n; ++i)
+                    _alloc.construct(_data + i, val);
             }
-            // If n is smaller than the current container size, the content is reduced to its first n elements, removing those beyond (and destroying them).
             else if (n < _size)
             {
-                for (size_type i = n; i < _size; i++)
-                    _alloc.destroy(&_data[i]);
-                _size = n;
+                for (size_type i = n; i < _size; ++i)
+                    _alloc.destroy(_data + i);
             }
-            // If n is greater than the current container size, the content is expanded by inserting at the end as many elements as needed to reach a size of n. If val is specified, the new elements are initialized as copies of val, otherwise, they are value-initialized.
-            else if (n > _size)
-            {
-                for (size_type i = _size; i < n; i++)
-                    _alloc.construct(&_data[i], T());
-                _size = n;
-            }
-            else if (n == _size)
-                return;
+            _size = n;
         };
+        
+        // void resize(size_type n)
+        // {
+        //     // If n is also greater than the current container capacity, an automatic reallocation of the allocated storage space takes place.
+        //     if (n > _capacity)
+        //     {
+        //         // std::cout < "i m here " << std::endl;
+        //         _capacity = n;
+        //         T *new_data = _alloc.allocate(_capacity);
+        //         for (size_type i = 0; i < _capacity; i++)
+        //             _alloc.construct(&new_data[i], _data[i]);
+        //         for (size_type i = 0; i < _capacity; i++)
+        //             _alloc.destroy(&_data[i]);
+        //         _alloc.deallocate(_data, _capacity);
+        //         _data = new_data;
+        //     }
+            // If n is smaller than the current container size, the content is reduced to its first n elements, removing those beyond (and destroying them).
+        //     else if (n < _size)
+        //     {
+        //         for (size_type i = n; i < _size; i++)
+        //             _alloc.destroy(&_data[i]);
+        //         _size = n;
+        //     }
+        //     // If n is greater than the current container size, the content is expanded by inserting at the end as many elements as needed to reach a size of n. If val is specified, the new elements are initialized as copies of val, otherwise, they are value-initialized.
+        //     else if (n > _size)
+        //     {
+        //         for (size_type i = _size; i < n; i++)
+        //             _alloc.construct(&_data[i], T());
+        //         _size = n;
+        //     }
+        //     else if (n == _size)
+        //         return;
+        // };
         // capacity if a vector
         size_type capacity() const
         {
@@ -267,17 +289,6 @@ namespace ft
         {
             return _data[_size - 1];
         };
-        // This in c11+ data Returns a pointer to the first element in the vector container. This is the only way to obtain a pointer to the underlying array.
-        //  value_type* data()
-        //  {
-        //      return _data;
-        //  };
-        //  const value_type* data() const
-        //  {
-        //      return _data;
-        //  };
-        // Modifiers
-        // to fill assign Assigns new contents to the vector, replacing its current contents, and modifying its size accordingly.
         void assign(size_type n, const T &val)
         {
             if (n > _capacity)
@@ -359,17 +370,7 @@ namespace ft
         //nserts value before pos
         iterator insert(const_iterator position, const T &val)
         {
-            // if (_size == _capacity)
-            // {
-            //     _capacity *= 2;
-            //     T *new_data = _alloc.allocate(_capacity);
-            //     for (size_type i = 0; i < _size; i++)
-            //         _alloc.construct(&new_data[i], _data[i]);
-            //     for (size_type i = 0; i < _size; i++)
-            //         _alloc.destroy(&_data[i]);
-            //     _alloc.deallocate(_data, _capacity);
-            //     _data = new_data;
-            // }
+        
             for (size_type i = _size; i > position - begin(); i--)
                 {
                 // std::cout << "here \n";
@@ -377,52 +378,74 @@ namespace ft
                 }
             _alloc.construct(&_data[position - begin()], val);
             _size++;
+            _capacity++;
             return iterator(position);
         };
 
-        //  inserts elements from initializer list ilist before pos.
+        //  insert Inserts a new element at position n in the vector, shifting the element at position n and those after it to the right.
         void insert(iterator position, size_type n, const T &val)
         {
+            _capacity += n;
+            _size += n;
             for (size_type i = _size; i > position - begin(); i--)
-                _alloc.construct(&_data[i], _data[i - 1]);
+                {
+                    _alloc.construct(&_data[i], _data[i-n]);
+                }
             for (size_type i = 0; i < n; i++)
             {
-                std::cout << "here "<< position - begin() + i << "\n";
                 _alloc.construct(&_data[position - begin() + i], val);
-                }
-            _size += n;
+            }
+
         };
+      template <class InputIterator>
+        void insert (iterator position, InputIterator first, InputIterator last,
+        typename enable_if<!is_integral<InputIterator>::value, bool>::type = true)
+        {
+            _size += (last - first);
+            _capacity +=(last - first);
+            for (size_type i = _size; i > position - begin(); i--)
+                {
+                    _alloc.construct(&_data[i], _data[i-abs(last - first)]);
+                }
+            for (size_type i = 0; i < abs(last - first); i++)
+            {
+                _alloc.construct(&_data[position - begin() + i], *(first + i));
+            }
+
+        };
+    
         // erase Erases the element at position n in the vector, shifting the elements at and after position n to the left.
-        iterator erase(const_iterator position)
+        iterator erase(const_iterator position )
         {
             for (size_type i = position - begin(); i < _size - 1; i++)
-                _alloc.destroy(&_data[i]);
+            {
+                _alloc.construct(&_data[i], _data[i + 1]);
+            }
             _alloc.destroy(&_data[_size - 1]);
             _size--;
             return iterator(position);
         };
-        // erase Erases the elements in the range [first, last), shifting the elements at and after last to the left.
+
+        // erase Erases the element at position n in the vector, shifting the elements at and after position n to the left.
         iterator erase(const_iterator first, const_iterator last)
         {
             for (size_type i = first - begin(); i < _size - 1; i++)
+            {
+                _alloc.construct(&_data[i], _data[i + abs(last - first)]);
+            }
+            for (size_type i = 0; i < abs(last - first); i++)
+            {
                 _alloc.destroy(&_data[i]);
-            _alloc.destroy(&_data[_size - 1]);
-            _size -= last - first;
-            return iterator(first);
+            }
+            _size -= abs(last - first);
+            return iterator(first);  
         };
         // swap elelements A static signature to swap individual elements (bits) is added on vector<bool>.
-        static void swap_1(reference x, reference y)
+        void swap(vector &other)
         {
-            bool temp = x;
-            x = y;
-            y = temp;
-        };
-        // swap Exchanges the contents of the container by those of x.
-        void swap(vector &x)
-        {
-            swap_1(_data, x._data);
-            swap_1(_size, x._size);
-            swap_1(_capacity, x._capacity);
+            ft::swap(_data, other._data);
+            ft::swap(_size, other._size);
+            ft::swap(_capacity, other._capacity);
         };
         // clear Removes all elements from the vector container, leaving the container with a size of 0.
         void clear()
