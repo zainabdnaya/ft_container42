@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 21:08:01 by zainabdnaya       #+#    #+#             */
-/*   Updated: 2021/12/09 17:23:32 by zdnaya           ###   ########.fr       */
+/*   Updated: 2021/12/10 11:31:28 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ namespace ft
         // constructors
         explicit vector(const Alloc &alloc = allocator_type())
         {
-            std::cout << " i m here 1" << std::endl;
-
             _data = nullptr;
             _size = 0;
             _capacity = 0;
@@ -62,20 +60,22 @@ namespace ft
             }
         };
         // Constructs a container with as many elements as the range [first,last), with each element constructed from its corresponding element in that range, in the same order.
-        //add enable if
-        template <typename InputIterator>
-        vector(  typename ft::enable_if<ft::is_integral<InputIterator>::value,bool>::type first, typename ft::enable_if<ft::is_integral<InputIterator>::value,bool>::type  last, const Alloc &alloc = Alloc())
+        // add enable if
+        template <class InputIterator>
+        vector(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type(),
+               typename enable_if<!is_integral<InputIterator>::value, bool>::type = true) : _alloc(alloc)
         {
-            _alloc = alloc;
-            _size = 0;
+            _size = abs(last - first);
             _capacity = 0;
-            _data = nullptr;
-            for (; first != last; first++)
+            _data = _alloc.allocate(_size);
+            for (size_type i = 0; i < _size; i++)
             {
-                push_back(*first);
+                _alloc.construct(&_data[i], *first);
+                first++;
             }
         };
-      
+            
+
         vector(const vector &other)
         {
             _alloc = other._alloc;
@@ -110,7 +110,7 @@ namespace ft
 
         iterator begin()
         {
-            return _data + 0;
+            return _data;
         };
         const_iterator begin() const
         {
@@ -346,13 +346,8 @@ namespace ft
                 _alloc.deallocate(_data, _capacity);
                 _data = new_data;
             }
-            else if (_size < _capacity)
-            {
-                _alloc.construct(&_data[_size], val);
-                _size++;
-                // _alloc.construct(&_data[_size], val);
-                // _size++;
-            }
+            _alloc.construct(&_data[_size], val);
+            _size++;
         };
         // pop_back Removes the last element in the vector, effectively reducing the container size by one.
         void pop_back()
@@ -361,44 +356,40 @@ namespace ft
             _size--;
         };
         // insert Inserts a new element at position n in the vector, shifting the element at position n and those after it to the right.
+        //nserts value before pos
         iterator insert(const_iterator position, const T &val)
         {
-            if (_size == _capacity)
-            {
-                _capacity *= 2;
-                T *new_data = _alloc.allocate(_capacity);
-                for (size_type i = 0; i < _capacity; i++)
-                    _alloc.construct(&new_data[i], _data[i]);
-                for (size_type i = 0; i < _capacity; i++)
-                    _alloc.destroy(&_data[i]);
-                _alloc.deallocate(_data, _capacity);
-                _data = new_data;
-            }
+            // if (_size == _capacity)
+            // {
+            //     _capacity *= 2;
+            //     T *new_data = _alloc.allocate(_capacity);
+            //     for (size_type i = 0; i < _size; i++)
+            //         _alloc.construct(&new_data[i], _data[i]);
+            //     for (size_type i = 0; i < _size; i++)
+            //         _alloc.destroy(&_data[i]);
+            //     _alloc.deallocate(_data, _capacity);
+            //     _data = new_data;
+            // }
             for (size_type i = _size; i > position - begin(); i--)
-                _alloc.construct(&_data[i], _data[i - 1]);
+                {
+                // std::cout << "here \n";
+                    _alloc.construct(&_data[i], _data[i - 1]);
+                }
             _alloc.construct(&_data[position - begin()], val);
             _size++;
             return iterator(position);
         };
 
-        // insert fill
+        //  inserts elements from initializer list ilist before pos.
         void insert(iterator position, size_type n, const T &val)
         {
-            if (_size + n > _capacity)
-            {
-                _capacity = _size + n;
-                T *new_data = _alloc.allocate(_capacity);
-                for (size_type i = 0; i < _capacity; i++)
-                    _alloc.construct(&new_data[i], _data[i]);
-                for (size_type i = 0; i < _capacity; i++)
-                    _alloc.destroy(&_data[i]);
-                _alloc.deallocate(_data, _capacity);
-                _data = new_data;
-            }
             for (size_type i = _size; i > position - begin(); i--)
                 _alloc.construct(&_data[i], _data[i - 1]);
             for (size_type i = 0; i < n; i++)
+            {
+                std::cout << "here "<< position - begin() + i << "\n";
                 _alloc.construct(&_data[position - begin() + i], val);
+                }
             _size += n;
         };
         // erase Erases the element at position n in the vector, shifting the elements at and after position n to the left.

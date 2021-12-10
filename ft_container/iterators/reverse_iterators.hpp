@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 18:03:10 by zainabdnaya       #+#    #+#             */
-/*   Updated: 2021/12/09 15:39:44 by zdnaya           ###   ########.fr       */
+/*   Updated: 2021/12/10 10:41:48 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #define REVERSE_TRAITS_HPP
 
 #include "iterator_traits.hpp"
+class iterator_traits;
 // reverse_iterator
 // std::reverse_iterator is an iterator adaptor that reverses the direction of a given iterator,
 // which must be at least a LegacyBidirectionalIterator or model bidirectional_iterator (since C++20). In other words,
@@ -26,18 +27,18 @@ namespace ft
     public:
         typedef Iterator iterator_type;
         // Preserves Iterator's category
-        typedef typename ft::iterator_traits<Iterator>::iterator_category iterator_category;
+        typedef typename iterator_traits<Iterator>::iterator_category iterator_category;
         // Preserves Iterator's value type
-        typedef typename ft::iterator_traits<Iterator>::value_type value_type;
+        typedef typename iterator_traits<Iterator>::value_type value_type;
         // Preservers Iterator's difference type
-        typedef typename ft::iterator_traits<Iterator>::difference_type difference_type;
+        typedef typename iterator_traits<Iterator>::difference_type difference_type;
         // Preserves Iterator's pointer type
-        typedef typename ft::iterator_traits<Iterator>::pointer pointer;
+        typedef typename iterator_traits<Iterator>::pointer pointer;
         // Preserves Iterator's reference type
-        typedef typename ft::iterator_traits<Iterator>::reference reference;
+        typedef typename iterator_traits<Iterator>::reference reference;
         // constructor
         //  Constructs reverse_iterator object
-    protected:
+    // protected:
         iterator_type current;
         // (1) default constructor ==> reverse_iterator();
         // Constructs a reverse iterator that points to no object.
