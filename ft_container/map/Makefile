@@ -3,7 +3,7 @@ NAME=test
 
 SRC=*.cpp
 
-INC=iterator_traits.hpp \ reverse_traits.hpp \ stack.hpp \ vector.hpp
+INC=iterator_traits.hpp \ reverse_traits.hpp \ stack.hpp
 
 
 all: $(SRC:.cpp=.o)

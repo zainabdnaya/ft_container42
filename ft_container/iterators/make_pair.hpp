@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 12:50:11 by zdnaya            #+#    #+#             */
-/*   Updated: 2021/12/10 14:49:29 by zdnaya           ###   ########.fr       */
+/*   Updated: 2021/12/12 00:57:06 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,35 @@ namespace ft
     // {
     //     return p.second;
     // };
-
+    //add my std::less
+    template <class Arg1, class Arg2,class Result>
+    struct  binary_function
+    {
+        typedef Arg1 first_argument_type;
+        typedef Arg2 second_argument_type;
+        typedef Result result_type;
+    };
+    
+    template <class T>
+    struct less : public ft::binary_function<T, T, bool>
+    {
+        bool operator()(const T &a, const T &b) const
+        {
+            return (a < b);
+        };
+        first_argument_type operator()(const T &a) const
+        {
+            return a.first;
+        };
+        second_argument_type operator()(const T &a) const
+        {
+            return a.second;
+        };
+        result_type operator()(const T &a, const T &b) const
+        {
+            return (a < b);
+        };
+        
+    };
 }
 #endif
