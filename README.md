@@ -57,3 +57,23 @@ When writing a generic algorithm or other function that uses iterators, you can 
     };
 
 It's so useful because it's a key part in using type traits, a way to restrict templates to types that have certain properties.
+
+
+## Red Black Tree
+
+    Red-Black trees are a type of self-balancing binary search tree.
+    They are a type of binary search tree that has the following properties:
+    1. The left subtree of a node is always smaller than the right subtree.
+    2. The left and right subtrees of a node are either both red or both black.
+    3. The root is black.
+    4. All leaves (NIL) are black.
+    5. If a node is red, then both its children are black.
+    6. For each node, all simple paths from the node to descendant leaves contain the same number of black nodes.
+
+## References:
+
+<a href="http://www.btechsmartclass.com/data_structures/red-black-trees.html" >Red-Black Tree</a>
+
+<a href="https://www.cs.usfca.edu/~galles/visualization/Algorithms.html">Data Structures visualisation</a>
+
+<a href="https://algorithmtutor.com/Data-Structures/Tree/Red-Black-Trees/">Red-Black Tree</a>
