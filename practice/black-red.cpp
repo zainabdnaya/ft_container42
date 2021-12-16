@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 20:28:21 by zdnaya            #+#    #+#             */
-/*   Updated: 2021/12/14 17:21:07 by zdnaya           ###   ########.fr       */
+/*   Updated: 2021/12/16 17:42:21 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,13 @@ struct TreeNode
     TreeNode *left;
     TreeNode *right;
     TreeNode *root;
+    int height;
     bool isBlack;
     TreeNode(T x, T y)
     {
         key = x;
         val = y;
+        height = 1;
         left = NULL;
         right = NULL;
         root = NULL;
