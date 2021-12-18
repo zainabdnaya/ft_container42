@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 19:47:34 by zdnaya            #+#    #+#             */
-/*   Updated: 2021/12/16 21:19:08 by zdnaya           ###   ########.fr       */
+/*   Updated: 2021/12/18 05:02:44 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,61 +14,132 @@
 #include <map>
 #include <new>
 
+// this is a red black tree simple implementation
 
-// this is a red black tree simple implementation   
-
-
-struct Node
+class RBT
 {
-    int key;
-    int  val;
-    Node *left;
-    Node *right;
-    Node *root;
-    unsigned int height;
-    unsigned int size;
-    bool isBlack;
-    //initial value is true
+public:
+    typedef struct node
+    {
+        int key;
+        int val;
+        unsigned int height;
+        bool isBlack;
+        // bool isLeft;
+        // bool isRight;
+        node *left;
+        node *right;
+        node *parent;
+        node(int key)
+        {
+            parent = NULL;
+            left = NULL;
+            right = NULL;
+            isBlack = false;
+            this->key =key;
+            // isLeft = false;
+            // isRight = false;
+            height = 1;
+        }
+
+    } node;
+    node *fill_node(int key, int value)
+    {
+         node *_node = new node(key);
+        _node->val = value;
+        return (_node);
+    }
+    RBT();
+    ~RBT();
+    node *root;
+    void print_tree(node *_root);
+    void insert_node( node *_new);
+    // void color_fix(RBT *node);
+    // void rotate_left(node *node);
+    // void rotate_right(node *node);
+    // void rotae_left_right(node *node);
+    // void rotae_right_left(node *node);
+    // void check_balance(RBT *node);
 };
 
-Node *initinale_node()
+RBT::RBT()
 {
-    Node  *node = new Node();
-    node->root = NULL;
-    node->left = NULL;
-    node->right = NULL;
-    node->height = 1;
-    node->isBlack = true;
-    return(node);
+    this->root = NULL;
 }
 
-void insert_node(int key , int value)
+RBT::~RBT()
 {
+}
+
+void RBT::print_tree(node *_root)
+{
+        //  && !root->right )
+        //     return;
+        if(!_root)
+            return;
+        print_tree(_root->left);
+        std::cout << "---> " << _root->key << "  " << _root->val << " " << _root->parent->key << std::endl;
+        print_tree(_root->right);
+
+         
+}
+
+void RBT::insert_node(struct node *_new)
+{
+    if (root == NULL)
+    {
+        root = _new;
+        root->isBlack = true;
+        root->left = NULL;
+        root->right = NULL;
+    }
+    else
+    {
+         node *tmp = root;
+         node *tmp2 = NULL;
+
+        while (tmp != NULL)
+        {
+            tmp2 = tmp;
+            if (_new->key < tmp->key)
+            {
+                tmp = tmp->left;
+            }
+            else if (_new->key > tmp->key)
+            {
+                tmp = tmp->right;
+            }
+        }
+        _new->parent = tmp2;
+        if (tmp2->key > _new->key)
+        {
+            tmp2->left = _new;
+        }
+        else if (tmp2->key < _new->key)
+        {
+            tmp2->right = _new;
+        }
+        std::cout << _new->key << "----" << _new->parent->key <<"\n";
+
+    }
     
+    // if(root->parent->parent->left == root->parent)
+    // {
+    //     std::cout<< "fuck u " << std::endl;
+    // }
 }
-
-
-void print_node(Node *node)
-{
-    if (node == NULL)
-        return ;
-    std::cout << "map[" << node->key << "] == " << node->val << std::endl;
-    print_node(node->left);
-    print_node(node->right);
-}
-
-
 
 int main()
 {
-    Node *node = initinale_node();
-    // insert_node(1, 1);
-    // insert_node(3, 3);
-    // insert_node(4, 4);
-    // insert_node(10, 10);
-    // insert_node(14, 14);
-    // insert_node(9, 9);
-    // insert_node(15, 15);
-    // insert_node(8, 8);
-   
+    RBT tst;
+
+    tst.insert_node(tst.fill_node(2, 2));
+    tst.insert_node(tst.fill_node(1, 1));
+    tst.insert_node(tst.fill_node(3, 3));
+    tst.insert_node(tst.fill_node(4, 4));
+    tst.insert_node(tst.fill_node(5, 5));
+
+
+
+    return 0;
 }

@@ -10,7 +10,7 @@ INC=
 all: $(SRC:.cpp=.o)
 	@echo "Compiling..."
 	@echo "Compiling..."
-	@clang++  -std=c++98 -pedantic -Wall -Wextra -Werror $(SRC) -o $(NAME)
+	@clang++  -std=c++98 -pedantic $(SRC) -o $(NAME)
 	@echo "Compiling... Done"
 
 fclean:

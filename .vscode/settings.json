@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.yml": "clojure",
+        "iostream": "cpp",
+        "__node_handle": "cpp"
+    }
+}
