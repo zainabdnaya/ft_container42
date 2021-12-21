@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 19:47:34 by zdnaya            #+#    #+#             */
-/*   Updated: 2021/12/19 02:28:05 by zdnaya           ###   ########.fr       */
+/*   Updated: 2021/12/21 20:46:28 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,13 @@ public:
     void print_tree(node *_root);
     void insert_node(node *_new);
     // void color_fix(RBT *node);
-    // void rotate_left(node *node);
-    // void rotate_right(node *node);
+    void rotate_left(node *node);
+    void rotate_right(node *node);
     // void rotae_left_right(node *node);
     // void rotae_right_left(node *node);
     void check_balance(node *node);
     void check_print_rbt(node *root);
+    int isRBProper(node *n);
 };
 
 RBT::RBT()
@@ -85,7 +86,7 @@ void RBT::print_tree(node *_root)
     print_tree(_root->right);
 }
 
-void RBT::insert_node(struct node *_new)
+void RBT::insert_node(node *_new)
 {
     if (root == NULL)
     {
@@ -93,6 +94,7 @@ void RBT::insert_node(struct node *_new)
         root->isBlack = true;
         root->left = NULL;
         root->right = NULL;
+        root->parent = NULL;
     }
     else
     {
@@ -110,6 +112,8 @@ void RBT::insert_node(struct node *_new)
             {
                 tmp = tmp->right;
             }
+            else
+                break;
         }
         _new->parent = tmp2;
         if (tmp2->key > _new->key)
@@ -122,6 +126,8 @@ void RBT::insert_node(struct node *_new)
             tmp2->right = _new;
             _new->isLeft = false;
         }
+        else
+            return;
         // std::cout << _new->key << "----" << _new->parent->key <<"\n";
         _new->isBlack = false;
         _new->left = NULL;
@@ -130,110 +136,156 @@ void RBT::insert_node(struct node *_new)
     }
 }
 
-void RBT::check_balance(node *node)
+int RBT::isRBProper(node *n)
 {
-    // if (node->isBlack == false && node->parent->isBlack == false && node->parent->isLeft == true)
-    // {
-    //     if (node->isLeft == true)
-    //         std::cout << "here I m in Left Left  \t" << node->key << " " << node->parent->key << "\n";
-    //     else
-    //         std::cout << "here I m in Left Right \t" << node->key << " " << node->parent->key << "\n";
-    // }
-    // else 
-    // if (node->isBlack == false && node->parent->isBlack == false && node->parent->isLeft == false)
-    // {
-    //     if (node->isLeft == false)
-    //         std::cout << "here I m in Right Right \t" << node->key << " " << node->parent->key << "\n";
-    // }
+    if (n == NULL)
+        return 1;
+    if (n->isBlack == false && ((n->left != NULL && n->left->isBlack == false) || (n->right != NULL && n->right->isBlack == false)))
+        return 0;
+    return isRBProper(n->left) && isRBProper(n->right);
+}
 
-    if (node->isBlack == false && node->parent->isBlack == false && node->parent->isLeft == true)
+void RBT::rotate_right(node *_node)
+{
+    node *parent_ = _node->parent->parent;
+    node *new_parent = parent_->left;
+    if (parent_->parent)
     {
-        if (node->isLeft == true)
-        {
-            std::cout << "he\n";
-        }
-        else
-        {
-            std::cout << "her\n";
-        }
+        new_parent->parent = parent_->parent;
+        root->left = new_parent;
     }
-    else if (node->isBlack == false && node->parent->isBlack == false && node->parent->isLeft == false)
+    else
     {
-        if (node->isLeft == true)
+        root = new_parent;
+        root->parent = NULL;
+    }
+    // new_parent->parent = parent_->parent;
+    parent_->right = parent_;
+    parent_->right->isLeft = true;
+    parent_->right->left = NULL;
+    parent_->right->right = NULL;
+    parent_->parent = new_parent;
+    new_parent->right = parent_;
+    // root->left = new_parent;
+    new_parent->right->isBlack = false;
+    new_parent->left->isBlack = false;
+    new_parent->isBlack = true;
+}
+
+void RBT::rotate_left(node *_node)
+{
+    node *parent_ = _node->parent->parent;
+    node *new_parent = parent_->right;
+    if (parent_->parent)
+    {
+        new_parent->parent = parent_->parent;
+        root->right = new_parent;
+    }
+    else
+    {
+        root = new_parent;
+        root->parent = NULL;
+    }
+    new_parent->left = parent_;
+    new_parent->left->isLeft = true;
+    new_parent->left->right = NULL;
+    new_parent->left->left = NULL;
+    parent_->parent = new_parent;
+    new_parent->right = _node;
+    // std::cout << "===> |"  <<   new_parent->key<< "|\n";
+    new_parent->left->isBlack = false;
+    new_parent->right->isBlack = false;
+    new_parent->isBlack = true;
+}
+
+void RBT::check_balance(node *_node)
+{
+
+    while (_node && _node != root && _node->parent->isBlack == false)
+    {
+        if (_node->parent->isLeft == true)
         {
-            std::cout << "h\n";
-        }
-        else
-        {
-            if ( node->parent->parent->left == NULL || node->parent->parent->left->isBlack == true)
+            if (_node->isLeft == true)
             {
-                // rotale left
-                // RBT::node *tmp  = node->parent;
-                // RBT::node *tmp2 = node->parent->parent;
-                // RBT::node  *tmp3 = node->parent->parent->parent;
-                
-                // node->parent->parent = tmp;
-                // node->parent = node;
-                // node->parent->left = tmp2;
-                // node->parent->left->isLeft = true;
-                // node->parent->parent->parent = tmp3;
-                // std::cout << "node->parent->parent :  " << node->parent->left->key << "\n";
-                // node = NULL;
+                if (_node->parent->parent->right == NULL || _node->parent->parent->right->isBlack == true)
+                {
+                    // std::cout << "helooo \n";
+                    // rotate right
+                    RBT::rotate_right(_node);
+                }
+                else
+                {
+                    // std::cout << "he\n";
+                    // std::cout << "here I m in Left Right \n";
+                    _node->parent->parent->right->isBlack = !_node->parent->parent->right->isBlack;
+                    _node->parent->isBlack = !_node->parent->isBlack;
+                    _node->parent->parent->isBlack = !_node->parent->parent->isBlack;
+                    _node = _node->parent->parent;
+                }
             }
             else
             {
-                // // color
-                node->parent->parent->left->isBlack = !node->parent->parent->left->isBlack;
-                node->parent->parent->isBlack = !node->parent->parent->isBlack;
-                node->parent->isBlack = !node->parent->isBlack;
-                // std::cout << "here1\n";
+                std::cout << "her\n";
+                exit(0);
             }
         }
-    //     // std::cout << node->parent->parent->key << " == " << root->key << "\n";
-    }
-    if (root->isBlack == false)
-        root->isBlack = true;
-    // std::cout << root->left->key << "\n";
-    //     // if (node->parent->parent->left != NULL)
-    //     //     std::cout << node->parent->parent->left->key << "\n";
-    //     // if (node->parent->parent->right != NULL)
-    //     //     std::cout << node->parent->parent->left->key << "\n";
-}
-
-void RBT::check_print_rbt(node *root)
-{
-    std::cout << "root -> |" << root->key << "|  is it black ?  =>  " << root->isBlack << "\n";
-    node *tmp = root;
-    while (root->right != NULL)
-    {
-        root = root->right;
-        // std::cout << "root->right  |" << root->key << "| is it black ? =>  " << root->isBlack << "\n";
-        if (root->isLeft == true)
+        else if (_node->parent->isLeft == false)
         {
-            // root = root->left;
-            std::cout << "here I m in right Left  \t" << root->key << " " << root->parent->key << "\n";
-            // root = root->parent;
+            if (_node->isLeft == true)
+            {
+                std::cout << "h\n";
+                exit(0);
+            }
+            else
+            {
+                if (_node->parent->parent->left == NULL || _node->parent->parent->left->isBlack == true)
+                {
+                    // std::cout << "===> \n";
+                    // rotale left
+                    RBT::rotate_left(_node);
+                }
+                else
+                {
+                    // color fix
+                    _node->parent->parent->left->isBlack = !_node->parent->parent->left->isBlack;
+                    _node->parent->parent->isBlack = !_node->parent->parent->isBlack;
+                    _node->parent->isBlack = !_node->parent->isBlack;
+                }
+            }
         }
-        else
-            std::cout << "here I m in right Right \t" << root->key << " " << root->parent->key << "\n";
-    }
-    while (tmp->left != NULL)
-    {
-        tmp = tmp->left;
-        std::cout << "root->left |" << tmp->key << "|  is it black ? =>  " << tmp->isBlack << "\n";
+        if (root->isBlack == false)
+            root->isBlack = true;
     }
 }
 
+void RBT::check_print_rbt(node *n)
+{
+    // print tree with details
+    if (n == NULL)
+        return;
+    check_print_rbt(n->left);
+    std::cout << "Key: " << n->key << " Color: " << (n->isBlack == 0 ? "RED" : "BLACK") << " Parent: " << (n->parent == NULL ? "\033[0;31mROOT " : std::to_string(n->parent->key)) << "\033[0m Left: " << n->left << " Right: " << n->right << std::endl;
+    check_print_rbt(n->right);
+}
 int main()
 {
     RBT tst;
 
     tst.insert_node(tst.fill_node(2, 2));
     tst.insert_node(tst.fill_node(1, 1));
-    tst.insert_node(tst.fill_node(3, 3));
-    tst.insert_node(tst.fill_node(4, 4));
     tst.insert_node(tst.fill_node(5, 5));
+    tst.insert_node(tst.fill_node(4, 4));
+    tst.insert_node(tst.fill_node(3, 3));
+    // tst.insert_node(tst.fill_node(7, 7));
+
+    // int i = 0;
+    // while (i < 100)
+    // {
+    //     tst.insert_node(tst.fill_node(i, i));
+    //     i++;
+    // }
     tst.check_print_rbt(tst.root);
 
+    std::cout << "RBT is " << (tst.isRBProper(tst.root) ? "GOOD" : "NOOT GOOD") << "\n";
     return 0;
 }
