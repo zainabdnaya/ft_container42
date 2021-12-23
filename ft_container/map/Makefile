@@ -1,9 +1,9 @@
 NAME=test
 
 
-SRC=*.cpp
+SRC=main.cpp
 
-INC= 
+INC= map.hpp
 #iterator_traits.hpp \ reverse_traits.hpp \ stack.hpp
 
 

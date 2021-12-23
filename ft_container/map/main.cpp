@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 19:47:34 by zdnaya            #+#    #+#             */
-/*   Updated: 2021/12/23 12:44:58 by zdnaya           ###   ########.fr       */
+/*   Updated: 2021/12/23 14:19:22 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ public:
     {
         node *_node = new node(key);
         _node->val = value;
-        _node->isBlack = false;
+        _node->isBlack = true;
         _node->left = NULL;
         _node->right = NULL;
         _node->parent = NULL;
@@ -121,6 +121,7 @@ public:
             }
             else
                 return;
+            _new->isBlack = false;
             check_balance(_new);
         }
     }
@@ -170,17 +171,39 @@ public:
 
     void check_balance(node *_node)
     {
-
-        while (_node && _node->parent->isBlack == false )
+        node *tmp;
+        while (_node->parent->isBlack == false)
         {
-            if (_node->parent->left == _node)
+            if (_node->parent == _node->parent->parent->right)
             {
-
-                if (_node->parent->parent->right && _node->parent->parent->right->isBlack == false)
+                tmp = _node->parent->parent->left;
+                // std::cout << "parent is right\t " << tmp->key << std::endl;
+                if (tmp && tmp->isBlack == false)
                 {
-                    _node->parent->parent->right->isBlack = true;
-                    if (_node->parent->parent->left)
-                        _node->parent->parent->left->isBlack = true;
+                    tmp->isBlack = true;
+                    _node->parent->isBlack = true;
+                    _node->parent->parent->isBlack = false;
+                    _node = _node->parent->parent;
+                }
+                else
+                {
+                    if (_node == _node->parent->left)
+                    {
+                        _node = _node->parent;
+                        rotate_right(_node);
+                    }
+                    _node->parent->isBlack = true;
+                    _node->parent->parent->isBlack = false;
+                    rotate_left(_node->parent->parent);
+                }
+            }
+            else
+            {
+                // std::cout << "parent is left\t " << _node->key << std::endl;
+                tmp = _node->parent->parent->right;
+                if (tmp && tmp->isBlack == false)
+                {
+                    tmp->isBlack = true;
                     _node->parent->isBlack = true;
                     _node->parent->parent->isBlack = false;
                     _node = _node->parent->parent;
@@ -195,29 +218,6 @@ public:
                     _node->parent->isBlack = true;
                     _node->parent->parent->isBlack = false;
                     rotate_right(_node->parent->parent);
-                }
-            }
-            else
-            {
-                if (_node->parent->parent->left && _node->parent->parent->left->isBlack == false)
-                {
-                    _node->parent->parent->left->isBlack = true;
-                    if (_node->parent->parent->right)
-                        _node->parent->parent->right->isBlack = true;
-                    _node->parent->parent->isBlack = false;
-                    _node->parent->isBlack = true;
-                    _node = _node->parent->parent;
-                }
-                else
-                {
-                    if (_node == _node->parent->left)
-                    {
-                        _node = _node->parent;
-                        rotate_right(_node);
-                    }
-                    _node->parent->isBlack = true;
-                    _node->parent->parent->isBlack = false;
-                    rotate_left(_node->parent->parent);
                 }
             }
             if (_node == root)
@@ -269,7 +269,7 @@ public:
                     rotate_left(x->parent);
                     tmp = x->parent->right;
                 }
-                if (tmp->left->isBlack == true && tmp->right->isBlack == true)
+                if ((tmp && (tmp->left->isBlack == true && tmp->right->isBlack == true)) || (tmp->left == NULL && tmp->right == NULL))
                 {
                     tmp->isBlack = false;
                     x = x->parent;
@@ -300,7 +300,7 @@ public:
                     rotate_right(x->parent);
                     tmp = x->parent->left;
                 }
-                if (tmp->right->isBlack == true && tmp->left->isBlack == true)
+                if ((tmp && (tmp->left->isBlack == true && tmp->right->isBlack == true)) || (tmp->left == NULL && tmp->right == NULL))
                 {
                     tmp->isBlack = false;
                     x = x->parent;
@@ -365,11 +365,10 @@ public:
             std::cout << "Key not found in the tree" << std::endl;
             return;
         }
-        bool y_original_color;
         node *x;
         node *y;
         y = _node;
-        y_original_color = y->isBlack;
+        bool y_original_color = y->isBlack;
         if (_node->left == NULL)
         {
             x = _node->right;
@@ -401,6 +400,21 @@ public:
         delete _node;
         if (y_original_color == true)
             delete_fix_rbt(x);
+        // if (x == root)
+        // {
+        //     if (height_left(root) > height_right(root))
+        //     {
+        //         rotate_right(root);
+        //         // root->isBlack = true;
+        //     }
+        //     else if (height_left(root) < height_right(root))
+        //     {
+        //         rotate_left(root);
+        //     }
+        //     else
+        //         ;
+        //     root->isBlack = true;
+        // }
     }
 
     void check_print_rbt(node *n)
@@ -408,7 +422,7 @@ public:
         if (n == NULL)
             return;
         check_print_rbt(n->left);
-        std::cout << "Key: " << n->key << " Color: " << (n->isBlack == 0 ? "RED" : "BLACK") << " Parent: \t\t" << (n->parent == NULL ? "\033[0;31mROOT " : std::to_string(n->parent->key)) << "\033[0m " << std::endl;
+        std::cout << "Key: " << n->key << "\t\tColor:\t{   " << (n->isBlack == 0 ? "RED" : "BLACK") << "  }\t\tParent: \t" << (n->parent == NULL ? "\033[0;31mROOT " : std::to_string(n->parent->key)) << "\033[0m " << std::endl;
         check_print_rbt(n->right);
     }
 };
@@ -424,9 +438,11 @@ int main()
     tst.insert_node(tst.fill_node(5, 5));
     tst.insert_node(tst.fill_node(7, 7));
     tst.insert_node(tst.fill_node(9, 9));
-    tst.insert_node(tst.fill_node(6, 6));
+    // tst.insert_node(tst.fill_node(6, 6));
 
     tst.delete_node(1);
+    // tst.delete_node(3);
+    // tst.insert_node(tst.fill_node(-1, -1));
     // tst.delete_node(4);
     tst.check_print_rbt(tst.root);
     // std::cout << "RBT is " << (tst.isRBProper(tst.root) ? "GOOD" : "NOOT GOOD") << "\n";
