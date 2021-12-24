@@ -6,15 +6,13 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 19:47:34 by zdnaya            #+#    #+#             */
-/*   Updated: 2021/12/23 14:19:22 by zdnaya           ###   ########.fr       */
+/*   Updated: 2021/12/24 10:04:16 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <map>
 #include <new>
-
-// this is a red black tree simple implementation
 
 class RBT
 {
@@ -26,11 +24,9 @@ public:
         unsigned int height;
         bool isBlack;
         int isLeft;
-        // bool isRight;
         node *left;
         node *right;
         node *parent;
-        // number of leafs in the subtree
         int right_black_leafs;
         int left_black_leafs;
         node(int key)
@@ -71,8 +67,6 @@ public:
 
     void print_tree(node *_root)
     {
-        //  && !root->right )
-        //     return;
         if (!_root)
             return;
         print_tree(_root->left);
@@ -89,7 +83,6 @@ public:
             root->left = NULL;
             root->right = NULL;
             root->parent = NULL;
-            // root->isLeft = -1;
         }
         else
         {
@@ -177,7 +170,6 @@ public:
             if (_node->parent == _node->parent->parent->right)
             {
                 tmp = _node->parent->parent->left;
-                // std::cout << "parent is right\t " << tmp->key << std::endl;
                 if (tmp && tmp->isBlack == false)
                 {
                     tmp->isBlack = true;
@@ -400,21 +392,15 @@ public:
         delete _node;
         if (y_original_color == true)
             delete_fix_rbt(x);
-        // if (x == root)
-        // {
-        //     if (height_left(root) > height_right(root))
-        //     {
-        //         rotate_right(root);
-        //         // root->isBlack = true;
-        //     }
-        //     else if (height_left(root) < height_right(root))
-        //     {
-        //         rotate_left(root);
-        //     }
-        //     else
-        //         ;
-        //     root->isBlack = true;
-        // }
+        if (height_left(root) > height_right(root))
+        {
+            rotate_right(root);
+        }
+        else if (height_left(root) < height_right(root))
+        {
+            rotate_left(root);
+        }
+        root->isBlack = true;
     }
 
     void check_print_rbt(node *n)
@@ -431,24 +417,23 @@ int main()
 {
     RBT tst;
 
-    tst.insert_node(tst.fill_node(2, 2));
+    tst.insert_node(tst.fill_node(6, 6));
     tst.insert_node(tst.fill_node(3, 3));
-    tst.insert_node(tst.fill_node(1, 1));
     tst.insert_node(tst.fill_node(4, 4));
-    tst.insert_node(tst.fill_node(5, 5));
-    tst.insert_node(tst.fill_node(7, 7));
     tst.insert_node(tst.fill_node(9, 9));
-    // tst.insert_node(tst.fill_node(6, 6));
-
-    tst.delete_node(1);
-    // tst.delete_node(3);
-    // tst.insert_node(tst.fill_node(-1, -1));
-    // tst.delete_node(4);
+    tst.insert_node(tst.fill_node(5, 5));
+    tst.insert_node(tst.fill_node(8, 8));
+    tst.insert_node(tst.fill_node(11, 11));
+    tst.insert_node(tst.fill_node(10, 10));
+    tst.insert_node(tst.fill_node(7, 7));
+    // tst.insert_node(tst.fill_node(1, 1));
+    tst.delete_node(5);
     tst.check_print_rbt(tst.root);
-    // std::cout << "RBT is " << (tst.isRBProper(tst.root) ? "GOOD" : "NOOT GOOD") << "\n";
-    // std::cout << "*************************************************************\n";
-    // tst.check_print_rbt(tst.root);
-    // std::cout << "RBT is " << (tst.isRBProper(tst.root) ? "GOOD" : "NOOT GOOD") << "\n";
+    std::cout << "RBT is " << (tst.isRBProper(tst.root) ? "GOOD" : "NOOT GOOD") << "\n";
+    std::cout << "*************************************************************\n";
+    tst.insert_node(tst.fill_node(2, 2));
+    tst.check_print_rbt(tst.root);
+    std::cout << "RBT is " << (tst.isRBProper(tst.root) ? "GOOD" : "NOOT GOOD") << "\n";
 
     return 0;
 }
