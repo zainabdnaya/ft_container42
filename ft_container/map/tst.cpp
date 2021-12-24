@@ -526,18 +526,19 @@ public:
 int main()
 {
     RedBlackTree bst;
-    bst.insert(2);
+    bst.insert(13);
+    bst.insert(17);
+    bst.insert(8);
+    bst.insert(25);
+    bst.insert(15);
     bst.insert(1);
-    bst.insert(3);
-    bst.insert(4);
-    bst.insert(5);
-    bst.insert(7);
-    bst.insert(9);
-    // bst.insert(6);
-
+    bst.insert(11);
+    bst.insert(6);
+    bst.insert(27);
+    bst.insert(22);
 //     // bst.printTree();
 //     // cout << endl
 //     //      << "After deleting" << endl;
-    bst.deleteNode(1);
+    bst.deleteNode(8);
     bst.printTree();
 }

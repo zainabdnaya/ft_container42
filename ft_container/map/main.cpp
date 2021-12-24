@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 19:47:34 by zdnaya            #+#    #+#             */
-/*   Updated: 2021/12/24 17:55:23 by zdnaya           ###   ########.fr       */
+/*   Updated: 2021/12/24 18:29:59 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -365,13 +365,13 @@ public:
     }
     void transplant(node *u, node *v)
     {
-        if (u->parent == NULL)
+        if (!u->parent)
             root = v;
         else if (u == u->parent->left)
             u->parent->left = v;
         else
             u->parent->right = v;
-        if (v != NULL)
+        if (v)
             v->parent = u->parent;
     }
     node *tree_minimum(node *x)
@@ -392,12 +392,12 @@ public:
         node *y;
         y = _node;
         bool y_original_color = y->isBlack;
-        if (_node->left == NULL)
+        if (!_node->left)
         {
             x = _node->right;
             transplant(_node, _node->right);
         }
-        else if (_node->right == NULL)
+        else if (!_node->right)
         {
             x = _node->left;
             transplant(_node, _node->left);
@@ -426,29 +426,30 @@ public:
         delete _node;
         if (y_original_color == true)
             delete_fix_rbt(x);
-        if (height_left(root) > height_right(root))
-        {
-            if (root->right)
-                rotate_left(root->right);
-            else
-            {
-                rotate_left(root);
-                rotate_right(root);
-            }
-        }
-        else if (height_left(root) < height_right(root))
-        {
-            if (root->left)
-                rotate_right(root->left);
-            else
-            {
-                rotate_right(root);
-                rotate_left(root);
-                // std::cout << "I m here";
-            }
-        }
-        else
-            ;
+        // else
+        //     delete_fix_rbt(root);
+        // if (height_left(root) > height_right(root))
+        // {
+        //     if (root->right)
+        //         rotate_left(root->right);
+        //     else
+        //     {
+        //         rotate_left(root);
+        //         rotate_right(root);
+        //     }
+        // }
+        // else if (height_left(root) < height_right(root))
+        // {
+        //     if (root->left)
+        //         rotate_right(root->left);
+        //     else
+        //     {
+        //         rotate_right(root);
+        //         rotate_left(root);
+        //     }
+        // }
+        // else
+        //     ;
         root->isBlack = true;
     }
 
@@ -469,26 +470,26 @@ int main()
     RBT tst;
 
     // segfault ==> delete 3
-    tst.insert_node(tst.fill_node(7, 7));
-    tst.insert_node(tst.fill_node(18, 18));
-    tst.insert_node(tst.fill_node(3, 3));
-    tst.insert_node(tst.fill_node(10, 10));
-    tst.insert_node(tst.fill_node(22, 22));
-    tst.insert_node(tst.fill_node(11, 11));
-    tst.insert_node(tst.fill_node(8, 8));
-    tst.insert_node(tst.fill_node(26, 26));
-
-     //wrong output ==> to delete 11
-    // tst.insert_node(tst.fill_node(13, 13));
-    // tst.insert_node(tst.fill_node(17, 17));
-    // tst.insert_node(tst.fill_node(8, 8));
-    // tst.insert_node(tst.fill_node(25, 25));
-    // tst.insert_node(tst.fill_node(15, 15));
-    // tst.insert_node(tst.fill_node(1, 1));
-    // tst.insert_node(tst.fill_node(11, 11));
-    // tst.insert_node(tst.fill_node(6, 6));
-    // tst.insert_node(tst.fill_node(27, 27));
+    // tst.insert_node(tst.fill_node(7, 7));
+    // tst.insert_node(tst.fill_node(18, 18));
+    // tst.insert_node(tst.fill_node(3, 3));
+    // tst.insert_node(tst.fill_node(10, 10));
     // tst.insert_node(tst.fill_node(22, 22));
+    // tst.insert_node(tst.fill_node(11, 11));
+    // tst.insert_node(tst.fill_node(8, 8));
+    // tst.insert_node(tst.fill_node(26, 26));
+
+    // wrong output ==> to delete 11
+    tst.insert_node(tst.fill_node(13, 13));
+    tst.insert_node(tst.fill_node(17, 17));
+    tst.insert_node(tst.fill_node(8, 8));
+    tst.insert_node(tst.fill_node(25, 25));
+    tst.insert_node(tst.fill_node(15, 15));
+    tst.insert_node(tst.fill_node(1, 1));
+    tst.insert_node(tst.fill_node(11, 11));
+    tst.insert_node(tst.fill_node(6, 6));
+    tst.insert_node(tst.fill_node(27, 27));
+    tst.insert_node(tst.fill_node(22, 22));
 
     // wrong output ==> to delete 8
     // tst.insert_node(tst.fill_node(13, 13));
@@ -506,7 +507,7 @@ int main()
 
     tst.check_print_rbt(tst.root);
     std::cout << "*************************************************************\n";
-    tst.delete_node(3);
+    tst.delete_node(8);
     tst.check_print_rbt(tst.root);
     std::cout << "RBT is " << (tst.isRBProper(tst.root) ? "GOOD" : "NOOT GOOD") << "\n";
     std::cout << "*************************************************************\n";
