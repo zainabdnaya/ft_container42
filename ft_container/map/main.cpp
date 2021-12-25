@@ -6,90 +6,71 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 19:47:34 by zdnaya            #+#    #+#             */
-/*   Updated: 2021/12/24 18:29:59 by zdnaya           ###   ########.fr       */
+/*   Updated: 2021/12/25 12:22:55 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <map>
 #include <new>
+struct Node
+{
+    int key;
+    // int val;
+    unsigned int height;
+    bool isBlack;
+    int isLeft;
+    Node *left;
+    Node *right;
+    Node *parent;
+    int right_black_leafs;
+    int left_black_leafs;
+};
+
+typedef Node node;
 
 class RBT
 {
-public:
-    typedef struct node
-    {
-        int key;
-        int val;
-        unsigned int height;
-        bool isBlack;
-        int isLeft;
-        node *left;
-        node *right;
-        node *parent;
-        int right_black_leafs;
-        int left_black_leafs;
-        node(int key)
-        {
-            parent = NULL;
-            left = NULL;
-            right = NULL;
-            isBlack = false;
-            this->key = key;
-            isLeft = false;
-            // isRight = false;
-            height = 1;
-            // count = 0;
-        }
-
-    } node;
-    node *fill_node(int key, int value)
-    {
-        node *_node = new node(key);
-        _node->val = value;
-        _node->isBlack = true;
-        _node->left = NULL;
-        _node->right = NULL;
-        _node->parent = NULL;
-        return (_node);
-    }
+private:
     node *root;
-    node *tmp2;
+    node *TNULL;
 
+public:
     RBT()
     {
-        this->root = NULL;
+        TNULL = new node;
+        TNULL->isBlack = true;
+        TNULL->left = nullptr;
+        TNULL->right = nullptr;
+        root = TNULL;
     }
 
     ~RBT()
     {
     }
 
-    void print_tree(node *_root)
+    void insert_node(int key)
     {
-        if (!_root)
-            return;
-        print_tree(_root->left);
-        std::cout << "---> " << _root->key << "  " << _root->val << " " << _root->parent->key << std::endl;
-        print_tree(_root->right);
-    }
-
-    void insert_node(node *_new)
-    {
-        if (root == NULL)
+        if (root == TNULL)
         {
-            root = _new;
+            root = new node;
             root->isBlack = true;
-            root->left = NULL;
-            root->right = NULL;
+            root->key = key;
+            root->left = TNULL;
+            root->right = TNULL;
             root->parent = NULL;
         }
         else
         {
-            node *tmp = root;
-            node *tmp2 = NULL;
-
-            while (tmp != NULL)
+            node *tmp = this->root;
+            node *tmp2 = nullptr;
+            node *_new = new node;
+            _new->key = key;
+            _new->left = TNULL;
+            _new->right = TNULL;
+            _new->parent = NULL;
+            _new->isBlack = false;
+            while (tmp != TNULL)
             {
                 tmp2 = tmp;
                 if (_new->key < tmp->key)
@@ -112,7 +93,6 @@ public:
             {
                 tmp2->right = _new;
             }
-            _new->isBlack = false;
             check_balance(_new);
         }
     }
@@ -130,10 +110,10 @@ public:
     {
 
         node *l = n->left;
-        if (l == NULL)
-            return;
+        // if (l == TNULL)
+        //     return;
         n->left = l->right;
-        if (l->right != NULL)
+        if (l->right != TNULL)
             l->right->parent = n;
         l->parent = n->parent;
         if (n->parent == NULL)
@@ -144,15 +124,16 @@ public:
             n->parent->right = l;
         l->right = n;
         n->parent = l;
+        // std::cout << "\trotate right " << n->key << std::endl;
     }
 
     void rotate_left(node *n)
     {
         node *r = n->right;
-        if (r == NULL)
-            return;
+        // if (r == TNULL)
+        //     return;
         n->right = r->left;
-        if (r->left != NULL)
+        if (r->left != TNULL)
             r->left->parent = n;
         r->parent = n->parent;
         if (n->parent == NULL)
@@ -345,14 +326,14 @@ public:
                 }
             }
         }
-        if (x != NULL)
-            x->isBlack = true;
+        // if (x != TNULL)
+        x->isBlack = true;
     }
 
     node *search(int key)
     {
         node *tmp = root;
-        while (tmp != NULL)
+        while (tmp != TNULL)
         {
             if (tmp->key == key)
                 return tmp;
@@ -361,7 +342,7 @@ public:
             else
                 tmp = tmp->right;
         }
-        return NULL;
+        return TNULL;
     }
     void transplant(node *u, node *v)
     {
@@ -383,7 +364,7 @@ public:
     void delete_node(int key)
     {
         node *_node = search(key);
-        if (_node == NULL)
+        if (_node == TNULL)
         {
             std::cout << "Key not found in the tree" << std::endl;
             return;
@@ -392,12 +373,12 @@ public:
         node *y;
         y = _node;
         bool y_original_color = y->isBlack;
-        if (!_node->left)
+        if (_node->left == TNULL)
         {
             x = _node->right;
             transplant(_node, _node->right);
         }
-        else if (!_node->right)
+        else if (_node->right == TNULL)
         {
             x = _node->left;
             transplant(_node, _node->left);
@@ -426,43 +407,38 @@ public:
         delete _node;
         if (y_original_color == true)
             delete_fix_rbt(x);
-        // else
-        //     delete_fix_rbt(root);
-        // if (height_left(root) > height_right(root))
-        // {
-        //     if (root->right)
-        //         rotate_left(root->right);
-        //     else
-        //     {
-        //         rotate_left(root);
-        //         rotate_right(root);
-        //     }
-        // }
-        // else if (height_left(root) < height_right(root))
-        // {
-        //     if (root->left)
-        //         rotate_right(root->left);
-        //     else
-        //     {
-        //         rotate_right(root);
-        //         rotate_left(root);
-        //     }
-        // }
-        // else
-        //     ;
+        // std::cout << "\t"<< root->left->left->right->key << std::endl;
+
         root->isBlack = true;
     }
-
-    void check_print_rbt(node *n)
+    void print(node *node, std::string indent, bool last)
     {
-        if (n == root)
-            std::cout << "\033[0;31m <====================\t\tRoot : " << n->key << "\t\t=========================>\033[0m" << std::endl;
-        if (n == NULL)
-            return;
-        check_print_rbt(n->left);
-        std::cout << "Key: " << n->key << "\t\tColor:\t{   " << (n->isBlack == 0 ? "RED" : "BLACK") << "  }\t\tParent: \t" << (n->parent == NULL ? "\033[0;31mROOT " : std::to_string(n->parent->key)) << "\033[0m " << std::endl;
-        check_print_rbt(n->right);
+        if (root != TNULL)
+        {
+            std::cout << indent;
+            if (last)
+            {
+                std::cout << "R----";
+                indent += "   ";
+            }
+            else
+            {
+                std::cout << "L----";
+                indent += "|  ";
+            }
+
+            std::string sColor = root->isBlack == false ? "RED" : "BLACK";
+            std::cout << root->key << "(" << sColor << ")" << std::endl;
+            print(root->left, indent, false);
+            print(root->right, indent, true);
+        }
     }
+    void check_print_rbt()
+    {
+        if (root)
+            print(this->root, "", true);
+    }
+    // node *get_root(void) return (this->root);
 };
 
 int main()
@@ -480,16 +456,16 @@ int main()
     // tst.insert_node(tst.fill_node(26, 26));
 
     // wrong output ==> to delete 11
-    tst.insert_node(tst.fill_node(13, 13));
-    tst.insert_node(tst.fill_node(17, 17));
-    tst.insert_node(tst.fill_node(8, 8));
-    tst.insert_node(tst.fill_node(25, 25));
-    tst.insert_node(tst.fill_node(15, 15));
-    tst.insert_node(tst.fill_node(1, 1));
-    tst.insert_node(tst.fill_node(11, 11));
-    tst.insert_node(tst.fill_node(6, 6));
-    tst.insert_node(tst.fill_node(27, 27));
-    tst.insert_node(tst.fill_node(22, 22));
+    tst.insert_node(13);
+    // tst.insert_node(17);
+    // tst.insert_node(8);
+    // tst.insert_node(25);
+    // tst.insert_node(15);
+    // tst.insert_node(1);
+    // tst.insert_node(11);
+    // tst.insert_node(6);
+    // tst.insert_node(27);
+    // tst.insert_node(22);
 
     // wrong output ==> to delete 8
     // tst.insert_node(tst.fill_node(13, 13));
@@ -505,12 +481,11 @@ int main()
     // tst.insert_node(tst.fill_node(26, 26));
     // tst.insert_node(tst.fill_node(27, 27));
 
-    tst.check_print_rbt(tst.root);
+    tst.check_print_rbt();
     std::cout << "*************************************************************\n";
-    tst.delete_node(8);
-    tst.check_print_rbt(tst.root);
-    std::cout << "RBT is " << (tst.isRBProper(tst.root) ? "GOOD" : "NOOT GOOD") << "\n";
-    std::cout << "*************************************************************\n";
+    // tst.delete_node(8);
+    // tst.check_print_rbt();
+    // std::cout << "*************************************************************\n";
     // tst.insert_node(tst.fill_node(2, 2));
     // tst.insert_node(tst.fill_node(5, 5));
 
