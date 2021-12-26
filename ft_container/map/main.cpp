@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
+/*   By: zainabdnayagmail.com <zainabdnayagmail.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 19:47:34 by zdnaya            #+#    #+#             */
-/*   Updated: 2021/12/25 12:22:55 by zdnaya           ###   ########.fr       */
+/*   Updated: 2021/12/26 14:34:58 by zainabdnaya      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ public:
     {
         TNULL = new node;
         TNULL->isBlack = true;
-        TNULL->left = nullptr;
-        TNULL->right = nullptr;
+        TNULL->left = NULL;
+        TNULL->right = NULL;
         root = TNULL;
     }
 
@@ -63,7 +63,7 @@ public:
         else
         {
             node *tmp = this->root;
-            node *tmp2 = nullptr;
+            node *tmp2 = NULL;
             node *_new = new node;
             _new->key = key;
             _new->left = TNULL;
@@ -327,7 +327,7 @@ public:
             }
         }
         // if (x != TNULL)
-        x->isBlack = true;
+        //     x->isBlack = true;
     }
 
     node *search(int key)
@@ -357,7 +357,7 @@ public:
     }
     node *tree_minimum(node *x)
     {
-        while (x->left != NULL)
+        while (x->left != TNULL)
             x = x->left;
         return (x);
     }
@@ -369,8 +369,8 @@ public:
             std::cout << "Key not found in the tree" << std::endl;
             return;
         }
-        node *x;
-        node *y;
+        node *x = TNULL;
+        node *y =TNULL;
         y = _node;
         bool y_original_color = y->isBlack;
         if (_node->left == TNULL)
@@ -408,12 +408,12 @@ public:
         if (y_original_color == true)
             delete_fix_rbt(x);
         // std::cout << "\t"<< root->left->left->right->key << std::endl;
-
-        root->isBlack = true;
+        if(root != TNULL && root)
+            root->isBlack = true;
     }
     void print(node *node, std::string indent, bool last)
     {
-        if (root != TNULL)
+        if (node != TNULL)
         {
             std::cout << indent;
             if (last)
@@ -427,10 +427,12 @@ public:
                 indent += "|  ";
             }
 
-            std::string sColor = root->isBlack == false ? "RED" : "BLACK";
-            std::cout << root->key << "(" << sColor << ")" << std::endl;
-            print(root->left, indent, false);
-            print(root->right, indent, true);
+            std::string sColor = node->isBlack == false ? "RED" : "BLACK";
+            std::cout << node->key << "(" << sColor << ")" << std::endl;
+            // node = node->left;
+            print(node->left, indent, false);
+            // node = node->right;
+            print(node->right, indent, true);
         }
     }
     void check_print_rbt()
@@ -457,35 +459,35 @@ int main()
 
     // wrong output ==> to delete 11
     tst.insert_node(13);
-    // tst.insert_node(17);
-    // tst.insert_node(8);
-    // tst.insert_node(25);
-    // tst.insert_node(15);
-    // tst.insert_node(1);
-    // tst.insert_node(11);
-    // tst.insert_node(6);
-    // tst.insert_node(27);
-    // tst.insert_node(22);
+    tst.insert_node(17);
+    tst.insert_node(8);
+    tst.insert_node(25);
+    tst.insert_node(15);
+    tst.insert_node(1);
+    tst.insert_node(11);
+    tst.insert_node(6);
+    tst.insert_node(27);
+    tst.insert_node(22);
 
     // wrong output ==> to delete 8
-    // tst.insert_node(tst.fill_node(13, 13));
-    // tst.insert_node(tst.fill_node(17, 17));
-    // tst.insert_node(tst.fill_node(8, 8));
-    // tst.insert_node(tst.fill_node(25, 25));
-    // tst.insert_node(tst.fill_node(15, 15));
-    // tst.insert_node(tst.fill_node(1, 1));
-    // tst.insert_node(tst.fill_node(11, 11));
-    // tst.insert_node(tst.fill_node(6, 6));
-    // tst.insert_node(tst.fill_node(27, 27));
-    // tst.insert_node(tst.fill_node(22, 22));
-    // tst.insert_node(tst.fill_node(26, 26));
-    // tst.insert_node(tst.fill_node(27, 27));
+    // tst.insert_node((13));
+    // tst.insert_node((17));
+    // tst.insert_node((8));
+    // tst.insert_node((25));
+    // tst.insert_node((15));
+    // tst.insert_node((1));
+    // tst.insert_node((11));
+    // tst.insert_node((6));
+    // tst.insert_node((27));
+    // tst.insert_node((22));
+    // tst.insert_node((26));
+    // tst.insert_node((27));
 
     tst.check_print_rbt();
     std::cout << "*************************************************************\n";
-    // tst.delete_node(8);
-    // tst.check_print_rbt();
-    // std::cout << "*************************************************************\n";
+    std::cout << "*************************************************************\n";
+    tst.delete_node(11);
+    tst.check_print_rbt();
     // tst.insert_node(tst.fill_node(2, 2));
     // tst.insert_node(tst.fill_node(5, 5));
 
