@@ -3,7 +3,7 @@ NAME=test
 
 SRC=main.cpp
 
-INC= map.hpp
+INC=rbt.hpp
 #iterator_traits.hpp \ reverse_traits.hpp \ stack.hpp
 
 
