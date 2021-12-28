@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: zainabdnayagmail.com <zainabdnayagmail.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/27 12:07:47 by zdnaya            #+#    #+#             */
-/*   Updated: 2021/12/28 16:19:53 by zainabdnaya      ###   ########.fr       */
+/*   Created: 2021/12/28 21:59:39 by zainabdnaya       #+#    #+#             */
+/*   Updated: 2021/12/28 21:59:40 by zainabdnaya      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,13 @@ namespace ft
         int right_black_leafs;
         int left_black_leafs;
     };
- template <class tree,class Iter ,class T>
-    class rbt_iterator: public std::iterator<std::bidirectional_iterator_tag,
-                                          typename iterator_traits<T>::value_type>
-    { public:
+    template <class tree, class Iter, class T>
+    class rbt_iterator : public std::iterator<std::bidirectional_iterator_tag,
+                                              typename iterator_traits<T>::value_type>
+    {
+    public:
         typedef Iter iterator_type;
-        typedef rbt_iterator rbt;
+        typedef tree rbt;
         typedef typename iterator_traits<T>::pointer pointer;
         typedef typename iterator_traits<T>::reference reference;
         typedef std::bidirectional_iterator_tag iterator_category;
@@ -70,7 +71,7 @@ namespace ft
 
         reference operator*() const
         {
-            return it->_data;
+            return it->data;
         }
 
         pointer operator->() const
@@ -96,7 +97,7 @@ namespace ft
             it = rbt_->predecessor(it);
             return *this;
         }
- 
+
         rbt_iterator operator--(int)
         {
             rbt_iterator tmp(*this);
@@ -130,9 +131,8 @@ namespace ft
     class RBT
     {
     public:
-       
-        // typedef Key	key_type;
-	    typedef T	value_type; //pair<key_type, val> --> T 
+        // typedef Key  key_type;
+        typedef T value_type; //pair<key_type, val> --> T
         typedef struct Node<value_type> node;
         typedef typename Alloc::template rebind<node>::other node_allocator;
         typedef typename Alloc::pointer pointer;
@@ -148,7 +148,6 @@ namespace ft
         typedef ft::reverse_iterator<iterator> reverse_iterator;
         typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
-
         Compare comp;
         node_allocator alloc;
         node *root;
@@ -162,18 +161,18 @@ namespace ft
                 return 0;
             return isRBProper(n->left) && isRBProper(n->right);
         }
-           
+
         RBT()
         {
             TNULL = alloc.allocate(1);
             Tend = alloc.allocate(1);
             Tend->right = TNULL;
-            // TNULL->data = std::max(std::numeric_limits<T>::min(), std::numeric_limits<T>::max());
             TNULL->isBlack = true;
             TNULL->left = NULL;
             TNULL->right = NULL;
             root = TNULL;
-            Tend->left = TNULL;
+            Tend->left = root;
+            Tend->parent = Tend;
             comp = Compare();
         }
 
@@ -190,17 +189,17 @@ namespace ft
                 root->data = data;
                 root->left = TNULL;
                 root->right = TNULL;
-                root->parent = NULL;
+                root->parent = Tend;
             }
             else
             {
                 node *tmp = this->root;
-                node *tmp2 = NULL;
+                node *tmp2 = TNULL;
                 node *_new = alloc.allocate(1);
                 _new->data = data;
                 _new->left = TNULL;
                 _new->right = TNULL;
-                _new->parent = NULL;
+                _new->parent = Tend;
                 _new->isBlack = false;
                 while (tmp != TNULL)
                 {
@@ -233,7 +232,7 @@ namespace ft
             if (l->right != TNULL)
                 l->right->parent = n;
             l->parent = n->parent;
-            if (n->parent == NULL)
+            if (n->parent == TNULL || n->parent == Tend)
                 root = l;
             else if (n == n->parent->left)
                 n->parent->left = l;
@@ -250,7 +249,7 @@ namespace ft
             if (r->left != TNULL)
                 r->left->parent = n;
             r->parent = n->parent;
-            if (n->parent == NULL)
+            if (n->parent == TNULL || n->parent == Tend)
                 root = r;
             else if (n == n->parent->left)
                 n->parent->left = r;
@@ -313,6 +312,7 @@ namespace ft
                     break;
             }
             root->isBlack = true; // root is always black
+            root->parent = Tend;
             // root->isLeft = -1;
         }
 
@@ -456,7 +456,7 @@ namespace ft
         }
         void transplant(node *u, node *v)
         {
-            if (!u->parent)
+            if (!u->parent || u->parent != Tend)
                 root = v;
             else if (u == u->parent->left)
                 u->parent->left = v;
@@ -560,18 +560,60 @@ namespace ft
         /// add begin()
         iterator begin()
         {
-            node *tmp = root;
-            while (tmp->left != TNULL)
-                tmp = tmp->left;
-            return iterator(tmp,this);
+            return iterator(tree_minimum(root), this);
         }
         /// add end()
         iterator end()
         {
-            return iterator(TNULL,this);
+            return iterator(Tend, this);
+        }
+
+        node *successor(node *n)
+        {
+            if (n->right != TNULL)
+                return tree_minimum(n->right);
+            node *tmp = n->parent;
+            while (tmp != TNULL && tmp != Tend && n == tmp->right)
+            {
+                n = tmp;
+                tmp = tmp->parent;
+            }
+            return (tmp);
+        }
+
+        node *treeMaximum(node *n)
+        {
+            while (n->right != TNULL)
+                n = n->right;
+            return n;
+        }
+
+        node *predecessor(node *n)
+        {
+            if (n->left != TNULL && n->left != Tend)
+                return treeMaximum(n->left);
+            node *tmp = n->parent;
+            while (tmp != Tend && n == tmp->left)
+            {
+                n = tmp;
+                tmp = tmp->parent;
+            }
+            if(tmp == Tend)
+                return treeMaximum(root);
+            return (tmp);
+        }
+
+        iterator rbegin()
+        {
+            return iterator(treeMaximum(root), this);
+        }
+
+        iterator rend()
+        {
+            return iterator(Tend, this);
         }
     };
-    
 }
 
 #endif
+
