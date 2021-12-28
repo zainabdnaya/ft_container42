@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
+/*   By: zainabdnayagmail.com <zainabdnayagmail.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 00:06:02 by zdnaya            #+#    #+#             */
-/*   Updated: 2021/12/27 12:07:27 by zdnaya           ###   ########.fr       */
+/*   Updated: 2021/12/28 15:59:19 by zainabdnaya      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,29 +15,34 @@
 
 #include <iostream>
 #include "../iterators/iterator_traits.hpp"
-#include "../iterators/make_pair.hpp"
+#include "./rbt.hpp"
+
+class RBT;
 
 namespace ft
 {
     // creat map library
-    template <typename Key, class T, class Compare = ft::less<Key>,
+    template <typename Key, class T, class Compare = std::less<Key>,
               class Alloc = std::allocator<ft::pair<const Key, T> > >
+
     class map
     {
     public:
-        typedef Key key_type;
-        typedef T data_type;
-        typedef pair<const Key, T> value_type;
+        typedef Key                                             key_type;
+        typedef Compare                                         key_compare;
+        typedef Alloc                                           allocator_type;
+        typedef T                                               mapped_type;
+        
+        
+        typedef ft::pair<const key_type, mapped_type>           value_type;
+        typedef long int                                        difference_type;
+        typedef size_t                                          size_type;
+        typedef T&                                              reference;
+        typedef const T&                                        const_reference;
+        typedef T*                                              pointer;
+        typedef const T*                                        const_pointer;
 
-        typedef Compare key_compare;
-        typedef Alloc allocator_type;
-
-        typedef typename allocator_type::reference reference;
-        typedef typename allocator_type::const_reference const_reference;
-        typedef typename allocator_type::pointer pointer;
-        typedef typename allocator_type::const_pointer const_pointer;
-
-        typedef typename ft::tree::iterator_category iterator;
+        typedef typename ft::iterator_traits::iterator_category iterator;
         typedef typename ft::iterator_traits::iterator_category const_iterator;
 
         typedef typename ft::reverse_iterator<iterator> reverse_iterator;
@@ -45,7 +50,7 @@ namespace ft
         typename ft::iterator_traits<iterator>::difference_type difference_type;
         typedef typename size_type size_type;
 
-        class valaue_compare : public binary_function<value_type, value_type, bool>
+        class valaue_compare : public std::binary_function<key_type, mapped_type, bool>
         {
         protected:
             Compare comp;

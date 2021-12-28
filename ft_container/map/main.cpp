@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
+/*   By: zainabdnayagmail.com <zainabdnayagmail.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/16 19:47:34 by zdnaya            #+#    #+#             */
-/*   Updated: 2021/12/27 12:44:37 by zdnaya           ###   ########.fr       */
+/*   Updated: 2021/12/28 16:15:32 by zainabdnaya      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,13 @@
 #include <new>
 // #include "map.hpp"
 #include "rbt.hpp"
+
+
 // 
 
 int main()
 {
-    ft::RBT<int, int> rbt;
+    ft::RBT<ft::pair<int,int>, std::less <int> > rbt;
     // ft::RBT<int, int> rbt;
     // ft::iterator_traits<std::bidirectional_iterator_tag>::iterator it;
     // segfault ==> delete 3
@@ -47,23 +49,23 @@ int main()
  
 
     // wrong output ==> to delete 1
-    rbt.insert_node(2,10);
-    rbt.insert_node(3,10);
-    rbt.insert_node(1,10);
-    rbt.insert_node(4,10);
-    rbt.insert_node(5,10);
-    rbt.insert_node(6,10);
-    rbt.insert_node(7,10);
+    rbt.insert_node(ft::make_pair(2,10));
+    rbt.insert_node(ft::make_pair(1,10));
+    rbt.insert_node(ft::make_pair(3,10));
+    rbt.insert_node(ft::make_pair(5,10));
+    rbt.insert_node(ft::make_pair(4,10));
+    rbt.insert_node(ft::make_pair(7,10));
+    rbt.insert_node(ft::make_pair(6,10));
 
-    // tst.check_print_rbt();
+rbt.check_print_rbt();
     std::cout << "*************************************************************\n";
+    rbt.delete_node(ft::make_pair(1,10));
     std::cout << "*************************************************************\n";
-    rbt.delete_node(1);
     rbt.check_print_rbt();
-    // tst.insert_node(tst.fill_node(2, 2));
-    // tst.insert_node(tst.fill_node(5, 5));
+    // // tst.insert_node(tst.fill_node(2, 2));
+    // // tst.insert_node(tst.fill_node(5, 5));
 
-    std::cout << "RBT is " << (rbt.isRBTProper() ? "GOOD" : "NOOT GOOD") << "\n";
+    // std::cout << "RBT is " << (rbt.isRBTProper() ? "GOOD" : "NOOT GOOD") << "\n";
 
     return 0;
 }

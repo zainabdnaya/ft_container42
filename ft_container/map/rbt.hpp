@@ -3,27 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   rbt.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
+/*   By: zainabdnayagmail.com <zainabdnayagmail.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/27 12:07:47 by zdnaya            #+#    #+#             */
-/*   Updated: 2021/12/27 12:52:18 by zdnaya           ###   ########.fr       */
+/*   Updated: 2021/12/28 16:19:53 by zainabdnaya      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RBT_HPP
 #define RBT_HPP
+
 #include "../iterators/iterator_traits.hpp"
+#include "../iterators/reverse_iterators.hpp"
 #include "../iterators/make_pair.hpp"
 #include <limits>
 
 namespace ft
 {
-
-    template <typename Key, class T>
+    template <class T>
     struct Node
     {
-        Key key;
-        T val;
+        T data;
         unsigned int height;
         bool isBlack;
         int isLeft;
@@ -33,17 +33,127 @@ namespace ft
         int right_black_leafs;
         int left_black_leafs;
     };
+ template <class tree,class Iter ,class T>
+    class rbt_iterator: public std::iterator<std::bidirectional_iterator_tag,
+                                          typename iterator_traits<T>::value_type>
+    { public:
+        typedef Iter iterator_type;
+        typedef rbt_iterator rbt;
+        typedef typename iterator_traits<T>::pointer pointer;
+        typedef typename iterator_traits<T>::reference reference;
+        typedef std::bidirectional_iterator_tag iterator_category;
+        typedef std::ptrdiff_t difference_type;
+        iterator_type *it;
+        rbt rbt_;
 
-    template <typename Key, class T, class Compare = std::less<Key>,
-              class Alloc = std::allocator<ft::Node<Key, T> > >
+    public:
+        rbt_iterator() : it(), rbt_()
+        {
+        }
+
+        rbt_iterator(iterator_type *_x, rbt _tr) : it(_x), rbt_(_tr)
+        {
+        }
+
+        template <class OthTree, class OthIter, class U>
+        rbt_iterator(const rbt_iterator<OthTree, OthIter, U> &_other) : it(_other.it), rbt_(_other.rbt_)
+        {
+        }
+
+        template <class OthTree, class OthIter, class U>
+        rbt_iterator &operator=(const rbt_iterator<OthTree, OthIter, U> &_other)
+        {
+            this->it = _other.base();
+            this->rbt_ = _other.get_rbt();
+            return (*this);
+        }
+
+        reference operator*() const
+        {
+            return it->_data;
+        }
+
+        pointer operator->() const
+        {
+            return &(operator*());
+        }
+
+        rbt_iterator &operator++()
+        {
+            it = rbt_->successor(it);
+            return *this;
+        }
+
+        rbt_iterator operator++(int)
+        {
+            rbt_iterator tmp(*this);
+            it = rbt_->successor(it);
+            return tmp;
+        }
+
+        rbt_iterator &operator--()
+        {
+            it = rbt_->predecessor(it);
+            return *this;
+        }
+ 
+        rbt_iterator operator--(int)
+        {
+            rbt_iterator tmp(*this);
+            it = rbt_->predecessor(it);
+            return tmp;
+        }
+
+        bool operator==(const rbt_iterator &rbt_iter) const
+        {
+            return it == rbt_iter.it;
+        }
+
+        bool operator!=(const rbt_iterator &rbt_iter) const
+        {
+            return it != rbt_iter.it;
+        }
+
+        iterator_type get_iterator() const
+        {
+            return it;
+        }
+
+        rbt get_rbt() const
+        {
+            return rbt_;
+        }
+    };
+
+    template <class T, class Compare,
+              class Alloc = std::allocator<T> >
     class RBT
     {
-    private:
-        typedef Node<Key, T> node;
+    public:
+       
+        // typedef Key	key_type;
+	    typedef T	value_type; //pair<key_type, val> --> T 
+        typedef struct Node<value_type> node;
+        typedef typename Alloc::template rebind<node>::other node_allocator;
+        typedef typename Alloc::pointer pointer;
+        typedef typename Alloc::const_pointer const_node_pointer;
+        typedef typename Alloc::reference node_reference;
+        typedef typename Alloc::const_reference const_node_reference;
+        typedef typename Alloc::size_type size_type;
+        typedef typename Alloc::difference_type difference_type;
+        typedef struct Node<value_type> *NodePtr;
+        typedef RBT *self;
+        typedef ft::rbt_iterator<self, node, pointer> iterator;
+        typedef ft::rbt_iterator<self, node, pointer> const_iterator;
+        typedef ft::reverse_iterator<iterator> reverse_iterator;
+        typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
+
+
         Compare comp;
-        Alloc alloc;
+        node_allocator alloc;
         node *root;
         node *TNULL;
+        node *Tend;
         int isRBProper(node *n)
         {
             if (n == NULL)
@@ -52,16 +162,18 @@ namespace ft
                 return 0;
             return isRBProper(n->left) && isRBProper(n->right);
         }
-
-    public:
+           
         RBT()
         {
             TNULL = alloc.allocate(1);
-            TNULL->key = std::max(std::numeric_limits<Key>::min(), std::numeric_limits<Key>::max());
+            Tend = alloc.allocate(1);
+            Tend->right = TNULL;
+            // TNULL->data = std::max(std::numeric_limits<T>::min(), std::numeric_limits<T>::max());
             TNULL->isBlack = true;
             TNULL->left = NULL;
             TNULL->right = NULL;
             root = TNULL;
+            Tend->left = TNULL;
             comp = Compare();
         }
 
@@ -69,14 +181,13 @@ namespace ft
         {
         }
 
-        void insert_node(Key key, T val)
+        void insert_node(T data)
         {
             if (root == TNULL)
             {
                 root = alloc.allocate(1);
                 root->isBlack = true;
-                root->key = key;
-                root->val = val;
+                root->data = data;
                 root->left = TNULL;
                 root->right = TNULL;
                 root->parent = NULL;
@@ -86,8 +197,7 @@ namespace ft
                 node *tmp = this->root;
                 node *tmp2 = NULL;
                 node *_new = alloc.allocate(1);
-                _new->key = key;
-                _new->val = val;
+                _new->data = data;
                 _new->left = TNULL;
                 _new->right = TNULL;
                 _new->parent = NULL;
@@ -95,19 +205,19 @@ namespace ft
                 while (tmp != TNULL)
                 {
                     tmp2 = tmp;
-                    if (comp(key, tmp->key))
+                    if (comp(data.first, tmp->data.first))
                         tmp = tmp->left;
-                    else if (comp(tmp->key, key))
+                    else if (comp(tmp->data.first, data.first))
                         tmp = tmp->right;
                     else
                         return;
                 }
                 _new->parent = tmp2;
-                if (tmp2->key > _new->key)
+                if (tmp2->data.first > _new->data.first)
                 {
                     tmp2->left = _new;
                 }
-                else if (tmp2->key < _new->key)
+                else if (tmp2->data.first < _new->data.first)
                 {
                     tmp2->right = _new;
                 }
@@ -330,18 +440,17 @@ namespace ft
             x->isBlack = true;
         }
 
-        node *search(Key key)
+        node *search(value_type key)
         {
             node *tmp = root;
             while (tmp != TNULL)
             {
-                if (comp(key, tmp->key) > 0)
+                if (comp(key.first, tmp->data.first) > 0)
                     tmp = tmp->left;
-                else if (comp(key, tmp->key) < 0)
+                else if (comp(key.first, tmp->data.first) < 0)
                     tmp = tmp->right;
                 else
                     return tmp;
-            std::cout << "searching for " << tmp->key << std::endl;
             }
             return TNULL;
         }
@@ -363,9 +472,9 @@ namespace ft
                 x = x->left;
             return (x);
         }
-        void delete_node(Key key)
+        void delete_node(T data)
         {
-            node *_node = search(key);
+            node *_node = search(data);
 
             if (_node == TNULL)
             {
@@ -431,7 +540,7 @@ namespace ft
                 }
 
                 std::string sColor = node->isBlack == false ? "RED" : "BLACK";
-                std::cout << node->key << "(" << sColor << ")" << std::endl;
+                std::cout << node->data.first << "(" << sColor << ")" << std::endl;
                 // node = node->left;
                 print(node->left, indent, false);
                 // node = node->right;
@@ -448,7 +557,21 @@ namespace ft
         {
             return this->isRBProper(root);
         }
+        /// add begin()
+        iterator begin()
+        {
+            node *tmp = root;
+            while (tmp->left != TNULL)
+                tmp = tmp->left;
+            return iterator(tmp,this);
+        }
+        /// add end()
+        iterator end()
+        {
+            return iterator(TNULL,this);
+        }
     };
+    
 }
 
 #endif
