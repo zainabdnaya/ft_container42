@@ -6,7 +6,7 @@
 /*   By: zainabdnayagmail.com <zainabdnayagmail.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 21:59:39 by zainabdnaya       #+#    #+#             */
-/*   Updated: 2021/12/29 14:12:29 by zainabdnaya      ###   ########.fr       */
+/*   Updated: 2021/12/29 15:04:43 by zainabdnaya      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,11 +148,13 @@ namespace ft
         typedef ft::reverse_iterator<iterator> reverse_iterator;
         typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
+
         Compare comp;
         node_allocator alloc;
         node *root;
         node *TNULL;
         node *Tend;
+        size_type _size;
         int isRBProper(node *n)
         {
             if (n == NULL)
@@ -174,6 +176,7 @@ namespace ft
             Tend->left = root;
             Tend->parent = Tend;
             comp = Compare();
+            _size = 0;
         }
 
         ~RBT()
@@ -220,6 +223,7 @@ namespace ft
                 {
                     tmp2->right = _new;
                 }
+                _size++;
                 check_balance(_new);
             }
         }
@@ -517,6 +521,7 @@ namespace ft
                 y->isBlack = _node->isBlack;
             }
             alloc.destroy(_node);
+            _size--;
             if (y_original_color == true)
                 delete_fix_rbt(x);
             if (root != TNULL && root)
@@ -611,6 +616,40 @@ namespace ft
         reverse_iterator rend()
         {
             return reverse_iterator(begin());
+        }
+        const iterator begin() const
+        {
+            return iterator(tree_minimum(root), this);
+        }
+        const iterator end() const
+        {
+            return iterator(Tend, this);
+        }
+        const reverse_iterator rbegin() const
+        {
+            return reverse_iterator(end());
+        }
+        const reverse_iterator rend() const
+        {
+            return reverse_iterator(begin());
+        }
+        //add empty
+        bool empty()
+        {
+            if(root == TNULL)
+                return true;
+            return false;
+        }
+        //add size
+        size_type size()
+        {
+            return this->_size;
+        }
+        
+        //max size
+        size_type max_size()
+        {
+            return alloc.max_size();
         }
     };
 }

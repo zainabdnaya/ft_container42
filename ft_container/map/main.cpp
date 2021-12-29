@@ -6,7 +6,7 @@
 /*   By: zainabdnayagmail.com <zainabdnayagmail.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 13:42:09 by zainabdnaya       #+#    #+#             */
-/*   Updated: 2021/12/29 14:13:16 by zainabdnaya      ###   ########.fr       */
+/*   Updated: 2021/12/29 14:59:19 by zainabdnaya      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,13 @@ int main()
         std::cout << it->first << " ----- " << it->second << std::endl;
         ++it;
     }
+    size_t size = rbt.size();
+    std::cout << "size: " << size << std::endl;
+
+    std::cout << "rbt: " << rbt.empty() << std::endl;
+    //max size
+    std::cout << "max size: " << rbt.max_size() << std::endl;
+    
     std::cout << "==========================================================" << std::endl;
     std::map<int, int> m;
 
@@ -48,13 +55,14 @@ int main()
     std::map<int, int>::reverse_iterator it4 = m.rend();
     
     // --it3;
-    while (it3 != it4)
-    {
-        // std::cout << "I m here";
-        std::cout << it3->first << " ----- " << it3->second << std::endl;
-        ++it3;
-    }
+    // while (it3 != it4)
+    // {
+    //     // std::cout << "I m here";
+    //     std::cout << it3->first << " ----- " << it3->second << std::endl;
+    //     ++it3;
+    // }
     // std::cout << it->first << " ----- " << it->second << std::endl;
-
+    //max size
+    std::cout << "max size: " << m.max_size() << std::endl;
     return 0;
 }
