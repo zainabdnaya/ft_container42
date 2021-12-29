@@ -6,7 +6,7 @@
 /*   By: zainabdnayagmail.com <zainabdnayagmail.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 21:59:39 by zainabdnaya       #+#    #+#             */
-/*   Updated: 2021/12/28 21:59:40 by zainabdnaya      ###   ########.fr       */
+/*   Updated: 2021/12/29 14:12:29 by zainabdnaya      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -603,14 +603,14 @@ namespace ft
             return (tmp);
         }
 
-        iterator rbegin()
+        reverse_iterator rbegin()
         {
-            return iterator(treeMaximum(root), this);
+            return reverse_iterator(end());
         }
 
-        iterator rend()
+        reverse_iterator rend()
         {
-            return iterator(Tend, this);
+            return reverse_iterator(begin());
         }
     };
 }

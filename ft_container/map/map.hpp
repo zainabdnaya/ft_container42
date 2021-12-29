@@ -6,7 +6,7 @@
 /*   By: zainabdnayagmail.com <zainabdnayagmail.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 00:06:02 by zdnaya            #+#    #+#             */
-/*   Updated: 2021/12/28 15:59:19 by zainabdnaya      ###   ########.fr       */
+/*   Updated: 2021/12/29 13:43:50 by zainabdnaya      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,13 @@ namespace ft
         typedef T*                                              pointer;
         typedef const T*                                        const_pointer;
 
-        typedef typename ft::iterator_traits::iterator_category iterator;
-        typedef typename ft::iterator_traits::iterator_category const_iterator;
+        // typedef typename ft::iterator_traits::iterator_category iterator;
+        // typedef typename ft::iterator_traits::iterator_category const_iterator;
 
-        typedef typename ft::reverse_iterator<iterator> reverse_iterator;
-        typedef typename ft::reverse_iterator<const_iterator> const_reverse_iterator;
-        typename ft::iterator_traits<iterator>::difference_type difference_type;
-        typedef typename size_type size_type;
+        // typedef typename ft::reverse_iterator<iterator> reverse_iterator;
+        // typedef typename ft::reverse_iterator<const_iterator> const_reverse_iterator;
+        // typename ft::iterator_traits<iterator>::difference_type difference_type;
+        // typedef typename size_type size_type;
 
         class valaue_compare : public std::binary_function<key_type, mapped_type, bool>
         {
