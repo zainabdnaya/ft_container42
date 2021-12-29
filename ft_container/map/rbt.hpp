@@ -6,7 +6,7 @@
 /*   By: zainabdnayagmail.com <zainabdnayagmail.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 21:59:39 by zainabdnaya       #+#    #+#             */
-/*   Updated: 2021/12/29 15:04:43 by zainabdnaya      ###   ########.fr       */
+/*   Updated: 2021/12/29 17:06:03 by zainabdnaya      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ namespace ft
         typedef typename iterator_traits<T>::reference reference;
         typedef std::bidirectional_iterator_tag iterator_category;
         typedef std::ptrdiff_t difference_type;
+        
         iterator_type *it;
         rbt rbt_;
 
@@ -148,7 +149,6 @@ namespace ft
         typedef ft::reverse_iterator<iterator> reverse_iterator;
         typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
-
         Compare comp;
         node_allocator alloc;
         node *root;
@@ -193,12 +193,14 @@ namespace ft
                 root->left = TNULL;
                 root->right = TNULL;
                 root->parent = Tend;
+                _size++;
             }
             else
             {
                 node *tmp = this->root;
                 node *tmp2 = TNULL;
                 node *_new = alloc.allocate(1);
+                _size++;
                 _new->data = data;
                 _new->left = TNULL;
                 _new->right = TNULL;
@@ -223,7 +225,6 @@ namespace ft
                 {
                     tmp2->right = _new;
                 }
-                _size++;
                 check_balance(_new);
             }
         }
@@ -641,16 +642,126 @@ namespace ft
             return false;
         }
         //add size
-        size_type size()
+        size_type size() const
         {
             return this->_size;
         }
         
         //max size
-        size_type max_size()
+        size_type max_size() const
         {
             return alloc.max_size();
         }
+        // operator []
+        T &operator[](T data)
+        {
+            return search(data);
+        }
+        //erase
+        void erase(iterator it)
+        {
+            delete_node(it.node->data);
+        }
+        //erase
+        void erase(iterator first, iterator last)
+        {
+            while(first != last)
+            {
+                erase(first++);
+            }
+        }
+        //erase
+        size_type erase(const T &data)
+        {
+            node *_node = search(data);
+            if(_node == TNULL)
+                return 0;
+            delete_node(data);
+            return 1;
+        }
+        
+        //swap  
+        void swap(RBT &other)
+        {
+            ft::swap(root, other.root);
+            ft::swap(Tend, other.Tend);
+            ft::swap(_size, other._size);
+        }
+        //clear
+        void clear()
+        {
+            while(root != TNULL)
+            {
+                erase(begin());
+            }
+        }
+        //find
+        iterator find(const T &data)
+        {
+            node *_node = search(data);
+            if(_node == TNULL)
+                return end();
+            return iterator(_node, this);
+        }
+        //find
+        const_iterator find(const T &data) const
+        {
+            node *_node = search(data);
+            if(_node == TNULL)
+                return end();
+            return const_iterator(_node, this);
+        }
+        //count 
+        size_type count(const T &data) const
+        {
+            if(search(data) == TNULL)
+                return 0;
+            return 1;
+        }
+        //lower_bound
+        iterator lower_bound(const T &data)
+        {
+            node *_node = search(data);
+            if(_node == TNULL)
+                return end();
+            return iterator(_node, this);
+        }
+
+        const_iterator lower_bound(const T &data) const
+        {
+            node *_node = search(data);
+            if(_node == TNULL)
+                return end();
+            return const_iterator(_node, this);
+        }
+        //upper_bound
+        iterator upper_bound(const T &data)
+        {
+            node *_node = search(data);
+            if(_node == TNULL)
+                return end();
+            return iterator(successor(_node), this);
+        }
+        //upper_bound
+        const_iterator upper_bound(const T &data) const
+        {
+            node *_node = search(data);
+            if(_node == TNULL)
+                return end();
+            return const_iterator(successor(_node), this);
+        }
+        //equal_range
+        ft::pair<iterator, iterator> equal_range(const T &data)
+        {
+            return ft::make_pair(lower_bound(data), upper_bound(data));
+        }
+        //equal_range
+        ft::pair<const_iterator, const_iterator> equal_range(const T &data) const
+        {
+            return ft::make_pair(lower_bound(data), upper_bound(data));
+        }
+        
+        
     };
 }
 

@@ -6,7 +6,7 @@
 /*   By: zainabdnayagmail.com <zainabdnayagmail.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 13:42:09 by zainabdnaya       #+#    #+#             */
-/*   Updated: 2021/12/29 14:59:19 by zainabdnaya      ###   ########.fr       */
+/*   Updated: 2021/12/29 17:02:39 by zainabdnaya      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,38 +21,38 @@
 //
 
 int main()
-{
-    ft::RBT<ft::pair<int, int>, std::less<int> > rbt;
-    rbt.insert_node(ft::make_pair(3, 10));
-    rbt.insert_node(ft::make_pair(1, 10));
-    rbt.insert_node(ft::make_pair(2, 10));
-    rbt.insert_node(ft::make_pair(5, 10));
+{ 
+    // ft::RBT<std::pair<int, int>, std::less<int> > rbt;
+    // rbt.insert_node(ft::make_pair(3, 10));
+    // rbt.insert_node(ft::make_pair(1, 10));
+    // rbt.insert_node(ft::make_pair(2, 10));
+    // rbt.insert_node(ft::make_pair(5, 10));
 
-    ft::RBT<ft::pair<int, int>, std::less<int> >::iterator it = rbt.begin();
-    ft::RBT<ft::pair<int, int>, std::less<int> >::iterator it2 = rbt.end();
+    // ft::RBT<ft::pair<int, int>, std::less<int> >::iterator it = rbt.begin();
+    // ft::RBT<ft::pair<int, int>, std::less<int> >::iterator it2 = rbt.end();
 
-    // --it;
-    while (it != it2)
-    {
-        std::cout << it->first << " ----- " << it->second << std::endl;
-        ++it;
-    }
-    size_t size = rbt.size();
-    std::cout << "size: " << size << std::endl;
+    // // --it;
+    // while (it != it2)
+    // {
+    //     std::cout << it->first << " ----- " << it->second << std::endl;
+    //     ++it;
+    // }
+    // size_t size = rbt.size();
+    // std::cout << "size: " << size << std::endl;
 
-    std::cout << "rbt: " << rbt.empty() << std::endl;
+    // std::cout << "rbt: " << rbt.empty() << std::endl;
     //max size
-    std::cout << "max size: " << rbt.max_size() << std::endl;
+    // std::cout << "max size: " << rbt.max_size() << std::endl;
     
-    std::cout << "==========================================================" << std::endl;
-    std::map<int, int> m;
+    // std::cout << "==========================================================" << std::endl;
+    // std::map<int, int> m;
 
-    m.insert(std::make_pair(3, 10));
-    m.insert(std::make_pair(1, 10));
-    m.insert(std::make_pair(2, 10));
-    m.insert(std::make_pair(5, 10));
-    std::map<int, int>::reverse_iterator it3 = m.rbegin();
-    std::map<int, int>::reverse_iterator it4 = m.rend();
+    // m.insert(std::make_pair(3, 10));
+    // m.insert(std::make_pair(1, 10));
+    // m.insert(std::make_pair(2, 10));
+    // m.insert(std::make_pair(5, 10));
+    // std::map<int, int>::reverse_iterator it3 = m.rbegin();
+    // std::map<int, int>::reverse_iterator it4 = m.rend();
     
     // --it3;
     // while (it3 != it4)
@@ -63,6 +63,7 @@ int main()
     // }
     // std::cout << it->first << " ----- " << it->second << std::endl;
     //max size
-    std::cout << "max size: " << m.max_size() << std::endl;
+    // std::cout << "max size: " << m.max_size() << std::endl;
+
     return 0;
 }
