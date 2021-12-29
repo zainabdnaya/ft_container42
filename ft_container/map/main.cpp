@@ -6,7 +6,7 @@
 /*   By: zainabdnayagmail.com <zainabdnayagmail.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 13:42:09 by zainabdnaya       #+#    #+#             */
-/*   Updated: 2021/12/29 17:02:39 by zainabdnaya      ###   ########.fr       */
+/*   Updated: 2021/12/29 21:04:14 by zainabdnaya      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,56 +14,74 @@
 #include <iostream>
 #include <map>
 #include <new>
-// #include "map.hpp"
-#include "rbt.hpp"
-// #include "map.hpp"
-
-//
+#include "./map.hpp"
+#include <iostream>
+// #include "map."
+// define COLORS for terminal
+#define RED "\033[0;31m"
+#define GREEN "\033[0;32m"
+#define YELLOW "\033[0;33m"
+#define BLUE "\033[0;34m"
+#define MAGENTA "\033[0;35m"
+#define CYAN "\033[0;36m"
+#define RESET "\033[0m"
 
 int main()
-{ 
-    // ft::RBT<std::pair<int, int>, std::less<int> > rbt;
-    // rbt.insert_node(ft::make_pair(3, 10));
-    // rbt.insert_node(ft::make_pair(1, 10));
-    // rbt.insert_node(ft::make_pair(2, 10));
-    // rbt.insert_node(ft::make_pair(5, 10));
+{
+// ft::map<int, std::string> tree;
 
-    // ft::RBT<ft::pair<int, int>, std::less<int> >::iterator it = rbt.begin();
-    // ft::RBT<ft::pair<int, int>, std::less<int> >::iterator it2 = rbt.end();
+// tree.insert(ft::make_pair(5, "five"));
+// tree.insert(ft::pair<int, std::string>(1, "james"));
+// tree.insert(ft::make_pair(2, "two"));
+// tree.insert(ft::make_pair(3, "three"));
+// tree.insert(ft::make_pair(4, "four"));
 
-    // // --it;
-    // while (it != it2)
-    // {
-    //     std::cout << it->first << " ----- " << it->second << std::endl;
-    //     ++it;
-    // }
-    // size_t size = rbt.size();
-    // std::cout << "size: " << size << std::endl;
+// // std::map<int, std::string> map;
+// // map.insert(std::make_pair(1, "one"));
+// // map.insert(std::make_pair(2, "two"));
+// // map.insert(std::make_pair(3, "three"));
+// // map.insert(std::make_pair(4, "four"));
+// // map.insert(std::make_pair(5, "five"));
 
-    // std::cout << "rbt: " << rbt.empty() << std::endl;
-    //max size
-    // std::cout << "max size: " << rbt.max_size() << std::endl;
-    
-    // std::cout << "==========================================================" << std::endl;
-    // std::map<int, int> m;
+// ft::map<int, std::string>::iterator it = tree.begin();
 
-    // m.insert(std::make_pair(3, 10));
-    // m.insert(std::make_pair(1, 10));
-    // m.insert(std::make_pair(2, 10));
-    // m.insert(std::make_pair(5, 10));
-    // std::map<int, int>::reverse_iterator it3 = m.rbegin();
-    // std::map<int, int>::reverse_iterator it4 = m.rend();
-    
-    // --it3;
-    // while (it3 != it4)
-    // {
-    //     // std::cout << "I m here";
-    //     std::cout << it3->first << " ----- " << it3->second << std::endl;
-    //     ++it3;
-    // }
-    // std::cout << it->first << " ----- " << it->second << std::endl;
-    //max size
-    // std::cout << "max size: " << m.max_size() << std::endl;
+// while (it != tree.end())
+// {
+// std::cout << it->first << " --> " << it->second << std::endl;
+// ++it;
+// }
 
-    return 0;
+// std::cout << "==========================================" << std::endl;
+
+// ft::RBT<ft::pair<int, std::string>, std::less<int>>::iterator it2 = tree._end_();
+// int i = 0;
+// --it2;
+// for (; it2 != tree.begin(); --it2)
+// {
+// std::cout << it2->first << " " << it2->second << std::endl;
+// ++i;
+// }
+
+// std::cout << "================================================"<< std::endl;
+// std::map<int, std::string>::iterator it3 = map.end();
+// --it3;
+// for (;it3 != map.begin(); --it3)
+// {
+// std::cout << it3->first << " " << it3->second << std::endl;
+// }
+
+// // rbegin
+// ft::RBT<ft::pair<int, std::string>, std::less<int>>::reverse_iterator it4 = tree.rbegin();
+// for (; it4 != tree.rend(); ++it4)
+// {
+// std::cout << it4->first << " " << it4->second << std::endl;
+// }
+
+// std::cout << "================================================" << std::endl;
+
+// std::map<int, std::string>::reverse_iterator it5 = map.rbegin();
+// for (; it5 != map.rend(); ++it5)
+// {
+// std::cout << it5->first << " " << it5->second << std::endl;
+// }
 }

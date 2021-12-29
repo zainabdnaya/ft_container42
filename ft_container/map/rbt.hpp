@@ -6,7 +6,7 @@
 /*   By: zainabdnayagmail.com <zainabdnayagmail.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 21:59:39 by zainabdnaya       #+#    #+#             */
-/*   Updated: 2021/12/29 17:06:03 by zainabdnaya      ###   ########.fr       */
+/*   Updated: 2021/12/29 21:03:20 by zainabdnaya      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ namespace ft
         typedef typename iterator_traits<T>::pointer pointer;
         typedef typename iterator_traits<T>::reference reference;
         typedef std::bidirectional_iterator_tag iterator_category;
+        // const pointer operator->() const { return &(this->_ptr->data); }
         typedef std::ptrdiff_t difference_type;
         
         iterator_type *it;
@@ -148,6 +149,7 @@ namespace ft
         typedef ft::rbt_iterator<self, node, pointer> const_iterator;
         typedef ft::reverse_iterator<iterator> reverse_iterator;
         typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
+        typedef typename Alloc::reference reference;
 
         Compare comp;
         node_allocator alloc;
@@ -185,6 +187,8 @@ namespace ft
 
         void insert_node(T data)
         {
+			// std::cout << "insert1" << std::endl;
+
             if (root == TNULL)
             {
                 root = alloc.allocate(1);
@@ -450,9 +454,9 @@ namespace ft
             node *tmp = root;
             while (tmp != TNULL)
             {
-                if (comp(key.first, tmp->data.first) > 0)
+                if (comp(key.first, tmp->data.first))
                     tmp = tmp->left;
-                else if (comp(key.first, tmp->data.first) < 0)
+                else if (comp(tmp->data.first,key.first))
                     tmp = tmp->right;
                 else
                     return tmp;
@@ -687,20 +691,12 @@ namespace ft
             ft::swap(Tend, other.Tend);
             ft::swap(_size, other._size);
         }
-        //clear
-        void clear()
-        {
-            while(root != TNULL)
-            {
-                erase(begin());
-            }
-        }
         //find
         iterator find(const T &data)
         {
             node *_node = search(data);
             if(_node == TNULL)
-                return end();
+                return iterator(Tend, this);
             return iterator(_node, this);
         }
         //find
@@ -760,8 +756,15 @@ namespace ft
         {
             return ft::make_pair(lower_bound(data), upper_bound(data));
         }
-        
-        
+
+        //clear
+        void clear()
+        {
+            while(root != TNULL)
+            {
+                delete_node(begin());
+            }
+        }
     };
 }
 
