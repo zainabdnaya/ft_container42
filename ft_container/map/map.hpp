@@ -6,7 +6,7 @@
 /*   By: zainabdnayagmail.com <zainabdnayagmail.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 00:06:02 by zdnaya            #+#    #+#             */
-/*   Updated: 2021/12/29 21:01:59 by zainabdnaya      ###   ########.fr       */
+/*   Updated: 2021/12/30 20:46:42 by zainabdnaya      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 #include <iostream>
 #include "../iterators/iterator_traits.hpp"
 #include "./rbt.hpp"
+#include "../iterators/make_pair.hpp"
+#include <limits>
+#include "../iterators/is_integral.hpp"
 
 class RBT;
 
@@ -27,6 +30,7 @@ namespace ft
     class map
     {
     public:
+	typedef Alloc _alloc_type;
        typedef Key key_type;
 		typedef T mapped_type;
 		typedef typename ft::pair<key_type, mapped_type> value_type;
@@ -73,7 +77,7 @@ namespace ft
 				this->insert(*it);
 		}
 		
-		map (const map& _m) : _tree(value_compare(_m._comp)), _size(0), _alloc(_m._alloc), _comp(_m._comp)
+		map (const map& _m) : _size(0), _alloc(_m._alloc), _comp(_m._comp)
 		{
 			*this = _m;
 		}
@@ -85,8 +89,8 @@ namespace ft
 				this->clear();
 				this->_alloc = _m._alloc;
 				this->_comp = _m._comp;
-				this->insert(_m.begin(), _m.end());
 				this->_size = _m._size;
+				// this->insert(_m.begin(), _m.end());
 			}
 			return *this;
 		}
@@ -102,7 +106,7 @@ namespace ft
 		}
 
 		//begin
-		const_iterator begin() const
+		const_iterator cbegin() const
 		{
 			return this->_tree.begin();
 		}
@@ -114,11 +118,34 @@ namespace ft
 		}
 
 		//end
-		// const_iterator end() const
-		// {
-		// 	return this->_tree.end();
-		// }
-		// inser
+		const_iterator cend() const
+		{
+			return this->_tree.end();
+		}
+		// rbegin
+		reverse_iterator rbegin()
+		{
+			return this->_tree.rbegin();
+		}
+		
+		// rbegin
+		const_reverse_iterator crbegin() const
+		{
+			return this->_tree.rbegin();
+		}
+		
+		// rend
+		reverse_iterator rend()
+		{
+			return this->_tree.rend();
+		}
+		
+		// rend
+		const_reverse_iterator crend() const
+		{
+			return this->_tree.rend();
+		}
+		
 		iterator insert (iterator position, const value_type& val)
 		{
 			std::cout << "insert" << std::endl;
@@ -140,24 +167,22 @@ namespace ft
 		template <class InputIterator>
   		void insert (InputIterator first, InputIterator last)
 		{
-			std::cout << "insert" << std::endl;
-
 			_tree.insert_node(ft::pair<const key_type, mapped_type>(first, last));		  
 		}
 
 		// erase
 		void erase (iterator position)
 		{
-			this->_tree.delete_node(ft::pair<const key_type, mapped_type>(position.node));
+			this->_tree.delete_node(_tree._search(position));
 		}
 		
 		// erase
 		size_type erase (const key_type& _k)
 		{
-			iterator it = _tree->find(ft::pair<const key_type, mapped_type>(_k, mapped_type()));
+			iterator it = _tree.find(ft::pair<const key_type, mapped_type>(_k, mapped_type()));
 			if (it == this->end())
 				return (0);
-			this->delete_node(ft::pair<const key_type, mapped_type>(_k, mapped_type()));
+			this->_tree.delete_node(ft::pair<const key_type, mapped_type>(_k, mapped_type()));
 			return (1);
 		}
 		
@@ -211,7 +236,9 @@ namespace ft
 		//count
 		size_type count (const key_type& _k) const
 		{
-			return (this->_tree.count(ft::pair<const key_type, mapped_type>(_k, mapped_type())));
+            if(this->find(_k) == this->_tree.end())
+				return (0);
+			return (1);
 		}
 		//lower_bound
 		iterator lower_bound (const key_type& _k)
@@ -271,7 +298,7 @@ namespace ft
 			return (it->second);
 		}
 		//get_allocator
-		allocator_type get_allocator() const
+		Alloc  get_allocator() const
 		{
 			return (this->_alloc);
 		}
@@ -280,9 +307,7 @@ namespace ft
 		key_compare _comp;
 		allocator_type _alloc;
         size_type _size;
-		tree _tree;
-
-                                                                        
+		tree _tree;                                                                        
     };
 }
 #endif

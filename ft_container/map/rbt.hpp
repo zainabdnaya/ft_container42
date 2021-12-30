@@ -6,7 +6,7 @@
 /*   By: zainabdnayagmail.com <zainabdnayagmail.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 21:59:39 by zainabdnaya       #+#    #+#             */
-/*   Updated: 2021/12/29 21:03:20 by zainabdnaya      ###   ########.fr       */
+/*   Updated: 2021/12/30 20:37:58 by zainabdnaya      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "../iterators/reverse_iterators.hpp"
 #include "../iterators/make_pair.hpp"
 #include <limits>
+#include "../iterators/is_integral.hpp"
 
 namespace ft
 {
@@ -463,6 +464,21 @@ namespace ft
             }
             return TNULL;
         }
+
+        node *const_search(const value_type key)
+        {
+            node *tmp = root;
+            while (tmp != TNULL)
+            {
+                if (comp(key.first, tmp->data.first))
+                    tmp = tmp->left;
+                else if (comp(tmp->data.first,key.first))
+                    tmp = tmp->right;
+                else
+                    return tmp;
+            }
+            return TNULL;
+        }
         void transplant(node *u, node *v)
         {
             if (!u->parent || u->parent != Tend)
@@ -481,6 +497,8 @@ namespace ft
                 x = x->left;
             return (x);
         }
+        
+
         void delete_node(T data)
         {
             node *_node = search(data);
@@ -567,17 +585,7 @@ namespace ft
         {
             return this->isRBProper(root);
         }
-        /// add begin()
-        iterator begin()
-        {
-            return iterator(tree_minimum(root), this);
-        }
-        /// add end()
-        iterator end()
-        {
-            return iterator(Tend, this);
-        }
-
+      
         node *successor(node *n)
         {
             if (n->right != TNULL)
@@ -612,34 +620,55 @@ namespace ft
                 return treeMaximum(root);
             return (tmp);
         }
-
+  /// add begin()
+        iterator begin()
+        {
+            return iterator(tree_minimum(root), this);
+        }
+        //
+        const_iterator cbegin()
+        {
+            return const_iterator(tree_minimum(root), this);
+        }
+        
         reverse_iterator rbegin()
         {
             return reverse_iterator(end());
         }
-
+        const_reverse_iterator crbegin()
+        {
+            return const_reverse_iterator(cend());
+        }
+        /// add end()
+        iterator end()
+        {
+            return iterator(Tend, this);
+        }
+        
+        const_iterator cend()
+        {
+            return const_iterator(Tend, this);
+        }
+        
         reverse_iterator rend()
         {
             return reverse_iterator(begin());
         }
-        const iterator begin() const
+        const_reverse_iterator crend()
         {
-            return iterator(tree_minimum(root), this);
+            return const_reverse_iterator(cbegin());
         }
-        const iterator end() const
-        {
-            return iterator(Tend, this);
-        }
-        const reverse_iterator rbegin() const
-        {
-            return reverse_iterator(end());
-        }
-        const reverse_iterator rend() const
-        {
-            return reverse_iterator(begin());
-        }
+       
+        
+       
         //add empty
         bool empty()
+        {
+            if(root == TNULL)
+                return true;
+            return false;
+        }
+        const bool empty() const
         {
             if(root == TNULL)
                 return true;
@@ -703,18 +732,18 @@ namespace ft
         const_iterator find(const T &data) const
         {
             node *_node = search(data);
-            if(_node == TNULL)
-                return end();
+            if( const_search(data) == TNULL)
+                return const_iterator(Tend, this);
             return const_iterator(_node, this);
         }
         //count 
-        size_type count(const T &data) const
-        {
-            if(search(data) == TNULL)
-                return 0;
-            return 1;
-        }
-        //lower_bound
+        // size_type count(const T &data) const
+        // {
+        //     if( const_search(data) == TNULL)
+        //         return 0;
+        //     return 1;
+        // }
+        //l ower_bound
         iterator lower_bound(const T &data)
         {
             node *_node = search(data);
@@ -760,10 +789,36 @@ namespace ft
         //clear
         void clear()
         {
-            while(root != TNULL)
+            node *tmp = root;
+            //delete tree in post order
+            while(tmp != TNULL)
             {
-                delete_node(begin());
+                if(tmp->left != TNULL)
+                    tmp = tmp->left;
+                else if(tmp->right != TNULL)
+                    tmp = tmp->right;
+                else
+                {
+                    delete_node(tmp->data);
+                    tmp = tmp->parent;
+                }
             }
+        }
+        //searsh by iterator
+
+        T _search(iterator it)
+        {
+            node *_node = root;
+            while(_node != TNULL)
+            {
+                if(it->first < _node->data.first)
+                    _node = _node->left;
+                else if(it->first > _node->data.first)
+                    _node = _node->right;
+                else
+                    return _node->data;
+            }
+            return  TNULL->data;
         }
     };
 }
