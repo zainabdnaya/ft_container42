@@ -10,7 +10,7 @@ INC=rbt.hpp
 all: $(SRC:.cpp=.o)
 	@echo "Compiling..."
 	@echo "Compiling..."
-	@clang++  -std=c++98 -pedantic $(SRC) -o $(NAME)
+	@clang++  -std=c++98 -pedantic $(SRC) -g -o $(NAME)
 	@echo "Compiling... Done"
 
 fclean:

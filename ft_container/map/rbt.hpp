@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rbt.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zainabdnayagmail.com <zainabdnayagmail.    +#+  +:+       +#+        */
+/*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 21:59:39 by zainabdnaya       #+#    #+#             */
-/*   Updated: 2021/12/30 20:37:58 by zainabdnaya      ###   ########.fr       */
+/*   Updated: 2021/12/31 19:54:45 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ namespace ft
         typedef std::bidirectional_iterator_tag iterator_category;
         // const pointer operator->() const { return &(this->_ptr->data); }
         typedef std::ptrdiff_t difference_type;
-        
+
         iterator_type *it;
         rbt rbt_;
 
@@ -72,12 +72,12 @@ namespace ft
             return (*this);
         }
 
-        reference operator*() const
+        reference operator*()
         {
             return it->data;
         }
 
-        pointer operator->() const
+        pointer operator->()
         {
             return &(operator*());
         }
@@ -130,12 +130,12 @@ namespace ft
     };
 
     template <class T, class Compare,
-              class Alloc = std::allocator<T> >
+              class Alloc>
     class RBT
     {
     public:
         // typedef Key  key_type;
-        typedef T value_type; //pair<key_type, val> --> T
+        typedef T value_type; // pair<key_type, val> --> T
         typedef struct Node<value_type> node;
         typedef typename Alloc::template rebind<node>::other node_allocator;
         typedef typename Alloc::pointer pointer;
@@ -188,8 +188,6 @@ namespace ft
 
         void insert_node(T data)
         {
-			// std::cout << "insert1" << std::endl;
-
             if (root == TNULL)
             {
                 root = alloc.allocate(1);
@@ -457,7 +455,7 @@ namespace ft
             {
                 if (comp(key.first, tmp->data.first))
                     tmp = tmp->left;
-                else if (comp(tmp->data.first,key.first))
+                else if (comp(tmp->data.first, key.first))
                     tmp = tmp->right;
                 else
                     return tmp;
@@ -465,14 +463,15 @@ namespace ft
             return TNULL;
         }
 
-        node *const_search(const value_type key)
+        node *const_search(const value_type key) const
         {
             node *tmp = root;
             while (tmp != TNULL)
             {
+                // std::cout << "=>\t\t"<< comp(key.first, tmp->data.first) << std::endl;
                 if (comp(key.first, tmp->data.first))
                     tmp = tmp->left;
-                else if (comp(tmp->data.first,key.first))
+                else if (comp(tmp->data.first, key.first))
                     tmp = tmp->right;
                 else
                     return tmp;
@@ -481,7 +480,7 @@ namespace ft
         }
         void transplant(node *u, node *v)
         {
-            if (!u->parent || u->parent != Tend)
+            if (!u->parent)
                 root = v;
             else if (u == u->parent->left)
                 u->parent->left = v;
@@ -497,7 +496,6 @@ namespace ft
                 x = x->left;
             return (x);
         }
-        
 
         void delete_node(T data)
         {
@@ -505,13 +503,15 @@ namespace ft
 
             if (_node == TNULL)
             {
-                std::cout << "Key not found in the tree" << std::endl;
+                std::cout << "Key not found in the tree " << data.first << std::endl;
                 return;
             }
+
             node *x = TNULL;
             node *y = TNULL;
             y = _node;
             bool y_original_color = y->isBlack;
+
             if (_node->left == TNULL)
             {
                 x = _node->right;
@@ -543,6 +543,7 @@ namespace ft
                 y->left->parent = y;
                 y->isBlack = _node->isBlack;
             }
+
             alloc.destroy(_node);
             _size--;
             if (y_original_color == true)
@@ -585,11 +586,12 @@ namespace ft
         {
             return this->isRBProper(root);
         }
-      
+
         node *successor(node *n)
         {
             if (n->right != TNULL)
                 return tree_minimum(n->right);
+            // std::cout << "here" << std::endl;
             node *tmp = n->parent;
             while (tmp != TNULL && tmp != Tend && n == tmp->right)
             {
@@ -616,13 +618,15 @@ namespace ft
                 n = tmp;
                 tmp = tmp->parent;
             }
-            if(tmp == Tend)
+            if (tmp == Tend)
                 return treeMaximum(root);
             return (tmp);
         }
-  /// add begin()
+        /// add begin()
         iterator begin()
         {
+            // check_print_rbt();
+
             return iterator(tree_minimum(root), this);
         }
         //
@@ -630,7 +634,7 @@ namespace ft
         {
             return const_iterator(tree_minimum(root), this);
         }
-        
+
         reverse_iterator rbegin()
         {
             return reverse_iterator(end());
@@ -644,12 +648,12 @@ namespace ft
         {
             return iterator(Tend, this);
         }
-        
+
         const_iterator cend()
         {
             return const_iterator(Tend, this);
         }
-        
+
         reverse_iterator rend()
         {
             return reverse_iterator(begin());
@@ -658,29 +662,27 @@ namespace ft
         {
             return const_reverse_iterator(cbegin());
         }
-       
-        
-       
-        //add empty
+
+        // add empty
         bool empty()
         {
-            if(root == TNULL)
+            if (root == TNULL)
                 return true;
             return false;
         }
         const bool empty() const
         {
-            if(root == TNULL)
+            if (size() == 0)
                 return true;
             return false;
         }
-        //add size
+        // add size
         size_type size() const
         {
             return this->_size;
         }
-        
-        //max size
+
+        // max size
         size_type max_size() const
         {
             return alloc.max_size();
@@ -690,64 +692,70 @@ namespace ft
         {
             return search(data);
         }
-        //erase
+        // erase
         void erase(iterator it)
         {
-            delete_node(it.node->data);
+            // node *tmp = ;
+            delete_node(it.it->data);
         }
-        //erase
+        // erase
         void erase(iterator first, iterator last)
         {
-            while(first != last)
+            while (first != last)
             {
-                erase(first++);
+                erase(first);
+                ++first;
             }
         }
-        //erase
+        // erase
         size_type erase(const T &data)
         {
             node *_node = search(data);
-            if(_node == TNULL)
+            if (_node == TNULL)
                 return 0;
             delete_node(data);
             return 1;
         }
-        
-        //swap  
+
+        // swap
         void swap(RBT &other)
         {
             ft::swap(root, other.root);
             ft::swap(Tend, other.Tend);
             ft::swap(_size, other._size);
         }
-        //find
+        // find
         iterator find(const T &data)
         {
+
             node *_node = search(data);
-            if(_node == TNULL)
+            if (_node == TNULL)
                 return iterator(Tend, this);
+
             return iterator(_node, this);
         }
-        //find
+        // find
         const_iterator find(const T &data) const
         {
-            node *_node = search(data);
-            if( const_search(data) == TNULL)
+
+            node *_node = const_search(data);
+            if (const_search(data) == TNULL)
                 return const_iterator(Tend, this);
             return const_iterator(_node, this);
         }
-        //count 
-        // size_type count(const T &data) const
-        // {
-        //     if( const_search(data) == TNULL)
-        //         return 0;
-        //     return 1;
-        // }
-        //l ower_bound
+        // count
+        size_type count(const T &data) const
+        {
+            node *_node = const_search(data);
+            if (_node == TNULL)
+                return 0;
+            return 1;
+        }
+        // l ower_bound
         iterator lower_bound(const T &data)
         {
             node *_node = search(data);
-            if(_node == TNULL)
+            if (_node == TNULL)
                 return end();
             return iterator(_node, this);
         }
@@ -755,73 +763,75 @@ namespace ft
         const_iterator lower_bound(const T &data) const
         {
             node *_node = search(data);
-            if(_node == TNULL)
+            if (_node == TNULL)
                 return end();
             return const_iterator(_node, this);
         }
-        //upper_bound
+        // upper_bound
         iterator upper_bound(const T &data)
         {
             node *_node = search(data);
-            if(_node == TNULL)
+            if (_node == TNULL)
                 return end();
             return iterator(successor(_node), this);
         }
-        //upper_bound
+        // upper_bound
         const_iterator upper_bound(const T &data) const
         {
             node *_node = search(data);
-            if(_node == TNULL)
+            if (_node == TNULL)
                 return end();
             return const_iterator(successor(_node), this);
         }
-        //equal_range
+        // equal_range
         ft::pair<iterator, iterator> equal_range(const T &data)
         {
             return ft::make_pair(lower_bound(data), upper_bound(data));
         }
-        //equal_range
+        // equal_range
         ft::pair<const_iterator, const_iterator> equal_range(const T &data) const
         {
             return ft::make_pair(lower_bound(data), upper_bound(data));
         }
-
-        //clear
+        // clear_tree
+        void clear_tree(node *n)
+        {
+            if (n == TNULL)
+                return;
+            clear_tree(n->left);
+            clear_tree(n->right);
+            delete n;
+            _size--;
+        }
+        // clear
         void clear()
         {
-            node *tmp = root;
-            //delete tree in post order
-            while(tmp != TNULL)
-            {
-                if(tmp->left != TNULL)
-                    tmp = tmp->left;
-                else if(tmp->right != TNULL)
-                    tmp = tmp->right;
-                else
-                {
-                    delete_node(tmp->data);
-                    tmp = tmp->parent;
-                }
-            }
+            clear_tree(root);
+            RBT();
         }
-        //searsh by iterator
+        // searsh by iterator
 
         T _search(iterator it)
         {
             node *_node = root;
-            while(_node != TNULL)
+            while (_node != TNULL)
             {
-                if(it->first < _node->data.first)
+                if (_node->data > *it)
                     _node = _node->left;
-                else if(it->first > _node->data.first)
+                else if (*it > _node->data)
                     _node = _node->right;
                 else
                     return _node->data;
             }
-            return  TNULL->data;
+            return TNULL->data;
+        }
+
+        //max_size
+        size_type max_size()
+        {
+            return alloc.max_size();
         }
     };
 }
 
 #endif
-
