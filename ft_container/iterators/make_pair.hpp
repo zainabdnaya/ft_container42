@@ -6,7 +6,7 @@
 /*   By: zainabdnayagmail.com <zainabdnayagmail.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 12:50:11 by zdnaya            #+#    #+#             */
-/*   Updated: 2021/12/28 15:56:37 by zainabdnaya      ###   ########.fr       */
+/*   Updated: 2021/12/31 21:32:57 by zainabdnaya      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,27 +23,26 @@ namespace ft
 {
   template <class T1, class T2> struct pair {
 		public:
-
-			typedef T1	first_type;
-			typedef T2	second_type;
-
-			first_type	first;
-			second_type second;
-			pair() { return ; }
-
-			template< class U, class V>pair (const pair<U, V>& pr) {
-				*this = pr;
-				return ;
-			}
-	
-			pair (const first_type& a, const second_type& b): first(a), second(b) {
-				return ;
-			}
-			pair&	operator= (const pair& pr) {
-				this->first = pr.first;
-				this->second = pr.second;
-				return (*this);
-			}
+ typedef T1 first_type;
+        typedef T2 second_type;
+        T1 first;
+        T2 second;
+        
+        pair() : first(first_type()) , second(second_type())
+        {
+        }
+        template<class U, class V>
+        pair (const pair<U,V>& pr) : first(pr.first) , second(pr.second)
+        {
+        }
+        pair (const first_type& a, const second_type& b) : first(a), second(b)
+        {
+        }
+        pair& operator= (const pair& pr)
+        {
+            new (this) pair<first_type, second_type>(pr);
+            return *this;
+        }
 	};
 
     // non member function & operators
