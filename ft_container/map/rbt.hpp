@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rbt.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
+/*   By: zainabdnayagmail.com <zainabdnayagmail.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 21:59:39 by zainabdnaya       #+#    #+#             */
-/*   Updated: 2021/12/31 19:54:45 by zdnaya           ###   ########.fr       */
+/*   Updated: 2021/12/31 23:52:59 by zainabdnaya      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -720,9 +720,10 @@ namespace ft
         // swap
         void swap(RBT &other)
         {
-            ft::swap(root, other.root);
-            ft::swap(Tend, other.Tend);
-            ft::swap(_size, other._size);
+            root = other.root;
+            _size = other._size;
+            Tend = other.Tend;
+            TNULL = other.TNULL;
         }
         // find
         iterator find(const T &data)
@@ -751,37 +752,44 @@ namespace ft
                 return 0;
             return 1;
         }
-        // l ower_bound
+        //lowe nee
+        // lower_bound
         iterator lower_bound(const T &data)
         {
-            node *_node = search(data);
-            if (_node == TNULL)
-                return end();
-            return iterator(_node, this);
+           	iterator _from = this->begin();
+			iterator _to = this->end();
+
+			while (_from != _to)
+			{
+				if (!comp((*_from).first, data.first))
+					return _from;
+				_from++;
+			}
+			return _from;	
         }
 
         const_iterator lower_bound(const T &data) const
         {
-            node *_node = search(data);
-            if (_node == TNULL)
-                return end();
-            return const_iterator(_node, this);
+            return const_iterator(lower_bound(data));
         }
         // upper_bound
         iterator upper_bound(const T &data)
         {
-            node *_node = search(data);
-            if (_node == TNULL)
-                return end();
-            return iterator(successor(_node), this);
+          	iterator _from = this->begin();
+			iterator _to = this->end();
+
+			while (_from != _to)
+			{
+				if (comp(data.first, (*_from).first))
+					return _from;
+				_from++;
+			}
+			return _from;
         }
         // upper_bound
         const_iterator upper_bound(const T &data) const
         {
-            node *_node = search(data);
-            if (_node == TNULL)
-                return end();
-            return const_iterator(successor(_node), this);
+            return const_iterator(upper_bound(data));
         }
         // equal_range
         ft::pair<iterator, iterator> equal_range(const T &data)
@@ -831,6 +839,7 @@ namespace ft
         {
             return alloc.max_size();
         }
+        //get_alloc
     };
 }
 

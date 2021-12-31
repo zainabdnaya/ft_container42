@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
+/*   By: zainabdnayagmail.com <zainabdnayagmail.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 13:42:09 by zainabdnaya       #+#    #+#             */
-/*   Updated: 2021/12/31 19:55:52 by zdnaya           ###   ########.fr       */
+/*   Updated: 2022/01/01 00:13:48 by zainabdnaya      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -365,7 +365,27 @@ int main()
 	// 	std::cout << "map1.max_size(): [" << map1.max_size()<<"]" << std::to_string(map1.max_size()).length() << std::endl;
 	// 	std::cout << "=======================================" << std::endl;
 	// }
-
+    //std::swap
+    // {
+	// 	std::cout << "\nswap()" << std::endl;
+	// 	std::cout << "=======================================" << std::endl;
+	// 	std::map<int, int> map1;
+	// 	map1.insert(std::make_pair(5, 1));
+	// 	map1.insert(std::make_pair(2, 2));
+	// 	map1.insert(std::make_pair(10, 3));
+	// 	map1.insert(std::make_pair(4, 4));
+	// 	print_namespace(map1);
+	// 	std::map<int, int> map2;
+	// 	map2.insert(std::make_pair(0, 1));
+	// 	map2.insert(std::make_pair(2, 2));
+	// 	map2.insert(std::make_pair(10, 3));
+	// 	map2.insert(std::make_pair(4, 4));
+	// 	print_namespace(map2);
+	// 	map1.swap(map2);
+	// 	print_namespace(map1);
+	// 	print_namespace(map2);
+	// 	std::cout << "=======================================" << std::endl;
+	// }
 	// // swap()
 	// {
 	// 	std::cout << "\nswap()" << std::endl;
@@ -388,7 +408,25 @@ int main()
 	// 	std::cout << "=======================================" << std::endl;
 	// }
 
-	// // lower_bound()
+	// lower_bound()
+	// {
+	// 	std::cout << "\nlower_bound()" << std::endl;
+	// 	std::cout << "=======================================" << std::endl;
+	// 	std::map<int, int> map1;
+	// 	map1.insert(std::make_pair(5, 1));
+	// 	map1.insert(std::make_pair(2, 2));
+	// 	map1.insert(std::make_pair(10, 3));
+	// 	map1.insert(std::make_pair(4, 4));
+	// 	print_namespace(map1);
+	// 	std::map<int, int>::iterator it = map1.lower_bound(3);
+	// 	std::cout << "map1.lower_bound(3): " << (*it).first << std::endl;
+	// 	it = map1.lower_bound(5);
+	// 	std::cout << "map1.lower_bound(5): " << (*it).first << std::endl;
+	// 	it = map1.lower_bound(6);
+	// 	std::cout << "map1.lower_bound(6): " << (*it).first << std::endl;
+	// 	std::cout << "=======================================" << std::endl;
+	// }
+
 	// {
 	// 	std::cout << "\nlower_bound()" << std::endl;
 	// 	std::cout << "=======================================" << std::endl;
@@ -406,7 +444,24 @@ int main()
 	// 	std::cout << "map1.lower_bound(6): " << (*it).first << std::endl;
 	// 	std::cout << "=======================================" << std::endl;
 	// }
-
+	// //std::map::lower_bound()
+	// 	{
+	// 	std::cout << "\nupper_bound()" << std::endl;
+	// 	std::cout << "=======================================" << std::endl;
+	// 	std::map<int, int> map1;
+	// 	map1.insert(std::make_pair(5, 1));
+	// 	map1.insert(std::make_pair(2, 2));
+	// 	map1.insert(std::make_pair(10, 3));
+	// 	map1.insert(std::make_pair(4, 4));
+	// 	print_namespace(map1);
+	// 	std::map<int, int>::iterator it = map1.upper_bound(3);
+	// 	std::cout << "map1.upper_bound(3): " << (*it).first << std::endl;
+	// 	it = map1.upper_bound(5);
+	// 	std::cout << "map1.upper_bound(5): " << (*it).first << std::endl;
+	// 	it = map1.upper_bound(6);
+	// 	std::cout << "map1.upper_bound(6): " << (*it).first << std::endl;
+	// 	std::cout << "=======================================" << std::endl;
+	// }
 	// // upper_bound()
 	// {
 	// 	std::cout << "\nupper_bound()" << std::endl;
@@ -425,6 +480,23 @@ int main()
 	// 	std::cout << "map1.upper_bound(6): " << (*it).first << std::endl;
 	// 	std::cout << "=======================================" << std::endl;
 	// }
+	//srd::equal_range()
+	// 	std::cout << "\nequal_range()" << std::endl;
+	// 	std::cout << "=======================================" << std::endl;
+	// 	std::map<int, int> map1;
+	// 	map1.insert(std::make_pair(5, 1));
+	// 	map1.insert(std::make_pair(2, 2));
+	// 	map1.insert(std::make_pair(10, 3));
+	// 	map1.insert(std::make_pair(4, 4));
+	// 	print_namespace(map1);
+	// 	std::pair<std::map<int, int>::iterator, std::map<int, int>::iterator> it = map1.equal_range(3);
+	// 	std::cout << "map1.equal_range(3): " << (*it.first).first << " " << (*it.second).first << std::endl;
+	// 	it = map1.equal_range(5);
+	// 	std::cout << "map1.equal_range(5): " << (*it.first).first << " " << (*it.second).first << std::endl;
+	// 	it = map1.equal_range(6);
+	// 	std::cout << "map1.equal_range(6): " << (*it.first).first << " " << (*it.second).first << std::endl;
+	// 	std::cout << "=======================================" << std::endl;
+
 
 	// // equal_range()
 	// {
@@ -445,112 +517,93 @@ int main()
 	// 	std::cout << "=======================================" << std::endl;
 	// }
 
-	// // get_allocator()
-	// {
-	// 	std::cout << "\nget_allocator()" << std::endl;
-	// 	std::cout << "=======================================" << std::endl;
-	// 	ft::map<int, int> map1;
-	// 	print_map(map1, "map1");
-	// 	ft::map<int, int>::_alloc_type alloc = map1.get_allocator();
-	// 	ft::pair<int, int> *ptr = alloc.allocate(1);
-	// 	alloc.deallocate(ptr, 1);
-	// 	std::cout << "alloc max size: " << alloc.max_size() << std::endl;
+	// get_allocator()
+	{
+		std::cout << "\nget_allocator()" << std::endl;
+		std::cout << "=======================================" << std::endl;
+		ft::map<int, int> map1;
+		print_map(map1, "map1");
+		ft::map<int, int>::_alloc_type alloc = map1.get_allocator();
+		ft::pair<int, int> *ptr = alloc.allocate(1);
+		alloc.deallocate(ptr, 1);
+		std::cout << "alloc max size: " << alloc.max_size() << std::endl;
 
-	// 	std::cout << "=======================================" << std::endl;
-	// }
+		std::cout << "=======================================" << std::endl;
+	}
+		std::cout << "\nget_allocator()" << std::endl;
+		std::cout << "=======================================" << std::endl;
+		std::map<int, int> map1;
+		print_namespace(map1);
+		std::map<int, int>::allocator_type alloc = map1.get_allocator();
+		std::pair<int, int>	*ptr = alloc.allocate(1);
+		alloc.deallocate(ptr, 1);
+		std::cout << "alloc max size: " << alloc.max_size() << std::endl;
+
+		std::cout << "\tsrd\t=======================================" << std::endl;
+		 int psize;
+  		std::map<char,int> mymap;
+  		std::pair<const char,int>* p;
+		
+  		// allocate an array of 5 elements using mymap's allocator:
+  		p=mymap.get_allocator().allocate(5);
+		
+  		// assign some values to array
+  		psize = sizeof(std::map<char,int>::value_type)*5;
+		
+  		std::cout << "The allocated array has a size of " << psize << " bytes.\n";
+		
+  		mymap.get_allocator().deallocate(p,5);
+		std::cout << "\tft\t=======================================" << std::endl;
+
+ 		int _psize;
+  		ft::map<char,int> mymap1;
+  		ft::pair<const char,int> * p1;
+		
+  		// allocate an array of 5 elements using mymap's allocator:
+  		p1=mymap1.get_allocator().allocate(5);
+		
+  		// assign some values to array
+  		_psize = sizeof(std::map<char,int>::value_type)*5;
+		
+  		std::cout << "The allocated array has a size of " << _psize << " bytes.\n";
+		
+  		mymap1.get_allocator().deallocate(p1,5);
 
 	// // const iterators
 	// {
-	// 	std::cout << "\nconst iterators" << std::endl;
-	// 	std::cout << "=======================================" << std::endl;
-	// 	ft::map<int, int> map1;
-	// 	map1.insert(ft::make_pair(5, 1));
-	// 	map1.insert(ft::make_pair(2, 2));
-	// 	map1.insert(ft::make_pair(10, 3));
-	// 	map1.insert(ft::make_pair(4, 4));
-	// 	print_map(map1, "map1");
-	// 	ft::map<int, int>::const_iterator it = map1.begin();
-	// 	std::cout << "map1.begin(): " << (*it).first << std::endl;
-	// 	it = map1.end();
-	// 	--it;
-	// 	std::cout << "map1.end(): " << (*it).first << std::endl;
-	// 	std::cout << "=======================================" << std::endl;
+		// std::cout << "\nconst iterators" << std::endl;
+		// std::cout << "=======================================" << std::endl;
+		// ft::map<int, int> map1;
+		// map1.insert(ft::make_pair(5, 1));
+		// map1.insert(ft::make_pair(2, 2));
+		// map1.insert(ft::make_pair(10, 3));
+		// map1.insert(ft::make_pair(4, 4));
+		// print_map(map1, "map1");
+		// ft::map<int, int>::const_iterator it = map1.begin();
+		// std::cout << "map1.begin(): " << (*it).first << std::endl;
+		// it = map1.end();
+		// --it;
+		// std::cout << "map1.end(): " << (*it).first << std::endl;
+		// std::cout << "=======================================" << std::endl;
 	// }
 
 	// // reverse iterators
 	// {
-	// 	std::cout << "\nreverse iterators" << std::endl;
-	// 	std::cout << "=======================================" << std::endl;
-	// 	ft::map<int, int> map1;
-	// 	map1.insert(ft::make_pair(5, 1));
-	// 	map1.insert(ft::make_pair(2, 2));
-	// 	map1.insert(ft::make_pair(10, 3));
-	// 	map1.insert(ft::make_pair(4, 4));
-	// 	print_map(map1, "map1");
-	// 	ft::map<int, int>::reverse_iterator it = map1.rbegin();
-	// 	// print all elements in reverse order
-	// 	for (; it != map1.rend(); ++it)
-	// 	{
-	// 		std::cout << "[" << (*it).first << "] = " << (*it).second << std::endl;
-	// 	}
+		// std::cout << "\nreverse iterators" << std::endl;
+		// std::cout << "=======================================" << std::endl;
+		// ft::map<int, int> map1;
+		// map1.insert(ft::make_pair(5, 1));
+		// map1.insert(ft::make_pair(2, 2));
+		// map1.insert(ft::make_pair(10, 3));
+		// map1.insert(ft::make_pair(4, 4));
+		// print_map(map1, "map1");
+		// ft::map<int, int>::reverse_iterator it = map1.rbegin();
+		// // print all elements in reverse order
+		// for (; it != map1.rend(); ++it)
+		// {
+		// 	std::cout << "[" << (*it).first << "] = " << (*it).second << std::endl;
+		// }
 
-	// 	std::cout << "=======================================" << std::endl;
+		// std::cout << "=======================================" << std::endl;
 	// }
 }
-// ft::map<int, std::string> tree;
-
-// tree.insert(ft::make_pair(5, "five"));
-// tree.insert(ft::pair<int, std::string>(1, "james"));
-// tree.insert(ft::make_pair(2, "two"));
-// tree.insert(ft::make_pair(3, "three"));
-// tree.insert(ft::make_pair(4, "four"));
-
-// std::map<int, std::string> map;
-// map.insert(std::make_pair(1, "one"));
-// map.insert(std::make_pair(2, "two"));
-// map.insert(std::make_pair(3, "three"));
-// map.insert(std::make_pair(4, "four"));
-// map.insert(std::make_pair(5, "five"));
-
-// ft::map<int, std::string>::iterator it = tree.begin();
-
-// while (it != tree.end())
-// {
-// std::cout << it->first << " --> " << it->second << std::endl;
-// ++it;
-// }
-
-// std::cout << "==========================================" << std::endl;
-
-// ft::RBT<ft::pair<int, std::string>, std::less<int> >::iterator it2 = tree.end();
-// int i = 0;
-// --it2;
-// for (; it2 != tree.begin(); --it2)
-// {
-// std::cout << it2->first << " " << it2->second << std::endl;
-// ++i;
-// }
-
-// std::cout << "================================================"<< std::endl;
-// // std::map<int, std::string>::iterator it3 = map.end();
-// // --it3;
-// // for (;it3 != map.begin(); --it3)
-// // {
-// // std::cout << it3->first << " " << it3->second << std::endl;
-// // }
-
-// // // rbegin
-// ft::RBT<ft::pair<int, std::string>, std::less<int> >::reverse_iterator it4 = tree.rbegin();
-// for (; it4 != tree.rend(); ++it4)
-// {
-// std::cout << it4->first << " " << it4->second << std::endl;
-// }
-
-// std::cout << "================================================" << std::endl;
-
-// std::map<int, std::string>::reverse_iterator it5 = map.rbegin();
-// for (; it5 != map.rend(); ++it5)
-// {
-// std::cout << it5->first << " " << it5->second << std::endl;
-// }
-// }

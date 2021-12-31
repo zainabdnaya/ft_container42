@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
+/*   By: zainabdnayagmail.com <zainabdnayagmail.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 00:06:02 by zdnaya            #+#    #+#             */
-/*   Updated: 2021/12/31 19:55:00 by zdnaya           ###   ########.fr       */
+/*   Updated: 2021/12/31 23:57:44 by zainabdnaya      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,10 +197,10 @@ namespace ft
 		// swap
 		void swap(map &_m)
 		{
-			this->_tree.swap(_m._tree);
 			ft::swap(this->_size, _m._size);
 			ft::swap(this->_alloc, _m._alloc);
 			ft::swap(this->_comp, _m._comp);
+			this->_tree.swap(_m._tree);
 		}
 		// empty
 		bool empty() const
@@ -235,21 +235,18 @@ namespace ft
 		}
 		// lower_bound
 		iterator lower_bound(const key_type &_k)
-		{
-			iterator it = this->_tree.lower_bound(ft::pair<const key_type, mapped_type>(_k, mapped_type()));
-			return (it);
+		{	
+			return (this->_tree.lower_bound(ft::pair<const key_type, mapped_type>(_k, mapped_type())));
 		}
 		const_iterator lower_bound(const key_type &_k) const
 		{
-			const_iterator it = this->_tree.lower_bound(ft::pair<const key_type, mapped_type>(_k, mapped_type()));
-			return (it);
+			return (this->lower_bound(_k));
 		}
 
 		// upper_bound
 		iterator upper_bound(const key_type &_k)
 		{
-			iterator it = this->_tree.upper_bound(ft::pair<const key_type, mapped_type>(_k, mapped_type()));
-			return (it);
+			return (this->_tree.upper_bound(ft::pair<const key_type, mapped_type>(_k, mapped_type())));
 		}
 
 		const_iterator upper_bound(const key_type &_k) const
@@ -290,7 +287,7 @@ namespace ft
 			return (it->second);
 		}
 		// get_allocator
-		Alloc get_allocator() const
+		allocator_type get_allocator() const
 		{
 			return (this->_alloc);
 		}
