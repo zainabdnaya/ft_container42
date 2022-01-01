@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 13:42:09 by zainabdnaya       #+#    #+#             */
-/*   Updated: 2022/01/01 12:23:20 by zdnaya           ###   ########.fr       */
+/*   Updated: 2022/01/01 17:45:41 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,13 +100,14 @@ int main()
 		map1.insert(ft::make_pair(10, 3));
 		map1.insert(ft::make_pair(4, 4));
 		print_map(map1, "map1");
-		ft::map<int, int> map2;
-		std::cout << "before assigning map1 to map2" << std::endl;
-		print_map(map2, "map2");
-		map2 = map1;
+		// ft::map<int, int> map2;
+		// std::cout << "before assigning map1 to map2" << std::endl;
+		// print_map(map2, "map2");
+		// map2 = map1;
 		// std::cout << "after assigning map1 to map2" << std::endl;
 		// print_map(map2, "map2");
-		std::cout << "\n==============here I m =========================" << std::endl;
+		// std::cout << "\n==============here I m =========================" << std::endl;
+		// map2.clear();
 	}
 
 	// // clear()
