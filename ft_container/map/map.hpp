@@ -3,22 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zainabdnayagmail.com <zainabdnayagmail.    +#+  +:+       +#+        */
+/*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 00:06:02 by zdnaya            #+#    #+#             */
-/*   Updated: 2021/12/31 23:57:44 by zainabdnaya      ###   ########.fr       */
+/*   Updated: 2022/01/01 13:14:11 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MAP_HPP
 #define MAP_HPP
 
-#include <iostream>
-#include "../iterators/iterator_traits.hpp"
-#include "./rbt.hpp"
-#include "../iterators/make_pair.hpp"
-#include <limits>
-#include "../iterators/is_integral.hpp"
+#include "../tools/iterator_traits.hpp"
+#include "../tools/rbt.hpp"
+#include "../tools/make_pair.hpp"
+#include "../tools/is_integral.hpp"
 
 class RBT;
 
@@ -64,7 +62,7 @@ namespace ft
 		// typedef typename tree::const_reference const_reference;
 		typedef typename tree::pointer pointer;
 		// typedef typename Alloc;
-		_alloc_type _alloc_;
+		// _alloc_type _alloc_;
 		// typedef typename tree::const_pointer const_pointer;
 
 	public:
@@ -88,14 +86,18 @@ namespace ft
 
 		map &operator=(const map &_m)
 		{
-			this->_tree = _m._tree;
+			this->clear();
+			this->_size = _m._size;
 			this->_alloc = _m._alloc;
 			this->_comp = _m._comp;
-			this->_size = _m._size;
+			this->_tree = _m._tree;
 			return *this;
 		}
 
-		~map() {}
+		~map()
+		{
+			this->clear();
+		}
 
 		// begin
 		iterator begin()
@@ -146,10 +148,9 @@ namespace ft
 
 		iterator insert(iterator position, const value_type &val)
 		{
-			// std::cout << "insert" << std::endl;
 			this->_tree.insert_node(val);
-			iterator it = this->find(val);
-			return (it);
+			position = this->find(val);
+			return (position);
 		}
 
 		ft::pair<iterator, bool> insert(const value_type &_v)
@@ -190,7 +191,7 @@ namespace ft
 		// clear
 		void clear()
 		{
-			this->_tree.clear();
+			this->_tree.erase(this->_tree.begin(), this->_tree.end());
 			this->_size = 0;
 		}
 
@@ -235,7 +236,7 @@ namespace ft
 		}
 		// lower_bound
 		iterator lower_bound(const key_type &_k)
-		{	
+		{
 			return (this->_tree.lower_bound(ft::pair<const key_type, mapped_type>(_k, mapped_type())));
 		}
 		const_iterator lower_bound(const key_type &_k) const
@@ -293,9 +294,9 @@ namespace ft
 		}
 
 	private:
-		key_compare _comp;
-		allocator_type _alloc;
 		size_type _size;
+		allocator_type _alloc;
+		key_compare _comp;
 		tree _tree;
 	};
 }

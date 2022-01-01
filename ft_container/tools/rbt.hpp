@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   rbt.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zainabdnayagmail.com <zainabdnayagmail.    +#+  +:+       +#+        */
+/*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 21:59:39 by zainabdnaya       #+#    #+#             */
-/*   Updated: 2021/12/31 23:52:59 by zainabdnaya      ###   ########.fr       */
+/*   Updated: 2022/01/01 13:14:02 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RBT_HPP
 #define RBT_HPP
 
-#include "../iterators/iterator_traits.hpp"
-#include "../iterators/reverse_iterators.hpp"
-#include "../iterators/make_pair.hpp"
+#include "./iterator_traits.hpp"
+#include "./reverse_iterators.hpp"
+#include "./make_pair.hpp"
 #include <limits>
-#include "../iterators/is_integral.hpp"
+#include "./is_integral.hpp"
 
 namespace ft
 {
@@ -27,12 +27,9 @@ namespace ft
         T data;
         unsigned int height;
         bool isBlack;
-        int isLeft;
         Node *left;
         Node *right;
         Node *parent;
-        int right_black_leafs;
-        int left_black_leafs;
     };
     template <class tree, class Iter, class T>
     class rbt_iterator : public std::iterator<std::bidirectional_iterator_tag,
@@ -184,6 +181,11 @@ namespace ft
 
         ~RBT()
         {
+            // clear();
+            alloc.destroy(TNULL);
+            alloc.deallocate(TNULL, 1);
+            alloc.destroy(Tend);
+            alloc.deallocate(Tend, 1);
         }
 
         void insert_node(T data)
@@ -451,7 +453,8 @@ namespace ft
         node *search(value_type key)
         {
             node *tmp = root;
-            while (tmp != TNULL)
+            // std::cout << "here I m " << (tmp == Tend ? "Tend" : "TNULL") << key.first << std::endl;
+            while (tmp != Tend && tmp != TNULL)
             {
                 if (comp(key.first, tmp->data.first))
                     tmp = tmp->left;
@@ -466,9 +469,8 @@ namespace ft
         node *const_search(const value_type key) const
         {
             node *tmp = root;
-            while (tmp != TNULL)
+            while (tmp != TNULL && tmp != Tend)
             {
-                // std::cout << "=>\t\t"<< comp(key.first, tmp->data.first) << std::endl;
                 if (comp(key.first, tmp->data.first))
                     tmp = tmp->left;
                 else if (comp(tmp->data.first, key.first))
@@ -492,7 +494,8 @@ namespace ft
 
         node *tree_minimum(node *x)
         {
-            while (x->left != TNULL)
+
+            while (x && x->left != TNULL)
                 x = x->left;
             return (x);
         }
@@ -543,8 +546,8 @@ namespace ft
                 y->left->parent = y;
                 y->isBlack = _node->isBlack;
             }
-
             alloc.destroy(_node);
+            alloc.deallocate(_node, 1);
             _size--;
             if (y_original_color == true)
                 delete_fix_rbt(x);
@@ -589,7 +592,7 @@ namespace ft
 
         node *successor(node *n)
         {
-            if (n->right != TNULL)
+            if (n && n->right != TNULL)
                 return tree_minimum(n->right);
             // std::cout << "here" << std::endl;
             node *tmp = n->parent;
@@ -664,15 +667,9 @@ namespace ft
         }
 
         // add empty
-        bool empty()
+        bool empty() const
         {
             if (root == TNULL)
-                return true;
-            return false;
-        }
-        const bool empty() const
-        {
-            if (size() == 0)
                 return true;
             return false;
         }
@@ -685,7 +682,7 @@ namespace ft
         // max size
         size_type max_size() const
         {
-            return alloc.max_size();
+            return (std::min(alloc.max_size(), std::numeric_limits<size_type>::max()));
         }
         // operator []
         T &operator[](T data)
@@ -696,13 +693,14 @@ namespace ft
         void erase(iterator it)
         {
             // node *tmp = ;
-            delete_node(it.it->data);
+            delete_node(_search(it));
         }
         // erase
         void erase(iterator first, iterator last)
         {
             while (first != last)
             {
+                // std::cout << "erase " << first.it->data.first << std::endl;
                 erase(first);
                 ++first;
             }
@@ -710,7 +708,9 @@ namespace ft
         // erase
         size_type erase(const T &data)
         {
+
             node *_node = search(data);
+
             if (_node == TNULL)
                 return 0;
             delete_node(data);
@@ -752,20 +752,20 @@ namespace ft
                 return 0;
             return 1;
         }
-        //lowe nee
-        // lower_bound
+        // lowe nee
+        //  lower_bound
         iterator lower_bound(const T &data)
         {
-           	iterator _from = this->begin();
-			iterator _to = this->end();
+            iterator _from = this->begin();
+            iterator _to = this->end();
 
-			while (_from != _to)
-			{
-				if (!comp((*_from).first, data.first))
-					return _from;
-				_from++;
-			}
-			return _from;	
+            while (_from != _to)
+            {
+                if (!comp((*_from).first, data.first))
+                    return _from;
+                _from++;
+            }
+            return _from;
         }
 
         const_iterator lower_bound(const T &data) const
@@ -775,16 +775,16 @@ namespace ft
         // upper_bound
         iterator upper_bound(const T &data)
         {
-          	iterator _from = this->begin();
-			iterator _to = this->end();
+            iterator _from = this->begin();
+            iterator _to = this->end();
 
-			while (_from != _to)
-			{
-				if (comp(data.first, (*_from).first))
-					return _from;
-				_from++;
-			}
-			return _from;
+            while (_from != _to)
+            {
+                if (comp(data.first, (*_from).first))
+                    return _from;
+                _from++;
+            }
+            return _from;
         }
         // upper_bound
         const_iterator upper_bound(const T &data) const
@@ -804,25 +804,25 @@ namespace ft
         // clear_tree
         void clear_tree(node *n)
         {
-            if (n == TNULL)
+            if (!n)
                 return;
             clear_tree(n->left);
             clear_tree(n->right);
-            delete n;
-            _size--;
+            alloc.destroy(n);
+            alloc.deallocate(n, 1);
+            n = nullptr;
         }
         // clear
         void clear()
         {
             clear_tree(root);
-            RBT();
         }
         // searsh by iterator
 
         T _search(iterator it)
         {
             node *_node = root;
-            while (_node != TNULL)
+            while (_node && _node != TNULL && _node != Tend)
             {
                 if (_node->data > *it)
                     _node = _node->left;
@@ -831,15 +831,36 @@ namespace ft
                 else
                     return _node->data;
             }
-            return TNULL->data;
+            if (_node == Tend )
+                return _node->data;
+            else
+                return TNULL->data;
         }
 
-        //max_size
+        // max_size
         size_type max_size()
         {
             return alloc.max_size();
         }
-        //get_alloc
+        // get_node()
+        node *get_node_end()
+        {
+            return (Tend);
+        }
+        // get_node()
+        node *get_node_null()
+        {
+            return (TNULL);
+        }
+        int get_node_size()
+        {
+            return (_size);
+        }
+        // get_allocator()
+        //  allocator_type get_allocator()
+        //  {
+        //      return(alloc);
+        //  }
     };
 }
 

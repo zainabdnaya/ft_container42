@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   stack.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zainabdnayagmail.com <zainabdnayagmail.    +#+  +:+       +#+        */
+/*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 10:50:55 by zainabdnaya       #+#    #+#             */
-/*   Updated: 2021/12/11 11:10:04 by zainabdnaya      ###   ########.fr       */
+/*   Updated: 2022/01/01 10:52:13 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ namespace ft
     class	stack
     {
     public:
-        // typenames aliases
 		typedef T value_type;
 		typedef size_t size_type;
 		typedef Container container_type;

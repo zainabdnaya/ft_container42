@@ -6,16 +6,16 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 21:08:01 by zainabdnaya       #+#    #+#             */
-/*   Updated: 2021/12/10 22:03:25 by zdnaya           ###   ########.fr       */
+/*   Updated: 2022/01/01 10:51:49 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VECTOR_HPP
 #define VECTOR_HPP
 
-#include "../iterators/iterator_traits.hpp"
-#include "../iterators/reverse_iterators.hpp"
-#include "../iterators/is_integral.hpp"
+#include "../tools/iterator_traits.hpp"
+#include "../tools/reverse_iterators.hpp"
+#include "../tools/is_integral.hpp"
 
 class reverse_iterator;
 
@@ -151,7 +151,7 @@ namespace ft
         };
         size_type max_size() const
         {
-            return _alloc.max_size();
+            return (std::min(_alloc.max_size(), std::numeric_limits<size_type>::max()));
         };
         // Change size or Resizes the container so that it contains n elements.
         void resize(size_type n, value_type val = value_type())

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_pair.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zainabdnayagmail.com <zainabdnayagmail.    +#+  +:+       +#+        */
+/*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 12:50:11 by zdnaya            #+#    #+#             */
-/*   Updated: 2021/12/31 21:32:57 by zainabdnaya      ###   ########.fr       */
+/*   Updated: 2022/01/01 12:29:33 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
 #ifndef MAKE_PAIR_HPP
 #define MAKE_PAIR_HPP
 
+
+#include <iostream>
+#include <limits>
 #include "iterator_traits.hpp"
 
 namespace ft
@@ -38,10 +41,10 @@ namespace ft
         pair (const first_type& a, const second_type& b) : first(a), second(b)
         {
         }
-        pair& operator= (const pair& pr)
+        pair &operator=(const pair &pr)
         {
             new (this) pair<first_type, second_type>(pr);
-            return *this;
+            return (*this);
         }
 	};
 

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   stack.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zainabdnayagmail.com <zainabdnayagmail.    +#+  +:+       +#+        */
+/*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 10:44:45 by zainabdnaya       #+#    #+#             */
-/*   Updated: 2021/12/11 11:16:14 by zainabdnaya      ###   ########.fr       */
+/*   Updated: 2022/01/01 10:51:59 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
-#include "stack.hpp"
 #include <stack>
+#include "stack.hpp"
 
 
 int main()
