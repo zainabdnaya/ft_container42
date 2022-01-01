@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 00:06:02 by zdnaya            #+#    #+#             */
-/*   Updated: 2022/01/01 13:14:11 by zdnaya           ###   ########.fr       */
+/*   Updated: 2022/01/01 13:49:28 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,25 +173,28 @@ namespace ft
 		// erase
 		void erase(iterator position)
 		{
-			this->_tree.delete_node(_tree._search(position));
+			_tree.erase(position);
 		}
 
-		// erase
-		size_type erase(const key_type &_k)
+		size_type erase(const Key &x)
 		{
-			this->_tree.delete_node(ft::pair<const key_type, mapped_type>(_k, mapped_type()));
-			return (1);
+			_tree.erase(ft::pair<const Key, mapped_type>(x, mapped_type()));
+			return 0;
 		}
 
 		void erase(iterator first, iterator last)
 		{
-			this->_tree.erase(first, last);
+			while (first != last)
+			{
+				_tree.erase(first);
+				++first;
+			}
 		}
 
 		// clear
 		void clear()
 		{
-			this->_tree.erase(this->_tree.begin(), this->_tree.end());
+			this->_tree.clear();
 			this->_size = 0;
 		}
 
