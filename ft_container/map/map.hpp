@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 00:06:02 by zdnaya            #+#    #+#             */
-/*   Updated: 2022/01/01 17:35:19 by zdnaya           ###   ########.fr       */
+/*   Updated: 2022/01/01 19:45:49 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "../tools/rbt.hpp"
 #include "../tools/make_pair.hpp"
 #include "../tools/is_integral.hpp"
+#include <algorithm>
 
 class RBT;
 
@@ -69,38 +70,39 @@ namespace ft
 		explicit map(const key_compare &comp = key_compare(),
 					 const allocator_type &alloc = allocator_type()) : _size(0), _alloc(alloc), _comp(comp), _tree()
 		{
+			std::cout << "map constructor0" << std::endl;
 		}
 		template <class InputIterator>
 		map(InputIterator first, InputIterator last,
 			const key_compare &comp = key_compare(),
 			const allocator_type &alloc = allocator_type()) : _size(0), _alloc(alloc), _comp(comp), _tree()
 		{
+			std::cout << "map constructor1" << std::endl;
 			for (InputIterator it = first; it != last; ++it)
 				this->insert(*it);
 		}
 
 		map(const map &_m) : _size(0), _alloc(_m._alloc), _comp(_m._comp), _tree(_m._tree)
 		{
-			// std::cout << "we have as size: \t"<< _m.size() << "\n";
+			std::cout << "map constructor2" << std::endl;
 		}
 
 		map &operator=(const map &_m)
 		{
-			
-			// this->clear();
-			new (this) tree(_m._tree);
-			this->_size = _m._size;
-			this->_alloc = _m._alloc;
-			this->_comp = _m._comp;
-			
+			std::cout << "map operator=" << std::endl;
+			if (this != &_m)
+			{
+				this->clear();
+				this->_tree = _m._tree;
+				this->_size = _m._size;
+				
+			}
 			return *this;
 		}
 
 		~map()
 		{
-			std::cout << _tree.size() << " we have as size: \t" << this->size() << "\n";
-			if (this->_tree.size() != 0)
-				this->clear();
+			std::cout << "map destructor" << _tree.get_node_null() << std::endl;
 
 		}
 
@@ -160,6 +162,7 @@ namespace ft
 
 		ft::pair<iterator, bool> insert(const value_type &_v)
 		{
+			std::cout << " im here\n";
 
 			if (this->_tree.find(_v) != this->_tree.end())
 				return (ft::pair<iterator, bool>(_tree.find(_v), false));
@@ -204,6 +207,7 @@ namespace ft
 			iterator it = this->begin();
 			while (it.it && it != this->end())
 			{
+				// std::cout << "  " << it.it<< "\n";
 				_tree.delete_node(it.it->data);
 				++it;
 			}
@@ -307,8 +311,6 @@ namespace ft
 		{
 			return (this->_alloc);
 		}
-
-
 
 	private:
 		size_type _size;
