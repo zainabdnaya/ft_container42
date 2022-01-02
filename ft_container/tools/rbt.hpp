@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rbt.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
+/*   By: zainabdnayagmail.com <zainabdnayagmail.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 21:59:39 by zainabdnaya       #+#    #+#             */
-/*   Updated: 2022/01/01 13:14:02 by zdnaya           ###   ########.fr       */
+/*   Updated: 2022/01/02 15:18:58 by zainabdnaya      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,11 +181,20 @@ namespace ft
 
         ~RBT()
         {
-            // clear();
-            alloc.destroy(TNULL);
-            alloc.deallocate(TNULL, 1);
-            alloc.destroy(Tend);
-            alloc.deallocate(Tend, 1);
+            this->clear();
+            if (TNULL->right != Tend)
+            {
+                alloc.destroy(TNULL);
+                alloc.deallocate(TNULL, 1);
+                TNULL->right = Tend;
+            }
+            if (Tend->right != Tend)
+            {
+                alloc.destroy(Tend);
+                alloc.deallocate(Tend, 1);
+                Tend->right = Tend;
+            }
+
         }
 
         void insert_node(T data)
@@ -804,13 +813,15 @@ namespace ft
         // clear_tree
         void clear_tree(node *n)
         {
-            if (!n)
+           if (!n || n == TNULL || n == Tend)
                 return;
             clear_tree(n->left);
             clear_tree(n->right);
             alloc.destroy(n);
-            alloc.deallocate(n, 1);
-            n = nullptr;
+            if (n->left != Tend)
+                alloc.deallocate(n, 1);
+            n->left = Tend;
+            n->right = Tend;
         }
         // clear
         void clear()
