@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_pair.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
+/*   By: zainabdnayagmail.com <zainabdnayagmail.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/02 12:50:11 by zdnaya            #+#    #+#             */
-/*   Updated: 2022/01/01 12:29:33 by zdnaya           ###   ########.fr       */
+/*   Updated: 2022/01/02 15:42:02 by zainabdnaya      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ namespace ft
     }
     // get function for pair accesses an element of a pair
     template <std::size_t I, class T1, class T2>
-    typename std::enable_if<I == 0, T1>::type &get(pair<T1, T2> &p)
+    typename ft::enable_if<I == 0, T1>::type &get(pair<T1, T2> &p)
     {
         return p.first;
     }

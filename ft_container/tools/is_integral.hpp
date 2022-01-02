@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_integral.hpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
+/*   By: zainabdnayagmail.com <zainabdnayagmail.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 18:43:21 by zdnaya            #+#    #+#             */
-/*   Updated: 2021/12/09 17:19:58 by zdnaya           ###   ########.fr       */
+/*   Updated: 2022/01/02 15:40:42 by zainabdnaya      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,23 +73,6 @@ namespace ft
         };
     };
 
-    template <>
-    struct is_integral<char16_t>
-    {
-        enum
-        {
-            value = true
-        };
-    };
-
-    template <>
-    struct is_integral<char32_t>
-    {
-        enum
-        {
-            value = true
-        };
-    };
 
     template <>
     struct is_integral<short>
