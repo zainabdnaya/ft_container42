@@ -6,7 +6,7 @@
 /*   By: zainabdnayagmail.com <zainabdnayagmail.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 00:06:02 by zdnaya            #+#    #+#             */
-/*   Updated: 2022/01/02 15:18:42 by zainabdnaya      ###   ########.fr       */
+/*   Updated: 2022/01/02 15:37:48 by zainabdnaya      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ namespace ft
 			std::cout << "map operator=" << std::endl;
 			if (this != &_m)
 			{
-				this->clear();
+				this->_tree.~RBT();
 				this->_tree = _m._tree;
 				this->_size = _m._size;
 				
@@ -202,16 +202,7 @@ namespace ft
 		// clear
 		void clear()
 		{
-			if (this->empty() || this->_tree.empty())
-				return;
-			iterator it = this->begin();
-			while (it.it && it != this->end())
-			{
-				// std::cout << "  " << it.it<< "\n";
-				_tree.delete_node(it.it->data);
-				++it;
-			}
-			this->_size = 0;
+			this->_tree.clear();
 		}
 
 		// swap
