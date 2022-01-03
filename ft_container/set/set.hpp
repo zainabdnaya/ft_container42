@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
+/*   By: zainabdnayagmail.com <zainabdnayagmail.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 00:06:02 by zdnaya            #+#    #+#             */
-/*   Updated: 2022/01/01 10:52:16 by zdnaya           ###   ########.fr       */
+/*   Updated: 2022/01/03 14:15:28 by zainabdnaya      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ namespace ft
         // erase
         size_type erase(const key_type &_k)
         {
-            this->_tree.delete_node(ft::pair<const key_type, mapped_type>(_k, mapped_type()));
+            this->_tree.delete_node(_k);
             return (1);
         }
 
@@ -202,23 +202,23 @@ namespace ft
         // find
         iterator find(const key_type &_k)
         {
-            iterator it = this->_tree.find(ft::pair<const key_type, mapped_type>(_k, mapped_type()));
+            iterator it = this->_tree.find(_k);
             return (it);
         }
         const_iterator find(const key_type &_k) const
         {
-            const_iterator it = this->_tree.find(ft::pair<const key_type, mapped_type>(_k, mapped_type()));
+            const_iterator it = this->_tree.find(_k);
             return (it);
         }
         // count
         size_type count(const key_type &_k) const
         {
-            return (this->_tree.count(ft::pair<const key_type, mapped_type>(_k, mapped_type())));
+            return (this->_tree.count(_k));
         }
         // lower_bound
         iterator lower_bound(const key_type &_k)
         {
-            return (this->_tree.lower_bound(ft::pair<const key_type, mapped_type>(_k, mapped_type())));
+            return (this->_tree.lower_bound(_k));
         }
         const_iterator lower_bound(const key_type &_k) const
         {
@@ -228,23 +228,23 @@ namespace ft
         // upper_bound
         iterator upper_bound(const key_type &_k)
         {
-            return (this->_tree.upper_bound(ft::pair<const key_type, mapped_type>(_k, mapped_type())));
+            return (this->_tree.upper_bound(_k));
         }
 
         const_iterator upper_bound(const key_type &_k) const
         {
-            const_iterator it = this->_tree.upper_bound(ft::pair<const key_type, mapped_type>(_k, mapped_type()));
+            const_iterator it = this->_tree.upper_bound(_k);
             return (it);
         }
         // equal_range
         ft::pair<iterator, iterator> equal_range(const key_type &_k)
         {
-            ft::pair<iterator, iterator> it = this->_tree.equal_range(ft::pair<const key_type, mapped_type>(_k, mapped_type()));
+            ft::pair<iterator, iterator> it = this->_tree.equal_range(_k);
             return (it);
         }
         ft::pair<const_iterator, const_iterator> equal_range(const key_type &_k) const
         {
-            ft::pair<const_iterator, const_iterator> it = this->_tree.equal_range(ft::pair<const key_type, mapped_type>(_k, mapped_type()));
+            ft::pair<const_iterator, const_iterator> it = this->_tree.equal_range(_k);
             return (it);
         }
         // key_comp
@@ -257,17 +257,7 @@ namespace ft
         {
             return (this->_comp);
         }
-        // operator[]
-        mapped_type &operator[](const key_type &_k)
-        {
-            iterator it = this->_tree.find(ft::pair<const key_type, mapped_type>(_k, mapped_type()));
-            if (it == this->end())
-            {
-                this->_tree.insert_node(ft::pair<const key_type, mapped_type>(_k, mapped_type()));
-                it = this->_tree.find(ft::pair<const key_type, mapped_type>(_k, mapped_type()));
-            }
-            return (it->second);
-        }
+
         // get_allocator
         allocator_type get_allocator() const
         {
