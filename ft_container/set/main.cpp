@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 12:32:29 by zainabdnaya       #+#    #+#             */
-/*   Updated: 2022/01/03 20:30:31 by zdnaya           ###   ########.fr       */
+/*   Updated: 2022/01/03 20:37:18 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int main()
 	NS::set<int> setGolbal;
 	print_namespace(setGolbal);
 
-	// begin()
+	// // begin()
 	{
 		std::cout << "\nbegin() & end() " << std::endl;
 		std::cout << "=======================================" << std::endl;

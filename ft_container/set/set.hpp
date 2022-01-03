@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 00:06:02 by zdnaya            #+#    #+#             */
-/*   Updated: 2022/01/03 20:30:43 by zdnaya           ###   ########.fr       */
+/*   Updated: 2022/01/03 20:37:29 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ namespace ft
         {
             if (this != &_m)
             {
+                this->_tree.~_set();
                 this->_tree = _m._tree;
                 this->_alloc = _m._alloc;
                 this->_comp = _m._comp;
