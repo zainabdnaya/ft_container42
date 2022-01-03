@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 13:42:09 by zainabdnaya       #+#    #+#             */
-/*   Updated: 2022/01/03 16:23:29 by zdnaya           ###   ########.fr       */
+/*   Updated: 2022/01/03 19:51:24 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,12 @@
 #define CYAN "\033[0;36m"
 #define RESET "\033[0m"
 
+#ifndef NS
+#define NS ft
+#endif 
+
 template <typename T, typename U>
-void print_namespace(ft::map<T, U> const &mp)
+void print_namespace(NS::map<T, U> const &mp)
 {
 	mp.empty();
 	std::cout << "\nNAMESPACE : ft" << std::endl;
@@ -53,7 +57,7 @@ void print_namespace(std::map<T, U> &mp)
 }
 
 template <typename T, typename U>
-void print_map(ft::map<T, U> &mp, char const *label)
+void print_map(NS::map<T, U> &mp, char const *label)
 {
 	// std::cout << mp.size() << "\nhere I m\n";
 
@@ -63,7 +67,7 @@ void print_map(ft::map<T, U> &mp, char const *label)
 		return;
 	else
 		std::cout << "\n\n";
-	for (typename ft::map<T, U>::iterator it = mp.begin(); it != mp.end(); ++it)
+	for (typename NS::map<T, U>::iterator it = mp.begin(); it != mp.end(); ++it)
 	{
 		std::cout << "[" << it->first << "]"
 				  << " = " << it->second << std::endl;
@@ -73,19 +77,19 @@ void print_map(ft::map<T, U> &mp, char const *label)
 
 int main()
 {
-	// ft::map<int, int> maptGolbal;
+	// NS::map<int, int> maptGolbal;
 	// print_namespace(maptGolbal);
 
 	// // begin()
 	{
 		std::cout << "\nbegin() & end() " << std::endl;
 		std::cout << "=======================================" << std::endl;
-		ft::map<int, int> map1;
-		map1.insert(ft::make_pair(5, 1));
-		map1.insert(ft::make_pair(10, 3));
-		map1.insert(ft::make_pair(4, 4));
-		map1.insert(ft::make_pair(2, 2));
-		ft::map<int, int>::iterator it = map1.begin();
+		NS::map<int, int> map1;
+		map1.insert(NS::make_pair(5, 1));
+		map1.insert(NS::make_pair(10, 3));
+		map1.insert(NS::make_pair(4, 4));
+		map1.insert(NS::make_pair(2, 2));
+		NS::map<int, int>::iterator it = map1.begin();
 		print_map(map1, "map1");
 		std::cout << "map1.begin(): " << (*it).first << std::endl;
 		std::cout << "=======================================" << std::endl;
@@ -94,13 +98,13 @@ int main()
 	{
 		// std::cout << "\nassign operator=()" << std::endl;
 		// std::cout << "=======================================" << std::endl;
-		ft::map<int, int> map1;
-		map1.insert(ft::make_pair(5, 1));
-		map1.insert(ft::make_pair(2, 2));
-		map1.insert(ft::make_pair(10, 3));
-		map1.insert(ft::make_pair(4, 4));
+		NS::map<int, int> map1;
+		map1.insert(NS::make_pair(5, 1));
+		map1.insert(NS::make_pair(2, 2));
+		map1.insert(NS::make_pair(10, 3));
+		map1.insert(NS::make_pair(4, 4));
 		print_map(map1, "map1");
-		ft::map<int, int> map2;
+		NS::map<int, int> map2;
 		std::cout << "before assigning map1 to map2" << std::endl;
 		print_map(map2, "map2");
 		map2 = map1;
@@ -114,11 +118,11 @@ int main()
 	{
 		std::cout << "\nclear()" << std::endl;
 		std::cout << "=======================================" << std::endl;
-		ft::map<int, int> map1;
-		map1.insert(ft::make_pair(5, 1));
-		map1.insert(ft::make_pair(2, 2));
-		map1.insert(ft::make_pair(10, 3));
-		map1.insert(ft::make_pair(4, 4));
+		NS::map<int, int> map1;
+		map1.insert(NS::make_pair(5, 1));
+		map1.insert(NS::make_pair(2, 2));
+		map1.insert(NS::make_pair(10, 3));
+		map1.insert(NS::make_pair(4, 4));
 		print_map(map1, "map1");
 		// print_namespace(map1);
 		map1.clear();
@@ -131,11 +135,11 @@ int main()
 	{
 		std::cout << "\ncount()" << std::endl;
 		std::cout << "=======================================" << std::endl;
-		ft::map<int, int> map1;
-		map1.insert(ft::make_pair(5, 1));
-		map1.insert(ft::make_pair(2, 2));
-		map1.insert(ft::make_pair(10, 3));
-		map1.insert(ft::make_pair(4, 4));
+		NS::map<int, int> map1;
+		map1.insert(NS::make_pair(5, 1));
+		map1.insert(NS::make_pair(2, 2));
+		map1.insert(NS::make_pair(10, 3));
+		map1.insert(NS::make_pair(4, 4));
 		print_map(map1, "map1");
 		std::cout << "map1.count(5): " << map1.count(5) << std::endl;
 		std::cout << "map1.count(6): " << map1.count(6) << std::endl;
@@ -144,11 +148,11 @@ int main()
 	{
 		std::cout << "\nstd::count()" << std::endl;
 		std::cout << "=======================================" << std::endl;
-		ft::map<int, int> map1;
-		map1.insert(ft::make_pair(5, 1));
-		map1.insert(ft::make_pair(2, 2));
-		map1.insert(ft::make_pair(10, 3));
-		map1.insert(ft::make_pair(4, 4));
+		NS::map<int, int> map1;
+		map1.insert(NS::make_pair(5, 1));
+		map1.insert(NS::make_pair(2, 2));
+		map1.insert(NS::make_pair(10, 3));
+		map1.insert(NS::make_pair(4, 4));
 		print_map(map1, "map1");
 		std::cout << "map1.count(5): " << map1.count(5) << std::endl;
 		std::cout << "map1.count(6): " << map1.count(6) << std::endl;
@@ -159,11 +163,11 @@ int main()
 	{
 		std::cout << "\nempty()" << std::endl;
 		std::cout << "=======================================" << std::endl;
-		ft::map<int, int> map1;
-		map1.insert(ft::make_pair(5, 1));
-		map1.insert(ft::make_pair(2, 2));
-		map1.insert(ft::make_pair(10, 3));
-		map1.insert(ft::make_pair(4, 4));
+		NS::map<int, int> map1;
+		map1.insert(NS::make_pair(5, 1));
+		map1.insert(NS::make_pair(2, 2));
+		map1.insert(NS::make_pair(10, 3));
+		map1.insert(NS::make_pair(4, 4));
 		print_map(map1, "map1");
 		std::cout << "map1.empty(): " << map1.empty() << std::endl;
 		map1.clear();
@@ -175,10 +179,10 @@ int main()
 	{
 		std::cout << "\nfind()" << std::endl;
 		std::cout << "=======================================" << std::endl;
-		ft::map<int, int> map1;
-		map1.insert(ft::make_pair(5, 1));
-		map1.insert(ft::make_pair(2, 2));
-		map1.insert(ft::make_pair(10, 3));
+		NS::map<int, int> map1;
+		map1.insert(NS::make_pair(5, 1));
+		map1.insert(NS::make_pair(2, 2));
+		map1.insert(NS::make_pair(10, 3));
 		print_map(map1, "map1");
 		if (map1.find(5) != map1.end())
 			std::cout << "5 has been found and its second is = " << map1.find(5)->second << std::endl;
@@ -194,17 +198,17 @@ int main()
 	{
 		std::cout << "\ninsert()" << std::endl;
 		std::cout << "=======================================" << std::endl;
-		ft::map<int, int> map1;
-		map1.insert(ft::make_pair(5, 1));
-		map1.insert(ft::make_pair(2, 2));
-		map1.insert(ft::make_pair(10, 3));
+		NS::map<int, int> map1;
+		map1.insert(NS::make_pair(5, 1));
+		map1.insert(NS::make_pair(2, 2));
+		map1.insert(NS::make_pair(10, 3));
 		print_map(map1, "map1");
-		ft::map<int, int>::iterator it = map1.insert(ft::make_pair(4, 4)).first;
+		NS::map<int, int>::iterator it = map1.insert(NS::make_pair(4, 4)).first;
 		print_map(map1, "map1");
 		std::cout << "inserted 4, 4 at " << (*it).first << std::endl;
-		ft::pair<int, int> arr[] = {ft::make_pair(0, 20), ft::make_pair(2, 30),
-									ft::make_pair(3, 40), ft::make_pair(4, 50)};
-		ft::map<int, int> map2;
+		NS::pair<int, int> arr[] = {NS::make_pair(0, 20), NS::make_pair(2, 30),
+									NS::make_pair(3, 40), NS::make_pair(4, 50)};
+		NS::map<int, int> map2;
 		map2.insert(arr, arr + 4);
 		print_map(map2, "map2");
 		std::cout << "=======================================" << std::endl;
@@ -214,15 +218,15 @@ int main()
 	{
 		std::cout << "\nmap constructors" << std::endl;
 		std::cout << "=======================================" << std::endl;
-		ft::map<int, int> map1;
-		map1.insert(ft::make_pair(5, 1));
-		map1.insert(ft::make_pair(2, 2));
+		NS::map<int, int> map1;
+		map1.insert(NS::make_pair(5, 1));
+		map1.insert(NS::make_pair(2, 2));
 		map1[10] = 3;
 		map1[4] = 4;
 		print_map(map1, "map1");
-		ft::map<int, int> map2(map1);
+		NS::map<int, int> map2(map1);
 		print_map(map2, "map2");
-		ft::map<int, int> map3(map2.begin(), map2.end());
+		NS::map<int, int> map3(map2.begin(), map2.end());
 		print_map(map3, "map3");
 		std::cout << "=======================================" << std::endl;
 	}
@@ -231,18 +235,18 @@ int main()
 	{
 		std::cout << "\nerase()" << std::endl;
 		std::cout << "=======================================" << std::endl;
-		ft::map<int, int> map1;
-		map1.insert(ft::make_pair(0, 1));
-		map1.insert(ft::make_pair(2, 2));
-		map1.insert(ft::make_pair(10, 3));
-		map1.insert(ft::make_pair(4, 4));
-		map1.insert(ft::make_pair(3, 300));
-		map1.insert(ft::make_pair(3, 300));
-		map1.insert(ft::make_pair(1, 110));
-		map1.insert(ft::make_pair(0, 10));
+		NS::map<int, int> map1;
+		map1.insert(NS::make_pair(0, 1));
+		map1.insert(NS::make_pair(2, 2));
+		map1.insert(NS::make_pair(10, 3));
+		map1.insert(NS::make_pair(4, 4));
+		map1.insert(NS::make_pair(3, 300));
+		map1.insert(NS::make_pair(3, 300));
+		map1.insert(NS::make_pair(1, 110));
+		map1.insert(NS::make_pair(0, 10));
 		print_map(map1, "map1");
 		std::cout << "map1.erase(0): " << map1.erase(0) << std::endl;
-		ft::map<int, int>::iterator it = map1.begin();
+		NS::map<int, int>::iterator it = map1.begin();
 		// std::cout << "it: " << (*it).first << std::endl;
 		std::advance(it, 2);
 		// std::cout << "it: " << map1.begin()->first << std::endl;
@@ -257,7 +261,7 @@ int main()
 	{
 		std::cout << "\nmax_size()" << std::endl;
 		std::cout << "=======================================" << std::endl;
-		ft::map<int, int> map1;
+		NS::map<int, int> map1;
 		std::cout << "map1.max_size(): [" << map1.max_size() << "]" << std::to_string(map1.max_size()).length() << std::endl;
 		std::cout << "=======================================" << std::endl;
 	}
@@ -266,17 +270,17 @@ int main()
 	{
 		std::cout << "\nswap()" << std::endl;
 		std::cout << "=======================================" << std::endl;
-		ft::map<int, int> map1;
-		map1.insert(ft::make_pair(5, 1));
-		map1.insert(ft::make_pair(2, 2));
-		map1.insert(ft::make_pair(10, 3));
-		map1.insert(ft::make_pair(4, 4));
+		NS::map<int, int> map1;
+		map1.insert(NS::make_pair(5, 1));
+		map1.insert(NS::make_pair(2, 2));
+		map1.insert(NS::make_pair(10, 3));
+		map1.insert(NS::make_pair(4, 4));
 		print_map(map1, "map1");
-		ft::map<int, int> map2;
-		map2.insert(ft::make_pair(0, 1));
-		map2.insert(ft::make_pair(2, 2));
-		map2.insert(ft::make_pair(10, 3));
-		map2.insert(ft::make_pair(4, 4));
+		NS::map<int, int> map2;
+		map2.insert(NS::make_pair(0, 1));
+		map2.insert(NS::make_pair(2, 2));
+		map2.insert(NS::make_pair(10, 3));
+		map2.insert(NS::make_pair(4, 4));
 		print_map(map2, "map2");
 		map1.swap(map2);
 		print_map(map1, "map1");
@@ -287,13 +291,13 @@ int main()
 	{
 		std::cout << "\nlower_bound()" << std::endl;
 		std::cout << "=======================================" << std::endl;
-		ft::map<int, int> map1;
-		map1.insert(ft::make_pair(5, 1));
-		map1.insert(ft::make_pair(2, 2));
-		map1.insert(ft::make_pair(10, 3));
-		map1.insert(ft::make_pair(4, 4));
+		NS::map<int, int> map1;
+		map1.insert(NS::make_pair(5, 1));
+		map1.insert(NS::make_pair(2, 2));
+		map1.insert(NS::make_pair(10, 3));
+		map1.insert(NS::make_pair(4, 4));
 		print_map(map1, "map1");
-		ft::map<int, int>::iterator it = map1.lower_bound(3);
+		NS::map<int, int>::iterator it = map1.lower_bound(3);
 		std::cout << "map1.lower_bound(3): " << (*it).first << std::endl;
 		it = map1.lower_bound(5);
 		std::cout << "map1.lower_bound(5): " << (*it).first << std::endl;
@@ -306,13 +310,13 @@ int main()
 	{
 		std::cout << "\nupper_bound()" << std::endl;
 		std::cout << "=======================================" << std::endl;
-		ft::map<int, int> map1;
-		map1.insert(ft::make_pair(5, 1));
-		map1.insert(ft::make_pair(2, 2));
-		map1.insert(ft::make_pair(10, 3));
-		map1.insert(ft::make_pair(4, 4));
+		NS::map<int, int> map1;
+		map1.insert(NS::make_pair(5, 1));
+		map1.insert(NS::make_pair(2, 2));
+		map1.insert(NS::make_pair(10, 3));
+		map1.insert(NS::make_pair(4, 4));
 		print_map(map1, "map1");
-		ft::map<int, int>::iterator it = map1.upper_bound(3);
+		NS::map<int, int>::iterator it = map1.upper_bound(3);
 		std::cout << "map1.upper_bound(3): " << (*it).first << std::endl;
 		it = map1.upper_bound(5);
 		std::cout << "map1.upper_bound(5): " << (*it).first << std::endl;
@@ -325,13 +329,13 @@ int main()
 	{
 		std::cout << "\nequal_range()" << std::endl;
 		std::cout << "=======================================" << std::endl;
-		ft::map<int, int> map1;
-		map1.insert(ft::make_pair(5, 1));
-		map1.insert(ft::make_pair(2, 2));
-		map1.insert(ft::make_pair(10, 3));
-		map1.insert(ft::make_pair(4, 4));
+		NS::map<int, int> map1;
+		map1.insert(NS::make_pair(5, 1));
+		map1.insert(NS::make_pair(2, 2));
+		map1.insert(NS::make_pair(10, 3));
+		map1.insert(NS::make_pair(4, 4));
 		print_map(map1, "map1");
-		ft::pair<ft::map<int, int>::iterator, ft::map<int, int>::iterator> range = map1.equal_range(3);
+		NS::pair<NS::map<int, int>::iterator, NS::map<int, int>::iterator> range = map1.equal_range(3);
 		std::cout << "map1.equal_range(3): " << (*range.first).first << " " << (*range.second).first << std::endl;
 		range = map1.equal_range(5);
 		std::cout << "map1.equal_range(5): " << (*range.first).first << " " << (*range.second).first << std::endl;
@@ -344,10 +348,10 @@ int main()
 	{
 		std::cout << "\nget_allocator()" << std::endl;
 		std::cout << "=======================================" << std::endl;
-		ft::map<int, int> map1;
+		NS::map<int, int> map1;
 		print_map(map1, "map1");
-		ft::map<int, int>::_alloc_type alloc = map1.get_allocator();
-		ft::pair<const int, int> *ptr = alloc.allocate(1);
+		NS::map<int, int>::_alloc_type alloc = map1.get_allocator();
+		NS::pair<const int, int> *ptr = alloc.allocate(1);
 		alloc.deallocate(ptr, 1);
 		std::cout << "alloc max size: " << alloc.max_size() << std::endl;
 
@@ -357,13 +361,13 @@ int main()
 	{
 		std::cout << "\nconst iterators" << std::endl;
 		std::cout << "=======================================" << std::endl;
-		ft::map<int, int> map1;
-		map1.insert(ft::make_pair(5, 1));
-		map1.insert(ft::make_pair(2, 2));
-		map1.insert(ft::make_pair(10, 3));
-		map1.insert(ft::make_pair(4, 4));
+		NS::map<int, int> map1;
+		map1.insert(NS::make_pair(5, 1));
+		map1.insert(NS::make_pair(2, 2));
+		map1.insert(NS::make_pair(10, 3));
+		map1.insert(NS::make_pair(4, 4));
 		print_map(map1, "map1");
-		ft::map<int, int>::const_iterator it = map1.begin();
+		NS::map<int, int>::const_iterator it = map1.begin();
 		std::cout << "map1.begin(): " << (*it).first << std::endl;
 		it = map1.end();
 		--it;
@@ -375,13 +379,13 @@ int main()
 	{
 		std::cout << "\nreverse iterators" << std::endl;
 		std::cout << "=======================================" << std::endl;
-		ft::map<int, int> map1;
-		map1.insert(ft::make_pair(5, 1));
-		map1.insert(ft::make_pair(2, 2));
-		map1.insert(ft::make_pair(10, 3));
-		map1.insert(ft::make_pair(4, 4));
+		NS::map<int, int> map1;
+		map1.insert(NS::make_pair(5, 1));
+		map1.insert(NS::make_pair(2, 2));
+		map1.insert(NS::make_pair(10, 3));
+		map1.insert(NS::make_pair(4, 4));
 		print_map(map1, "map1");
-		ft::map<int, int>::reverse_iterator it = map1.rbegin();
+		NS::map<int, int>::reverse_iterator it = map1.rbegin();
 		// print all elements in reverse order
 		for (; it != map1.rend(); ++it)
 		{

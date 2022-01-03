@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 00:06:02 by zdnaya            #+#    #+#             */
-/*   Updated: 2022/01/03 19:22:47 by zdnaya           ###   ########.fr       */
+/*   Updated: 2022/01/03 19:49:44 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ namespace ft
 		typedef typename tree::pointer pointer;
 		typedef typename tree::const_reference const_reference;
 		typedef typename tree::const_pointer const_pointer;
-		typedef typename tree::size_type size_type;
 
 	public:
 		explicit map(const key_compare &comp = key_compare(),

@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 00:06:02 by zdnaya            #+#    #+#             */
-/*   Updated: 2022/01/03 19:32:49 by zdnaya           ###   ########.fr       */
+/*   Updated: 2022/01/03 20:30:43 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,7 +202,7 @@ namespace ft
             return (this->_tree.size());
         }
         // max_size
-        size_t max_size() const
+        size_type max_size() const
         {
             return this->_tree.max_size();
         }

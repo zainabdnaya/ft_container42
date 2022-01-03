@@ -695,13 +695,9 @@ namespace ft
         // max size
         size_type max_size() const
         {
-            return (std::min(alloc.max_size(), std::numeric_limits<size_type>::max()));
+            return (std::numeric_limits<difference_type>::max());
         }
-        // operator []
-        T &operator[](T data)
-        {
-            return search(data);
-        }
+
         // erase
         void erase(iterator it)
         {
@@ -858,11 +854,6 @@ namespace ft
                 return TNULL->data;
         }
 
-        // max_size
-        size_type max_size()
-        {
-            return alloc.max_size();
-        }
         // get_allocator()
         //  allocator_type get_allocator()
         //  {
