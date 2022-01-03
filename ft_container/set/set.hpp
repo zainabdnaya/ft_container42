@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 00:06:02 by zdnaya            #+#    #+#             */
-/*   Updated: 2022/01/03 20:47:08 by zdnaya           ###   ########.fr       */
+/*   Updated: 2022/01/03 22:08:32 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ namespace ft
         explicit set(const key_compare &comp = key_compare(),
                      const allocator_type &alloc = allocator_type()) : _size(0), _alloc(alloc), _comp(comp), _tree()
         {
-            std::cout << "set()" << std::endl;
         }
         template <class InputIterator>
         set(InputIterator first, InputIterator last,
@@ -70,7 +69,6 @@ namespace ft
 
         set(const set &_m) : _size(0), _alloc(_m._alloc), _comp(_m._comp), _tree(_m._tree)
         {
-            std::cout << "copy constructor" << std::endl;
         }
 
         set &operator=(const set &_m)
@@ -138,9 +136,10 @@ namespace ft
         iterator insert(iterator position, const value_type &val)
         {
             // std::cout << "insert" << std::endl;
+
             this->_tree.insert_node(val);
-            iterator it = this->find(val);
-            return (it);
+            position = this->find(val);
+            return (position);
         }
 
         ft::pair<iterator, bool> insert(const value_type &_v)
@@ -203,7 +202,7 @@ namespace ft
             return (this->_tree.size());
         }
         // max_size
-        size_type max_size() const
+        size_t max_size() const
         {
             return this->_tree.max_size();
         }
@@ -273,9 +272,9 @@ namespace ft
         }
 
     private:
-        key_compare _comp;
-        allocator_type _alloc;
         size_type _size;
+        allocator_type _alloc;
+        key_compare _comp;
         tree _tree;
     };
 }

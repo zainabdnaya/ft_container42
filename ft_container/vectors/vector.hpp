@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 21:08:01 by zainabdnaya       #+#    #+#             */
-/*   Updated: 2022/01/03 21:25:03 by zdnaya           ###   ########.fr       */
+/*   Updated: 2022/01/03 22:05:59 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -337,13 +337,11 @@ namespace ft
             _size--;
         };
         // insert Inserts a new element at position n in the vector, shifting the element at position n and those after it to the right.
-        // nserts value before pos
+        // inserts value before pos
         iterator insert(const_iterator position, const T &val)
         {
-
             for (size_type i = _size; i > position - begin(); i--)
             {
-                // std::cout << "here \n";
                 _alloc.construct(&_data[i], _data[i - 1]);
             }
             _alloc.construct(&_data[position - begin()], val);

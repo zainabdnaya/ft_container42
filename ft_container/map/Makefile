@@ -3,9 +3,7 @@ NAME=test
 
 SRC=main.cpp
 
-INC=rbt.hpp
-#iterator_traits.hpp \ reverse_traits.hpp \ stack.hpp
-
+INC= *.hpp
 
 all: $(SRC:.cpp=.o)
 	@echo "Compiling..."

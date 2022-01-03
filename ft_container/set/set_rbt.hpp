@@ -25,11 +25,10 @@ namespace ft
     struct Node
     {
         bool isBlack;
-        unsigned int height;
         T data;
+        Node *parent;
         Node *left;
         Node *right;
-        Node *parent;
     };
     template <class tree, class Iter, class T>
     class _set_iterator : public std::iterator<std::bidirectional_iterator_tag,
@@ -134,13 +133,14 @@ namespace ft
         // typedef Key  key_type;
         typedef T value_type; // pair<key_type, val> --> T
         typedef struct Node<value_type> node;
+        typedef  Alloc allocator;
         typedef typename Alloc::template rebind<node>::other allocator_type;
         typedef typename Alloc::pointer pointer;
         typedef typename Alloc::const_pointer const_pointer;
         typedef typename Alloc::const_pointer const_node_pointer;
         typedef typename Alloc::reference node_reference;
         typedef typename Alloc::reference reference;
-        typedef typename Alloc::difference_type difference_type;
+        typedef typename allocator_type::difference_type difference_type;
         typedef typename Alloc::const_reference const_reference;
         typedef typename Alloc::const_reference const_node_reference;
         typedef struct Node<value_type> *NodePtr;
@@ -154,6 +154,7 @@ namespace ft
         size_type _size;
         allocator_type alloc;
         node *root;
+        allocator _alloc;
         node *TNULL;
         node *Tend;
 
@@ -340,58 +341,7 @@ namespace ft
             // root->isLeft = -1;
         }
 
-        int height_right(node *_node)
-        {
-            node *tmp = _node->right;
-            int h = 0;
-            while (tmp != NULL)
-            {
-                if (tmp->isBlack == true)
-                    h++;
-                tmp = tmp->right;
-            }
-            tmp = _node->right;
-            while (tmp != NULL)
-            {
-                node *tmp2 = tmp->left;
-                while (tmp2 != NULL)
-                {
-                    if (tmp2->isBlack == true)
-                        h++;
-                    tmp2 = tmp2->left;
-                }
-                tmp = tmp->right;
-            }
-            return h;
-        }
-
-        int height_left(node *_node)
-        {
-            node *tmp = _node->left;
-            int h = 0;
-            while (tmp != NULL)
-            {
-                if (tmp->isBlack == true)
-                    h++;
-                tmp = tmp->left;
-            }
-
-            tmp = _node->left;
-            while (tmp != NULL)
-            {
-                node *tmp2 = tmp->right;
-                while (tmp2 != NULL)
-                {
-                    if (tmp2->isBlack == true)
-                        h++;
-                    tmp2 = tmp2->right;
-                }
-                tmp = tmp->left;
-            }
-
-            return h;
-        }
-
+     
         void delete_fix__set(node *x)
         {
             node *tmp;
@@ -696,7 +646,8 @@ namespace ft
         // max size
         size_type max_size() const
         {
-            return std::numeric_limits<difference_type>::max();
+            // return std::min<size_type>(this->_alloc.max_size(), std::numeric_limits<difference_type>::max());
+            return alloc.max_size();
         }
 
         // erase
