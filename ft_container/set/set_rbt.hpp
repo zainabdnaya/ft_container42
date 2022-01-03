@@ -40,7 +40,6 @@ namespace ft
         typedef typename iterator_traits<T>::pointer pointer;
         typedef typename iterator_traits<T>::reference reference;
         typedef std::bidirectional_iterator_tag iterator_category;
-        // const pointer operator->() const { return &(this->_ptr->data); }
         typedef std::ptrdiff_t difference_type;
 
         iterator_type *it;
@@ -592,8 +591,6 @@ namespace ft
         /// add begin()
         iterator begin()
         {
-            // check_print__set();
-
             return iterator(tree_minimum(root), this);
         }
         //

@@ -13,9 +13,9 @@ all: $(SRC:.cpp=.o)
 
 fclean:
 	@echo "Cleaning..."
-	@rm -f test
+	@rm -f $(NAME)
 	@rm -f *.o
-	@rm -rf test.dSYM
+	@rm -rf $(NAME).dSYM
 	@echo "Cleaning... Done"
 
 re: fclean all

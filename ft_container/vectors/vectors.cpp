@@ -1,23 +1,26 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   vectors.cpp                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/08 13:45:33 by zdnaya            #+#    #+#             */
-/*   Updated: 2021/12/10 22:09:21 by zdnaya           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <iostream>
 #include <map>
 #include <string>
 #include <vector>
-#include "vector.hpp"
+#include "./vector.hpp"
 using namespace std;
 int main()
 {
+    ft::vector<bool> mask;
+
+    mask.push_back(true);
+    mask.push_back(false);
+    mask.push_back(false);
+    mask.push_back(true);
+
+    mask.flip();
+
+    std::cout << std::boolalpha;
+    std::cout << "mask contains:";
+    for (unsigned i = 0; i < mask.size(); i++)
+        std::cout << ' ' << mask.at(i);
+    std::cout << '\n';
+
     // compare between ft::Vector and std::vector
     ft::vector<int> v1;
     std::vector<int> v2;
@@ -34,8 +37,8 @@ int main()
     v2.push_back(5);
     ft::vector<int> v3(10, 1);
     std::vector<int> v12(10, 1);
-    // v3.swap(v1);
-    // v12.swap(v2);
+    v3.swap(v1);
+    v12.swap(v2);
 
     // print vector content itertor
     ft::vector<int>::iterator it = v3.begin();
@@ -138,7 +141,7 @@ int main()
 
     // print v3 with iterator
     cout << endl
-         << "ft:: v3 with iterator" << endl;
+         << "v3 with iterator" << endl;
     for (ft::vector<int>::iterator it = v3.begin(); it != v3.end(); ++it)
         cout << *it << " ";
 
@@ -150,7 +153,7 @@ int main()
 
     // print v4 with iterator
     cout << endl
-         << "std:: v4 with iterator" << endl;
+         << "v4 with iterator" << endl;
     for (std::vector<int>::iterator it = v4.begin(); it != v4.end(); ++it)
         cout << *it << " ";
 
@@ -212,35 +215,35 @@ int main()
         cout << *it << " ";
 
     v5.insert(v5.begin(), 4);
-    v5.insert(v5.begin(), 5);
+//     v5.insert(v5.begin(), 5);
 
-    v5.erase(v5.begin());
-    v5.erase(v5.begin());
+//     v5.erase(v5.begin());
+//     v5.erase(v5.begin());
 
-    // print v5 with iterator
+//     // print v5 with iterator
     cout << endl
          << "v5 with iterator" << endl;
     for (ft::vector<int>::iterator it = v5.begin(); it != v5.end(); ++it)
         cout << *it << " ";
 
-    v5.resize(10);
-    // print v5 with iterator
+//     v5.resize(10);
+//     // print v5 with iterator
     cout << endl
          << "v5 with iterator" << endl;
-    for (ft::vector<int>::iterator it = v5.begin(); it != v5.end(); ++it)
-        cout << *it << " ";
-    v5.clear();
+//     for (ft::vector<int>::iterator it = v5.begin(); it != v5.end(); ++it)
+//         cout << *it << " ";
+//     v5.clear();
     // print v5 with iterator
-    cout << endl
-         << "v5 with iterator" << endl;
-    for (ft::vector<int>::iterator it = v5.begin(); it != v5.end(); ++it)
-        cout << *it << " ";
-    v5.assign(v5.end(), v5.begin());
-    // print v5 with iterator
-    cout << endl
-         << "v5 with iterator" << endl;
-    for (ft::vector<int>::iterator it = v5.begin(); it != v5.end(); ++it)
-        cout << *it << " ";
+//     cout << endl
+//          << "v5 with iterator" << endl;
+//     for (ft::vector<int>::iterator it = v5.begin(); it != v5.end(); ++it)
+//         cout << *it << " ";
+//     v5.assign(v5.end(), v5.begin());
+//     // print v5 with iterator
+//     cout << endl
+//          << "v5 with iterator" << endl;
+//     for (ft::vector<int>::iterator it = v5.begin(); it != v5.end(); ++it)
+//         cout << *it << " ";
     // print v5 with iterator
     // cout << endl
     //      << "v5 with iterator" << endl;
@@ -249,94 +252,38 @@ int main()
 
     // // print v1 with iterator
 
-    v5.reserve(10);
+//     v5.reserve(10);
+//     // print v5 with iterator
+//     cout << endl
+//          << "v5 with iterator" << endl;
+//     for (ft::vector<int>::iterator it = v5.begin(); it != v5.end(); ++it)
+//         cout << *it << " ";
+//     v5.resize(10);
     // print v5 with iterator
-    cout << endl
-         << "v5 with iterator" << endl;
-    for (ft::vector<int>::iterator it = v5.begin(); it != v5.end(); ++it)
-        cout << *it << " ";
-    v5.resize(10);
-    // print v5 with iterator
-    cout << endl
-         << "v5 with iterator" << endl;
-    for (ft::vector<int>::iterator it = v5.begin(); it != v5.end(); ++it)
-        cout << *it << " ";
+//     cout << endl
+//          << "v5 with iterator" << endl;
+//     for (ft::vector<int>::iterator it = v5.begin(); it != v5.end(); ++it)
+//         cout << *it << " ";
     // test operator=
-    ft::vector<int> v6(10, 1);
-    ft::vector<int> v7;
-    v7 = v6;
+//     ft::vector<int> v6(10, 1);
+//     ft::vector<int> v7;
+//     v7 = v6;
     // print v6 with iterator
-    cout << endl
-         << "v6 with iterator" << endl;
-    for (ft::vector<int>::iterator it = v6.begin(); it != v6.end(); ++it)
-        cout << *it << " ";
-    // print v7 with iterator
-    cout << endl
-         << "v7 with iterator" << endl;
-    for (ft::vector<int>::iterator it = v7.begin(); it != v7.end(); ++it)
-        cout << *it << " ";
+//     cout << endl
+//          << "v6 with iterator" << endl;
+//     for (ft::vector<int>::iterator it = v6.begin(); it != v6.end(); ++it)
+//         cout << *it << " ";
+//     // print v7 with iterator
+//     cout << endl
+//          << "v7 with iterator" << endl;
+//     for (ft::vector<int>::iterator it = v7.begin(); it != v7.end(); ++it)
+//         cout << *it << " ";
     // vetor de string
-    ft::vector<std::string> v8(10, "test");
-    // print v8 with iterator
-    cout << endl
-         << "v8 with iterator" << endl;
-    for (ft::vector<std::string>::iterator it = v8.begin(); it != v8.end(); ++it)
-        cout << *it << " ";
-    // front , back , at , data
-    cout << endl
-         << "front: " << v6.front() << endl;
-    cout << "back: " << v6.back() << endl;
-    cout << "at: " << v6.at(0) << endl;
-
-    // test operator[]
-    cout << endl
-         << "operator[]" << endl;
-    cout << "operator[]: " << v6[0] << endl;
-    cout << "operator[]: " << v6[1] << endl;
-
-    // test operator==
-    
-    ft::vector<int> v9(10, 1);
-    ft::vector<int> v10(10, 1);
-
-    cout << endl
-         << "operator==" << endl;
-    cout << "v9 == v10: " << (v9 == v10) << endl;
-
-    // test operator!=
-
-    cout << endl
-         << "operator!=" << endl;
-
-    cout << "v9 != v10: " << (v9 != v10) << endl;
-
-    // test operator<
-
-    cout << endl
-         << "operator<" << endl;
-
-    cout << "v9 < v10: " << (v9 < v10) << endl;
-
-    // test operator>
-
-    cout << endl
-         << "operator>" << endl;
-
-    cout << "v9 > v10: " << (v9 > v10) << endl;
-
-    // test operator<=
-
-    cout << endl
-         << "operator<=" << endl;
-
-    cout << "v9 <= v10: " << (v9 <= v10) << endl;
-
-    // test operator>=
-    
-    cout << endl
-         << "operator>=" << endl;
-
-    cout << "v9 >= v10: " << (v9 >= v10) << endl;
-    
+//     ft::vector<std::string> v8(10, "test");
+//     // print v8 with iterator
+//     cout << endl
+//          << "v8 with iterator" << endl;
+//     for (ft::vector<std::string>::iterator it = v8.begin(); it != v8.end(); ++it)
+//         cout << *it << " ";
     return 0;
 }

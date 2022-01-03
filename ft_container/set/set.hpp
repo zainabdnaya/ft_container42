@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 00:06:02 by zdnaya            #+#    #+#             */
-/*   Updated: 2022/01/03 22:08:32 by zdnaya           ###   ########.fr       */
+/*   Updated: 2022/01/03 22:30:58 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,11 +210,6 @@ namespace ft
         iterator find(const key_type &_k)
         {
             iterator it = this->_tree.find(_k);
-            return (it);
-        }
-        const_iterator find(const key_type &_k) const
-        {
-            const_iterator it = this->_tree.find(_k);
             return (it);
         }
         // count

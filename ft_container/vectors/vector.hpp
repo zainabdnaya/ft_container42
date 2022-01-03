@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 21:08:01 by zainabdnaya       #+#    #+#             */
-/*   Updated: 2022/01/03 22:05:59 by zdnaya           ###   ########.fr       */
+/*   Updated: 2022/01/03 23:07:57 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ namespace ft
         // destructors
         ~vector()
         {
-            for (size_type i = 0; i < _size; i++)
+            for (size_type i = 0; i < _capacity; i++)
             {
                 _alloc.destroy(&_data[i]);
             }
@@ -124,7 +124,7 @@ namespace ft
         };
         iterator end()
         {
-            return _data + _size;
+            return _data + _size ;
         };
         const_iterator end() const
         {
@@ -193,14 +193,14 @@ namespace ft
             // If n is greater than the current vector capacity, the function causes the container to reallocate its storage increasing its capacity to n (or greater).
             if (n > _capacity)
             {
-                _capacity = n;
-                T *new_data = _alloc.allocate(_capacity);
-                for (size_type i = 0; i < _capacity; i++)
-                    _alloc.construct(&new_data[i], _data[i]);
-                for (size_type i = 0; i < _capacity; i++)
-                    _alloc.destroy(&_data[i]);
+                pointer tmp = _alloc.allocate(n);
+                for (size_type i = 0; i < _size; ++i)
+                    _alloc.construct(tmp + i, _data[i]);
+                for (size_type i = 0; i < _size; ++i)
+                    _alloc.destroy(_data + i);
                 _alloc.deallocate(_data, _capacity);
-                _data = new_data;
+                _data = tmp;
+                _capacity = n;
             }
         };
         // shrink to fit request to reduce the capacity fo fit it's size
@@ -317,18 +317,9 @@ namespace ft
         void push_back(const T &val)
         {
             if (_size == _capacity)
-            {
-                _capacity *= 2; // why double the capacity ?  because we want to have a bigger capacity than the size of the vector to avoid reallocation of memory when we add elements to the vector  .
-                T *new_data = _alloc.allocate(_capacity);
-                for (size_type i = 0; i < _size; i++)
-                    _alloc.construct(&new_data[i], _data[i]);
-                for (size_type i = 0; i < _size; i++)
-                    _alloc.destroy(&_data[i]);
-                _alloc.deallocate(_data, _capacity);
-                _data = new_data;
-            }
-            _alloc.construct(&_data[_size], val);
-            _size++;
+                reserve(_capacity + 1);
+            _alloc.construct(_data + _size, val);
+            ++_size;
         };
         // pop_back Removes the last element in the vector, effectively reducing the container size by one.
         void pop_back()
@@ -340,13 +331,15 @@ namespace ft
         // inserts value before pos
         iterator insert(const_iterator position, const T &val)
         {
-            for (size_type i = _size; i > position - begin(); i--)
+            for (long i = _size; i > position - begin(); i--)
             {
+                if (i == 0)
+                    break;
                 _alloc.construct(&_data[i], _data[i - 1]);
             }
-            _alloc.construct(&_data[position - begin()], val);
-            _size++;
-            _capacity++;
+            // _alloc.construct(&_data[position - begin()], val);
+            // _size++;
+            // _capacity++;
             return iterator(position);
         };
 
@@ -355,7 +348,7 @@ namespace ft
         {
             _capacity += n;
             _size += n;
-            for (size_type i = _size; i > position - begin(); i--)
+            for (size_type i = _size; i >= position - begin(); i--)
             {
                 _alloc.construct(&_data[i], _data[i - n]);
             }
@@ -425,6 +418,11 @@ namespace ft
         {
             return _alloc;
         };
+        void flip()
+        {
+            for (size_t i = 0; i < _size; i++)
+                _data[i] = !_data[i];
+        }
 
     private:
         T *_data;
@@ -485,54 +483,53 @@ namespace ft
     }
 
     // template sprcialization ==> vector<bool>
-    template <class Alloc>
-    class vector<bool, Alloc>
-    {
-    public:
-        typedef bool value_type;
-        typedef Alloc allocator_type;
-        typedef bool iterator;
-        typedef bool const_iterator;
-        typedef typename allocator_type::size_type size_type;
-        typedef typename allocator_type::difference_type difference_type;
-        typedef iterator pointer;
-        typedef const_iterator const_pointer;
-        typedef ft::reverse_iterator<iterator> reverse_iterator;
-        typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
+    // template <class Alloc>
+    // class vector<bool, Alloc>
+    // {
+    // public:
+    //     typedef bool value_type;
+    //     typedef Alloc allocator_type;
+    //     typedef bool iterator;
+    //     typedef bool const_iterator;
+    //     typedef typename allocator_type::size_type size_type;
+    //     typedef typename allocator_type::difference_type difference_type;
+    //     typedef iterator pointer;
+    //     typedef const_iterator const_pointer;
+    //     typedef ft::reverse_iterator<iterator> reverse_iterator;
+    //     typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
-        // class refrence
-        class reference
-        {
-            friend class vector;
-            reference(); // no public constructor
-        public:
-            ~reference();
-            operator bool() const;                    // convert to bool
-            reference &operator=(const bool x);       // assign from bool
-            reference &operator=(const reference &x); // assign from bit
-            void flip();                              // flip bit value.
-        };
-        // flip function
-        void flip()
-        {
-            for (size_t i = 0; i < _size; i++)
-                _data[i] = !_data[i];
-        };
-        // swap function
-        void swap(vector &x)
-        {
-            swap_1(_data, x._data);
-            swap_1(_size, x._size);
-            swap_1(_capacity, x._capacity);
-        };
+    //     // class refrence
+    //     class reference
+    //     {
+    //         friend class vector;
+    //         reference(); // no public constructor
+    //     public:
+    //         ~reference();
+    //         operator bool() const;                    // convert to bool
+    //         reference &operator=(const bool x);       // assign from bool
+    //         reference &operator=(const reference &x); // assign from bit
+    //         void flip();                              // flip bit value.
+    //     };
+    //     // flip function
+    //     void flip()
+    //     {
+    //         for (size_t i = 0; i < _size; i++)
+    //             _data[i] = !_data[i];
+    //     };
+    //     // swap function
+    //     void swap(vector &x)
+    //     {
+    //         swap_1(_data, x._data);
+    //         swap_1(_size, x._size);
+    //         swap_1(_capacity, x._capacity);
+    //     };
 
-    private:
-        bool *_data;
-        size_type _size;
-        size_type _capacity;
-        allocator_type _alloc;
-    };
-
+    // private:
+    //     bool *_data;
+    //     size_type _size;
+    //     size_type _capacity;
+    //     allocator_type _alloc;
 }
+// }
 
 #endif
