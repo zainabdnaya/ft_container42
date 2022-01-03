@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 10:44:45 by zainabdnaya       #+#    #+#             */
-/*   Updated: 2022/01/01 10:51:59 by zdnaya           ###   ########.fr       */
+/*   Updated: 2022/01/03 21:25:37 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,8 @@ int main()
         std::cout << stack.top() << std::endl;
         stack.pop();        
     }
+    std::cout << stack.size() << std::endl;
+    std::cout << stack.empty() << std::endl;
+    return 0;
+    
 }

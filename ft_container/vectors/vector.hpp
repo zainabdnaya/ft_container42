@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 21:08:01 by zainabdnaya       #+#    #+#             */
-/*   Updated: 2022/01/01 10:51:49 by zdnaya           ###   ########.fr       */
+/*   Updated: 2022/01/03 21:25:03 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ namespace ft
                 first++;
             }
         };
-            
 
         vector(const vector &other)
         {
@@ -88,19 +87,22 @@ namespace ft
         // destructors
         ~vector()
         {
-
             for (size_type i = 0; i < _size; i++)
+            {
                 _alloc.destroy(&_data[i]);
-            // if(_capacity)
-            //     _alloc.deallocate(_data, _capacity);
-    // std::cout << "           here \n";
-
+            }
+            _alloc.deallocate(_data, _capacity);
         };
         // oprator=
         vector &operator=(const vector &other)
         {
-            // if (this != &other)
+            if (this != &other)
             {
+                for (size_type i = 0; i < _size; i++)
+                {
+                    _alloc.destroy(&_data[i]);
+                    _alloc.deallocate(&_data[i], 1);
+                }
                 _alloc = other._alloc;
                 _size = other._size;
                 _capacity = other._capacity;
@@ -170,39 +172,7 @@ namespace ft
             }
             _size = n;
         };
-        
-        // void resize(size_type n)
-        // {
-        //     // If n is also greater than the current container capacity, an automatic reallocation of the allocated storage space takes place.
-        //     if (n > _capacity)
-        //     {
-        //         // std::cout < "i m here " << std::endl;
-        //         _capacity = n;
-        //         T *new_data = _alloc.allocate(_capacity);
-        //         for (size_type i = 0; i < _capacity; i++)
-        //             _alloc.construct(&new_data[i], _data[i]);
-        //         for (size_type i = 0; i < _capacity; i++)
-        //             _alloc.destroy(&_data[i]);
-        //         _alloc.deallocate(_data, _capacity);
-        //         _data = new_data;
-        //     }
-            // If n is smaller than the current container size, the content is reduced to its first n elements, removing those beyond (and destroying them).
-        //     else if (n < _size)
-        //     {
-        //         for (size_type i = n; i < _size; i++)
-        //             _alloc.destroy(&_data[i]);
-        //         _size = n;
-        //     }
-        //     // If n is greater than the current container size, the content is expanded by inserting at the end as many elements as needed to reach a size of n. If val is specified, the new elements are initialized as copies of val, otherwise, they are value-initialized.
-        //     else if (n > _size)
-        //     {
-        //         for (size_type i = _size; i < n; i++)
-        //             _alloc.construct(&_data[i], T());
-        //         _size = n;
-        //     }
-        //     else if (n == _size)
-        //         return;
-        // };
+
         // capacity if a vector
         size_type capacity() const
         {
@@ -367,15 +337,15 @@ namespace ft
             _size--;
         };
         // insert Inserts a new element at position n in the vector, shifting the element at position n and those after it to the right.
-        //nserts value before pos
+        // nserts value before pos
         iterator insert(const_iterator position, const T &val)
         {
-        
+
             for (size_type i = _size; i > position - begin(); i--)
-                {
+            {
                 // std::cout << "here \n";
-                    _alloc.construct(&_data[i], _data[i - 1]);
-                }
+                _alloc.construct(&_data[i], _data[i - 1]);
+            }
             _alloc.construct(&_data[position - begin()], val);
             _size++;
             _capacity++;
@@ -388,34 +358,32 @@ namespace ft
             _capacity += n;
             _size += n;
             for (size_type i = _size; i > position - begin(); i--)
-                {
-                    _alloc.construct(&_data[i], _data[i-n]);
-                }
+            {
+                _alloc.construct(&_data[i], _data[i - n]);
+            }
             for (size_type i = 0; i < n; i++)
             {
                 _alloc.construct(&_data[position - begin() + i], val);
             }
-
         };
-      template <class InputIterator>
-        void insert (iterator position, InputIterator first, InputIterator last,
-        typename enable_if<!is_integral<InputIterator>::value, bool>::type = true)
+        template <class InputIterator>
+        void insert(iterator position, InputIterator first, InputIterator last,
+                    typename enable_if<!is_integral<InputIterator>::value, bool>::type = true)
         {
             _size += (last - first);
-            _capacity +=(last - first);
+            _capacity += (last - first);
             for (size_type i = _size; i > position - begin(); i--)
-                {
-                    _alloc.construct(&_data[i], _data[i-abs(last - first)]);
-                }
+            {
+                _alloc.construct(&_data[i], _data[i - abs(last - first)]);
+            }
             for (size_type i = 0; i < abs(last - first); i++)
             {
                 _alloc.construct(&_data[position - begin() + i], *(first + i));
             }
-
         };
-    
+
         // erase Erases the element at position n in the vector, shifting the elements at and after position n to the left.
-        iterator erase(const_iterator position )
+        iterator erase(const_iterator position)
         {
             for (size_type i = position - begin(); i < _size - 1; i++)
             {
@@ -438,7 +406,7 @@ namespace ft
                 _alloc.destroy(&_data[i]);
             }
             _size -= abs(last - first);
-            return iterator(first);  
+            return iterator(first);
         };
         // swap elelements A static signature to swap individual elements (bits) is added on vector<bool>.
         void swap(vector &other)

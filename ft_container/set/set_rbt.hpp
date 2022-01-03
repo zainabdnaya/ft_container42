@@ -24,9 +24,9 @@ namespace ft
     template <class T>
     struct Node
     {
-        T data;
-        unsigned int height;
         bool isBlack;
+        unsigned int height;
+        T data;
         Node *left;
         Node *right;
         Node *parent;
@@ -134,28 +134,29 @@ namespace ft
         // typedef Key  key_type;
         typedef T value_type; // pair<key_type, val> --> T
         typedef struct Node<value_type> node;
-        typedef typename Alloc::template rebind<node>::other node_allocator;
+        typedef typename Alloc::template rebind<node>::other allocator_type;
         typedef typename Alloc::pointer pointer;
         typedef typename Alloc::const_pointer const_pointer;
         typedef typename Alloc::const_pointer const_node_pointer;
         typedef typename Alloc::reference node_reference;
         typedef typename Alloc::reference reference;
+        typedef typename Alloc::difference_type difference_type;
         typedef typename Alloc::const_reference const_reference;
         typedef typename Alloc::const_reference const_node_reference;
-        typedef typename Alloc::size_type size_type;
-        typedef typename Alloc::difference_type difference_type;
         typedef struct Node<value_type> *NodePtr;
         typedef _set *self;
         typedef ft::_set_iterator<self, node, pointer> iterator;
         typedef ft::_set_iterator<self, node, pointer> const_iterator;
         typedef ft::reverse_iterator<iterator> reverse_iterator;
         typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
+        typedef typename Alloc::size_type size_type;
         Compare comp;
-        node_allocator alloc;
+        size_type _size;
+        allocator_type alloc;
         node *root;
         node *TNULL;
         node *Tend;
-        size_type _size;
+
         int isRBProper(node *n)
         {
             if (n == NULL)
@@ -695,7 +696,7 @@ namespace ft
         // max size
         size_type max_size() const
         {
-            return (std::numeric_limits<difference_type>::max());
+            return std::numeric_limits<difference_type>::max();
         }
 
         // erase
@@ -853,12 +854,10 @@ namespace ft
             else
                 return TNULL->data;
         }
-
-        // get_allocator()
-        //  allocator_type get_allocator()
-        //  {
-        //      return(alloc);
-        //  }
+        allocator_type get_allocator() const
+        {
+            return alloc;
+        }
     };
 }
 

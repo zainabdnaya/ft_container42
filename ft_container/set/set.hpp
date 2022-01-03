@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 00:06:02 by zdnaya            #+#    #+#             */
-/*   Updated: 2022/01/03 20:37:29 by zdnaya           ###   ########.fr       */
+/*   Updated: 2022/01/03 20:47:08 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ namespace ft
         typedef typename tree::const_reverse_iterator const_reverse_iterator;
         typedef typename tree::size_type size_type;
         typedef typename tree::difference_type difference_type;
-        typedef typename tree::node_allocator allocator_type;
+        typedef typename tree::allocator_type allocator_type;
         typedef typename tree::reference reference;
         typedef typename tree::const_reference const_reference;
         typedef typename tree::pointer pointer;
