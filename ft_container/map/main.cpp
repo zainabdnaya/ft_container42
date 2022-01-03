@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zainabdnayagmail.com <zainabdnayagmail.    +#+  +:+       +#+        */
+/*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 13:42:09 by zainabdnaya       #+#    #+#             */
-/*   Updated: 2022/01/02 15:35:19 by zainabdnaya      ###   ########.fr       */
+/*   Updated: 2022/01/03 16:23:29 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,11 +106,11 @@ int main()
 		map2 = map1;
 		std::cout << "after assigning map1 to map2" << std::endl;
 		print_map(map2, "map2");
-		// std::cout << "\n==============here I m =========================" << std::endl;
 		// map2.clear();
+		std::cout << "\n==============here I m =========================" << std::endl;
 	}
 
-	// clear()
+	// // clear()
 	{
 		std::cout << "\nclear()" << std::endl;
 		std::cout << "=======================================" << std::endl;

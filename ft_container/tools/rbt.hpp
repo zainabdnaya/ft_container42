@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rbt.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zainabdnayagmail.com <zainabdnayagmail.    +#+  +:+       +#+        */
+/*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 21:59:39 by zainabdnaya       #+#    #+#             */
-/*   Updated: 2022/01/02 15:18:58 by zainabdnaya      ###   ########.fr       */
+/*   Updated: 2022/01/03 16:35:44 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ namespace ft
         typedef typename iterator_traits<T>::pointer pointer;
         typedef typename iterator_traits<T>::reference reference;
         typedef std::bidirectional_iterator_tag iterator_category;
-        // const pointer operator->() const { return &(this->_ptr->data); }
         typedef std::ptrdiff_t difference_type;
 
         iterator_type *it;
@@ -181,20 +180,30 @@ namespace ft
 
         ~RBT()
         {
-            this->clear();
+            std::cout << "destructor called" << std::endl;
+            // if (root->left != Tend)
+            // {
+            //     alloc.deallocate(root, 1);
+            //     root->left = Tend;
+            // }
+
+            int i = -1;
             if (TNULL->right != Tend)
             {
+                this->clear();
                 alloc.destroy(TNULL);
                 alloc.deallocate(TNULL, 1);
                 TNULL->right = Tend;
+                i = 1;
             }
             if (Tend->right != Tend)
             {
+                if (i == -1)
+                    this->clear();
                 alloc.destroy(Tend);
                 alloc.deallocate(Tend, 1);
                 Tend->right = Tend;
             }
-
         }
 
         void insert_node(T data)
@@ -729,6 +738,7 @@ namespace ft
         // swap
         void swap(RBT &other)
         {
+
             root = other.root;
             _size = other._size;
             Tend = other.Tend;
@@ -813,15 +823,20 @@ namespace ft
         // clear_tree
         void clear_tree(node *n)
         {
-           if (!n || n == TNULL || n == Tend)
+            if (n && n != TNULL && n != Tend)
+            {
+                clear_tree(n->left);
+                clear_tree(n->right);
+                if (n->left != Tend && n->right != Tend)
+                {
+                    alloc.destroy(n);
+                    alloc.deallocate(n, 1);
+                }
+                n->left = Tend;
+                n->right = Tend;
+            }
+            else
                 return;
-            clear_tree(n->left);
-            clear_tree(n->right);
-            alloc.destroy(n);
-            if (n->left != Tend)
-                alloc.deallocate(n, 1);
-            n->left = Tend;
-            n->right = Tend;
         }
         // clear
         void clear()
@@ -842,7 +857,7 @@ namespace ft
                 else
                     return _node->data;
             }
-            if (_node == Tend )
+            if (_node == Tend)
                 return _node->data;
             else
                 return TNULL->data;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zainabdnayagmail.com <zainabdnayagmail.    +#+  +:+       +#+        */
+/*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 00:06:02 by zdnaya            #+#    #+#             */
-/*   Updated: 2022/01/02 15:37:48 by zainabdnaya      ###   ########.fr       */
+/*   Updated: 2022/01/03 16:36:00 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,15 +95,13 @@ namespace ft
 				this->_tree.~RBT();
 				this->_tree = _m._tree;
 				this->_size = _m._size;
-				
 			}
 			return *this;
 		}
 
 		~map()
 		{
-			std::cout << "map destructor"<< std::endl;
-
+			std::cout << "map destructor" << std::endl;
 		}
 
 		// begin
@@ -208,6 +206,8 @@ namespace ft
 		// swap
 		void swap(map &_m)
 		{
+			_tree.~RBT();
+
 			ft::swap(this->_size, _m._size);
 			ft::swap(this->_alloc, _m._alloc);
 			ft::swap(this->_comp, _m._comp);
