@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zainabdnayagmail.com <zainabdnayagmail.    +#+  +:+       +#+        */
+/*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 00:06:02 by zdnaya            #+#    #+#             */
-/*   Updated: 2022/01/03 14:15:28 by zainabdnaya      ###   ########.fr       */
+/*   Updated: 2022/01/03 19:32:49 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 
 #include <iostream>
 #include "../tools/iterator_traits.hpp"
-#include "../tools/rbt.hpp"
 #include "../tools/make_pair.hpp"
 #include <limits>
 #include "../tools/is_integral.hpp"
+#include "./set_rbt.hpp"
 
 // The set stores the elements in sorted order.
 // All the elements in a set have unique values.
@@ -26,7 +26,7 @@
 // this set follows a red balck impelementation.
 // The values in a set are unindexed.
 
-class RBT;
+class _set;
 
 namespace ft
 {
@@ -41,7 +41,7 @@ namespace ft
         typedef T value_type;
         typedef Compare key_compare;
         typedef Compare value_compare;
-        typedef ft::RBT<value_type, value_compare, Alloc> tree;
+        typedef ft::_set<value_type, value_compare, Alloc> tree;
         typedef typename tree::iterator iterator;
         typedef typename tree::const_iterator const_iterator;
         typedef typename tree::reverse_iterator reverse_iterator;
@@ -50,12 +50,15 @@ namespace ft
         typedef typename tree::difference_type difference_type;
         typedef typename tree::node_allocator allocator_type;
         typedef typename tree::reference reference;
+        typedef typename tree::const_reference const_reference;
         typedef typename tree::pointer pointer;
+        typedef typename tree::const_pointer const_pointer;
 
     public:
         explicit set(const key_compare &comp = key_compare(),
                      const allocator_type &alloc = allocator_type()) : _size(0), _alloc(alloc), _comp(comp), _tree()
         {
+            std::cout << "set()" << std::endl;
         }
         template <class InputIterator>
         set(InputIterator first, InputIterator last,
@@ -67,14 +70,18 @@ namespace ft
 
         set(const set &_m) : _size(0), _alloc(_m._alloc), _comp(_m._comp), _tree(_m._tree)
         {
+            std::cout << "copy constructor" << std::endl;
         }
 
         set &operator=(const set &_m)
         {
-            this->_tree = _m._tree;
-            this->_alloc = _m._alloc;
-            this->_comp = _m._comp;
-            this->_size = _m._size;
+            if (this != &_m)
+            {
+                this->_tree = _m._tree;
+                this->_alloc = _m._alloc;
+                this->_comp = _m._comp;
+                this->_size = _m._size;
+            }
             return *this;
         }
 

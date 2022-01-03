@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zainabdnayagmail.com <zainabdnayagmail.    +#+  +:+       +#+        */
+/*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 12:32:29 by zainabdnaya       #+#    #+#             */
-/*   Updated: 2022/01/03 12:35:30 by zainabdnaya      ###   ########.fr       */
+/*   Updated: 2022/01/03 19:34:55 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 #include <set>
 
 #include "./set.hpp"
-
 
 #ifndef NS
 #define NS ft
@@ -35,18 +34,21 @@ void print_namespace(ft::set<T> const &st)
 template <typename T>
 void print_set(NS::set<T> &st, char const *label)
 {
-	std::cout << "\nmap Size: " << st.size();
-	std::cout << "\nmap [" << label << "] contains: ";
-	if (!st.size())
-		std::cout << "nothing";
-	else
-		std::cout << "\n\n";
-	for (typename NS::set<T>::iterator it = st.begin(); it != st.end(); ++it)
+	if (st.size()> 0)
 	{
-		std::cout << "[" << *it << "]"
-				  << " = " << *it << std::endl;
+		std::cout << "\nmap Size: " << st.size();
+		std::cout << "\nmap [" << label << "] contains: ";
+		if (!st.size())
+			std::cout << "nothing";
+		else
+			std::cout << "\n\n";
+		for (typename NS::set<T>::iterator it = st.begin(); it != st.end(); ++it)
+		{
+			std::cout << "[" << *it << "]"
+					  << " = " << *it << std::endl;
+		}
+		std::cout << std::endl;
 	}
-	std::cout << std::endl;
 }
 
 // a predicate implemented as a function:
@@ -81,30 +83,6 @@ bool mycomparison(double first, double second)
 
 int main()
 {
-NS::set<int> setGolbal;
-	print_namespace(setGolbal);
-
-	// begin()
-	{
-		std::cout << "\nbegin() & end() " << std::endl;
-		std::cout << "=======================================" << std::endl;
-		NS::set<int> set1;
-		set1.insert(5);
-		set1.insert(10);
-		set1.insert(4);
-		set1.insert(2);
-		NS::set<int>::iterator it = set1.begin();
-		print_set(set1, "set1");
-		std::cout << "set1.begin(): " << (*it) << std::endl;
-		std::cout << "=======================================" << std::endl;
-	}
-	// assign operator=()
-	{
-		std::cout << "\nassign operator=()" << std::endl;
-		std::cout << "=======================================" << std::endl;
-	// set tests
-	std::cout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< set tests >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n"
-			  << std::endl;
 	NS::set<int> setGolbal;
 	print_namespace(setGolbal);
 
@@ -122,6 +100,7 @@ NS::set<int> setGolbal;
 		std::cout << "set1.begin(): " << (*it) << std::endl;
 		std::cout << "=======================================" << std::endl;
 	}
+
 	// assign operator=()
 	{
 		std::cout << "\nassign operator=()" << std::endl;
@@ -141,8 +120,7 @@ NS::set<int> setGolbal;
 		std::cout << "=======================================" << std::endl;
 	}
 
-
-	// clear()
+	//clear()
 	{
 		std::cout << "\nclear()" << std::endl;
 		std::cout << "=======================================" << std::endl;
@@ -347,9 +325,9 @@ NS::set<int> setGolbal;
 		NS::pair<NS::set<int>::const_iterator, NS::set<int>::const_iterator> range = set1.equal_range(3);
 		std::cout << "set1.equal_range(3): " << *range.first << " " << *range.second << std::endl;
 		range = set1.equal_range(5);
-		std::cout << "set1.equal_range(5): " << *range.first << " " << *range.second  << std::endl;
+		std::cout << "set1.equal_range(5): " << *range.first << " " << *range.second << std::endl;
 		range = set1.equal_range(6);
-		std::cout << "set1.equal_range(6): " << *range.first  << " " << *range.second  << std::endl;
+		std::cout << "set1.equal_range(6): " << *range.first << " " << *range.second << std::endl;
 		std::cout << "=======================================" << std::endl;
 	}
 
@@ -400,10 +378,6 @@ NS::set<int> setGolbal;
 			std::cout << "[" << (*it) << "] = " << (*it) << std::endl;
 		}
 
-		std::cout << "=======================================" << std::endl;
+	std::cout << "=======================================" << std::endl;
 	}
-
-	std::cout << "\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< end of set tests >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n"
-			  << std::endl;
-    }
 }

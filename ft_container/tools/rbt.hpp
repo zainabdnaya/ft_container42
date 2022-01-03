@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 21:59:39 by zainabdnaya       #+#    #+#             */
-/*   Updated: 2022/01/03 16:35:44 by zdnaya           ###   ########.fr       */
+/*   Updated: 2022/01/03 19:21:37 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,10 +135,10 @@ namespace ft
         typedef struct Node<value_type> node;
         typedef typename Alloc::template rebind<node>::other node_allocator;
         typedef typename Alloc::pointer pointer;
+        typedef typename Alloc::const_pointer const_pointer;
         typedef typename Alloc::const_pointer const_node_pointer;
         typedef typename Alloc::reference node_reference;
         typedef typename Alloc::const_reference const_node_reference;
-        typedef typename Alloc::size_type size_type;
         typedef typename Alloc::difference_type difference_type;
         typedef struct Node<value_type> *NodePtr;
         typedef RBT *self;
@@ -147,6 +147,8 @@ namespace ft
         typedef ft::reverse_iterator<iterator> reverse_iterator;
         typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
         typedef typename Alloc::reference reference;
+        typedef typename Alloc::const_reference const_reference;
+        typedef typename Alloc::size_type size_type;
 
         Compare comp;
         node_allocator alloc;
