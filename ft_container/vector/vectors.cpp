@@ -3,297 +3,354 @@
 #include <string>
 #include <vector>
 #include "./vector.hpp"
-using namespace std;
-int main()
+#include <iostream>
+#include <cmath>
+
+#ifndef NS
+#define NS ft
+#endif
+
+template <typename T>
+void print_namespace(ft::vector<T> const &vec)
 {
-    ft::vector<bool> mask;
+    vec.empty();
+    std::cout << "\nNAMESPACE : ft" << std::endl;
+}
 
-    mask.push_back(true);
-    mask.push_back(false);
-    mask.push_back(false);
-    mask.push_back(true);
+template <typename T>
+void print_namespace(std::vector<T> const &vect)
+{
+    vect.empty();
+    std::cout << "\nNAMESPACE : std" << std::endl;
+}
 
-    mask.flip();
-
-    std::cout << std::boolalpha;
-    std::cout << "mask contains:";
-    for (unsigned i = 0; i < mask.size(); i++)
-        std::cout << ' ' << mask.at(i);
-    std::cout << '\n';
-
-    // compare between ft::Vector and std::vector
-    ft::vector<int> v1;
-    std::vector<int> v2;
-    v1.push_back(1);
-    v1.push_back(2);
-    v1.push_back(3);
-    v1.push_back(4);
-    v1.push_back(5);
-
-    v2.push_back(1);
-    v2.push_back(2);
-    v2.push_back(3);
-    v2.push_back(4);
-    v2.push_back(5);
-    ft::vector<int> v3(10, 1);
-    std::vector<int> v12(10, 1);
-    v3.swap(v1);
-    v12.swap(v2);
-
-    // print vector content itertor
-    ft::vector<int>::iterator it = v3.begin();
-    std::vector<int>::iterator it2 = v12.begin();
-    while (it != v3.end())
+template <typename T>
+void print_vector(NS::vector<T> &vect, char const *label)
+{
+    std::cout << "\nvector Size: " << vect.size();
+    std::cout << "\nvector [" << label << "] contains:";
+    if (!vect.size())
+        std::cout << "\tnothing";
+    for (typename NS::vector<T>::iterator it = vect.begin(); it != vect.end(); ++it)
     {
-        cout << *it << " ";
-        it++;
+        std::cout << "  [ " << *it << " ]";
     }
-    cout << endl;
-    while (it2 != v12.end())
+    std::cout << std::endl;
+}
+
+int main(void)
+{
+    // vector tests
+    std::cout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< vector tests >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n"
+              << std::endl;
+    NS::vector<int> vectGolbal;
+    print_namespace(vectGolbal);
+    // front() and back()
     {
-        cout << *it2 << " ";
-        it2++;
+        std::cout << "\nfront() & back()" << std::endl;
+        std::cout << "=======================================" << std::endl;
+        NS::vector<int> myvect;
+        int arr[5] = {1, 2, 3, 4, 5};
+        NS::vector<int> myvect2(arr, arr + 5);
+
+        print_vector(myvect2, "myvect2");
+
+        myvect.push_back(77);
+        myvect.push_back(22);
+
+        print_vector(myvect, "myvect");
+
+        // now front equals 77, and back 22
+
+        myvect.front() -= myvect.back();
+
+        std::cout << "myvect.front() is now " << myvect.front() << '\n';
+        std::cout << "=======================================" << std::endl;
     }
-    cout << endl;
+    // max_size()
+    {
+        std::cout << "\nmax_size()" << std::endl;
+        std::cout << "=======================================" << std::endl;
+        NS::vector<size_t> myvect;
 
-    // print v1 with iterator
-    cout << "v1 with iterator" << endl;
-    for (ft::vector<int>::iterator it = v1.begin(); it != v1.end(); ++it)
-        cout << *it << " ";
-    cout << endl;
+        myvect.push_back(77);
+        myvect.push_back(22);
 
-    // print v2 with iterator
-    cout << "v2 with iterator" << endl;
-    for (std::vector<int>::iterator it = v2.begin(); it != v2.end(); ++it)
-        cout << *it << " ";
+        std::cout << "myvect.max_size() is: " << myvect.max_size() << '\n';
+        std::cout << "=======================================" << std::endl;
+    }
 
-    // clear v1 and v2
-    v1.clear();
-    v2.clear();
-    // check if v1 and v2 are empty
-    cout << endl
-         << "v1 is empty: " << v1.empty() << endl;
-    cout << "v2 is empty: " << v2.empty() << endl;
+    // capacity()
+    {
+        std::cout << "\ncapacity()" << std::endl;
+        std::cout << "=======================================" << std::endl;
+        NS::vector<size_t> vec(50, 500);
+        NS::vector<size_t> myvect(4, 100);
+        std::cout << "myvect.capacity() is: " << myvect.capacity() << '\n';
+        std::cout << "myvect.size() is: " << myvect.size() << '\n';
 
-    // insert v1 and v2 with insert
-    v1.insert(v1.begin(), 1);
-    v1.insert(v1.begin(), 2);
-    v1.insert(v1.begin(), 3);
-    v1.insert(v1.begin(), 4);
-    v1.insert(v1.begin(), 5);
+        myvect.push_back(200);
+        std::cout << "myvect.capacity() is: " << myvect.capacity() << '\n';
+        std::cout << "myvect.size() is: " << myvect.size() << '\n';
+        myvect.insert(myvect.begin(), vec.begin(), vec.end());
 
-    v2.insert(v2.begin(), 1);
-    v2.insert(v2.begin(), 2);
-    v2.insert(v2.begin(), 3);
-    v2.insert(v2.begin(), 4);
-    v2.insert(v2.begin(), 5);
+        std::cout << "myvect.capacity() is: " << myvect.capacity() << '\n';
+        std::cout << "myvect.size() is: " << myvect.size() << '\n';
 
-    // print v1 with iterator
-    cout << endl
-         << "v1 with iterator" << endl;
+        myvect.push_back(200);
+        std::cout << "myvect.capacity() is: " << myvect.capacity() << '\n';
+        std::cout << "myvect.size() is: " << myvect.size() << '\n';
+        std::cout << "=======================================" << std::endl;
+    }
 
-    for (ft::vector<int>::iterator it = v1.begin(); it != v1.end(); ++it)
-        cout << *it << " ";
-    cout << endl;
+    // assign()
+    {
+        std::cout << "\nassign()" << std::endl;
+        std::cout << "=======================================" << std::endl;
+        NS::vector<int> first;
+        NS::vector<int> second;
 
-    // print v2 with iterator
-    cout << "v2 with iterator" << endl;
-    for (std::vector<int>::iterator it = v2.begin(); it != v2.end(); ++it)
-        cout << *it << " ";
+        first.assign(7, 100); // 7 ints with value 100
 
-    // print size of v1 and v2
-    cout << endl
-         << "v1 size: " << v1.size() << endl;
-    cout << "v2 size: " << v2.size() << endl;
+        second.assign(first.begin(), first.end()); // a copy of first
+        print_vector(first, "first");
+        print_vector(second, "second");
 
-    // resize v1 and v2
-    v1.resize(10);
-    v2.resize(10);
+        NS::vector<int> vect(3);
+        first.assign(vect.begin(), vect.end());
+        print_vector(first, "first");
 
-    // recheck size of v1 and v2
-    cout << endl
-         << "v1 size: " << v1.size() << endl;
-    cout << "v2 size: " << v2.size() << endl;
+        std::cout << "Size of first: " << int(first.size()) << '\n';
+        std::cout << "Size of second: " << int(second.size()) << '\n';
 
-    // erase v1 and v2
-    v1.erase(v1.begin());
-    v1.erase(v1.begin());
-    v1.erase(v1.begin());
-    v1.erase(v1.begin());
-    v1.erase(v1.begin());
+        std::cout << "=======================================" << std::endl;
+    }
 
-    v2.erase(v2.begin());
-    v2.erase(v2.begin());
-    v2.erase(v2.begin());
-    v2.erase(v2.begin());
-    v2.erase(v2.begin());
+    // insert()
+    {
+        std::cout << "\ninsert()" << std::endl;
+        std::cout << "=======================================" << std::endl;
+        NS::vector<int> myvect;
+        NS::vector<int>::iterator ite;
 
-    // check if v1 and v2 are empty
-    cout << endl
-         << "v1 is empty: " << v1.empty() << endl;
-    cout << "v2 is empty: " << v2.empty() << endl;
-    // add data with multiple constructors
+        // set some initial values:
+        for (int i = 1; i <= 5; ++i)
+        {
+            myvect.push_back(i);
+        }
+        ite = myvect.begin();
+        ++ite;
 
-    // use insert to add data v3
-    v3.insert(v3.begin(), 2);
-    v3.insert(v3.begin(), 3);
-    v3.insert(v3.begin(), 4);
+        myvect.insert(ite++, 10);
 
-    // print v3 with iterator
-    cout << endl
-         << "v3 with iterator" << endl;
-    for (ft::vector<int>::iterator it = v3.begin(); it != v3.end(); ++it)
-        cout << *it << " ";
+        ite = myvect.begin();
+        ite += 2;
+        myvect.insert(ite, 2, 20);
+        print_vector(myvect, "myvect");
 
-    std::vector<int> v4(10, 1);
-    // use insert to add data v4
-    v4.insert(v4.begin(), 2);
-    v4.insert(v4.begin(), 3);
-    v4.insert(v4.begin(), 4);
+        NS::vector<int> mytmp(2, 30);
+        print_vector(mytmp, "mytmp");
 
-    // print v4 with iterator
-    cout << endl
-         << "v4 with iterator" << endl;
-    for (std::vector<int>::iterator it = v4.begin(); it != v4.end(); ++it)
-        cout << *it << " ";
+        ite = myvect.begin();
+        myvect.insert(ite, mytmp.begin(), mytmp.end());
 
-    // print v3 with iterator
-    cout << endl
-         << "v3 with iterator" << endl;
-    for (ft::vector<int>::iterator it = v3.begin(); it != v3.end(); ++it)
-        cout << *it << " ";
-    cout << endl;
+        print_vector(myvect, "myvect");
+        std::cout << "=======================================" << std::endl;
+    }
 
-    // print v4 with iterator
-    cout << "v4 with iterator" << endl;
-    for (std::vector<int>::iterator it = v4.begin(); it != v4.end(); ++it)
-        cout << *it << " ";
+    // erase()
+    {
+        std::cout << "\nerase()" << std::endl;
+        std::cout << "=======================================" << std::endl;
 
-    // print size of v3 and v4
-    cout << endl
-         << "v3 size: " << v3.size() << endl;
-    cout << "v4 size: " << v4.size() << endl;
+        NS::vector<int> myvect;
+        NS::vector<int>::iterator it1, it2;
 
-    // assign v3 and v4
-    v3.assign(v4.begin(), v4.end());
-    v4.assign(v3.begin(), v3.end());
+        // set some values:
+        for (int i = 1; i < 10; ++i)
+            myvect.push_back(i * 10);
 
-    // print v3 with iterator
-    cout << endl
-         << "v3 with iterator" << endl;
-    for (ft::vector<int>::iterator it = v3.begin(); it != v3.end(); ++it)
-        cout << *it << " ";
-    cout << endl;
+        print_vector(myvect, "myvect");
 
-    // print v4 with iterator
-    cout << "v4 with iterator" << endl;
-    for (std::vector<int>::iterator it = v4.begin(); it != v4.end(); ++it)
-        cout << *it << " ";
+        // 10 20 30 40 50 60 70 80 90
+        it1 = it2 = myvect.begin(); // ^^
+        for (size_t i = 0; i < 6; i++, it2++)
+            ;  // ^                 ^
+        ++it1; //    ^              ^
+        --it2;
+        it1 = myvect.erase(it1); //        ^
 
-    // free memory
-    v1.clear();
-    v2.clear();
-    v3.clear();
-    v4.clear();
+        print_vector(myvect, "myvect");
+        std::cout << "*it1 = " << *it1 << std::endl;
+        std::cout << "*it1 = " << *it2 << std::endl;
 
-    // get a bug with the following code
-    v1.assign(v2.begin(), v2.end());
-    v2.assign(v1.begin(), v1.end());
-    v1.assign(v2.begin(), v2.end());
-    v2.assign(v1.begin(), v1.end());
+        it2 = myvect.erase(it2); // 10 30 40 50 60 80 90
+                                 //    ^           ^
+        print_vector(myvect, "myvect");
+        std::cout << "*it1 = " << *it1 << std::endl;
+        std::cout << "*it1 = " << *it2 << std::endl;
+        // 10 30 40 50 60 80 90
+        ++it1; //    ^           ^
+        --it2; //       ^     ^
+        std::cout << "*it1 = " << *it1 << std::endl;
+        std::cout << "*it1 = " << *it2 << std::endl;
+        // it1 = myvect.begin();
+        it2 = myvect.end();
+        myvect.erase(it1, it2); // 10 30 60 80 90
+                                //        ^
 
-    // test all the functions of the class vector
-    ft::vector<int> v5(10, 1);
+        print_vector(myvect, "myvect");
 
-    v5.push_back(2);
-    v5.push_back(3);
+        std::cout << "=======================================" << std::endl;
+    }
 
-    // print v5 with iterator
-    cout << endl
-         << "v5 with iterator" << endl;
-    for (ft::vector<int>::iterator it = v5.begin(); it != v5.end(); ++it)
-        cout << *it << " ";
+    // swap()
+    {
+        std::cout << "\nswap()" << std::endl;
+        std::cout << "=======================================" << std::endl;
+        // ft::vector
+        NS::vector<int> first(3, 100);  // three ints with a value of 100
+        NS::vector<int> second(5, 200); // five ints with a value of 200
 
-    v5.insert(v5.begin(), 4);
-//     v5.insert(v5.begin(), 5);
+        print_vector(first, "first");
+        print_vector(second, "second");
 
-//     v5.erase(v5.begin());
-//     v5.erase(v5.begin());
+        first.swap(second);
 
-    // print v5 with iterator
-    cout << endl
-         << "v5 with iterator" << endl;
-    for (ft::vector<int>::iterator it = v5.begin(); it != v5.end(); ++it)
-        cout << *it << " ";
+        print_vector(first, "first");
+        print_vector(second, "second");
 
-//     v5.resize(10);
-    // print v5 with iterator
-    cout << endl
-         << "v5 with iterator" << endl;
-    for (ft::vector<int>::iterator it = v5.begin(); it != v5.end(); ++it)
-        cout << *it << " ";
-    v5.clear();
-    // print v5 with iterator
-    cout << endl
-         << "v5 with iterator" << endl;
-    for (ft::vector<int>::iterator it = v5.begin(); it != v5.end(); ++it)
-        cout << *it << " ";
-    v5.assign(v5.end(), v5.begin());
-    // print v5 with iterator
-    cout << endl
-         << "v5 with iterator" << endl;
-    for (ft::vector<int>::iterator it = v5.begin(); it != v5.end(); ++it)
-        cout << *it << " ";
-    // print v5 with iterator
-    cout << endl
-         << "v5 with iterator" << endl;
-    for (ft::vector<int>::iterator it = v5.begin(); it != v5.end(); ++it)
-        cout << *it << " ";
+        std::cout << "=======================================" << std::endl;
+    }
 
-    // print v1 with iterator
+    // resize()
+    {
+        std::cout << "\nresize()" << std::endl;
+        std::cout << "=======================================" << std::endl;
 
-    v5.reserve(10);
-    // print v5 with iterator
-    cout << endl
-         << "v5 with iterator" << endl;
-    for (ft::vector<int>::iterator it = v5.begin(); it != v5.end(); ++it)
-        cout << *it << " ";
-    v5.resize(10);
-    // print v5 with iterator
-    cout << endl
-         << "v5 with iterator" << endl;
-    for (ft::vector<int>::iterator it = v5.begin(); it != v5.end(); ++it)
-        cout << *it << " ";
-    // test operator=
-    ft::vector<int> v6(10, 1);
-    ft::vector<int> v7;
-    v7 = v6;
-    // print v6 with iterator
-    cout << endl
-         << "v6 with iterator" << endl;
-    for (ft::vector<int>::iterator it = v6.begin(); it != v6.end(); ++it)
-        cout << *it << " ";
-    // print v7 with iterator
-    cout << endl
-         << "v7 with iterator" << endl;
-    for (ft::vector<int>::iterator it = v7.begin(); it != v7.end(); ++it)
-        cout << *it << " ";
-    // vetor de string
-    ft::vector<std::string> v8(10, "test");
-    // print v8 with iterator
-    cout << endl
-         << "v8 with iterator" << endl;
-    for (ft::vector<std::string>::iterator it = v8.begin(); it != v8.end(); ++it)
-        cout << *it << " ";
+        NS::vector<int> myvect;
 
-           std::vector<std::string> v9(10, "test");
-    // print vv9 with iterator
-    cout << endl
-         << "v9 with iterator" << endl;
-    for (std::vector<std::string>::iterator it = v9.begin(); it != v9.end(); ++it)
-        cout << *it << " ";
+        // set some initial content:
+        for (int i = 1; i < 10; ++i)
+            myvect.push_back(i);
 
-    std::cout << "v9 size: " << v9.max_size() << std::endl;
-    std::cout << "v8 size: " << v8.max_size() << std::endl;
-    return 0;
+        print_vector(myvect, "myvect");
+        myvect.resize(5);
+        print_vector(myvect, "myvect");
+        myvect.resize(8, 100);
+        print_vector(myvect, "myvect");
+        myvect.resize(12);
+        print_vector(myvect, "myvect");
+
+        std::cout << "=======================================" << std::endl;
+    }
+
+    // relational operators()
+    {
+        std::cout << "\nrelational operators" << std::endl;
+        std::cout << "=======================================" << std::endl;
+
+        NS::vector<int> a;
+        a.push_back(10);
+        a.push_back(20);
+        a.push_back(30);
+        print_vector(a, "a");
+        NS::vector<int> b;
+        b = a;
+
+        print_vector(b, "b");
+
+        NS::vector<int> c;
+        c.push_back(30);
+        c.push_back(20);
+        c.push_back(10);
+        print_vector(c, "c");
+
+        if (a == b)
+            std::cout << "\na and b are equal\n";
+        if (b != c)
+            std::cout << "b and c are not equal\n";
+        if (b < c)
+            std::cout << "b is less than c\n";
+        if (c > b)
+            std::cout << "c is greater than b\n";
+        if (a <= b)
+            std::cout << "a is less than or equal to b\n";
+        if (a >= b)
+            std::cout << "a is greater than or equal to b\n";
+        std::cout << "=======================================" << std::endl;
+    }
+
+    // non-member swap()
+    {
+        std::cout << "\nnon-member swap()" << std::endl;
+        std::cout << "=======================================" << std::endl;
+
+        NS::vector<int> foo(3, 100); // three ints with a value of 100
+        NS::vector<int> bar(5, 200); // five ints with a value of 200
+
+        print_vector(foo, "foo");
+        print_vector(bar, "bar");
+        NS::swap(foo, bar);
+        print_vector(foo, "foo");
+        print_vector(bar, "bar");
+
+        std::cout << "=======================================" << std::endl;
+    }
+
+    // reverse iterators
+    {
+        std::cout << "\nreverse iterators" << std::endl;
+        std::cout << "=======================================" << std::endl;
+        NS::vector<int> l;
+        l.push_back(1);
+        l.insert(l.end(), 4, 100);
+        l.push_back(2);
+        NS::vector<int>::reverse_iterator ite = l.rbegin();
+        NS::vector<int>::reverse_iterator it = l.rend();
+        for (int i = 0; it != ite; ite++, i++)
+        {
+            std::cout << "[" << *ite << "]  ";
+        }
+        std::cout << "\n=======================================" << std::endl;
+    }
+    // const_iterator
+    {
+        std::cout << "\nconst iterators" << std::endl;
+        std::cout << "=======================================" << std::endl;
+        NS::vector<int> l;
+        l.push_back(1);
+        l.push_back(2);
+        l.push_back(3);
+        l.push_back(4);
+        l.push_back(5);
+        NS::vector<int>::const_iterator ite = l.begin();
+        NS::vector<int>::const_iterator it = l.end();
+        for (; it != ite; ite++)
+        {
+            std::cout << "[" << *ite << "]  ";
+        }
+        std::cout << "\n=======================================" << std::endl;
+    }
+
+    // iterator relational operators
+    {
+        std::cout << "\nrelational operators for iterator" << std::endl;
+        std::cout << "=======================================" << std::endl;
+        NS::vector<int> l;
+        l.push_back(1);
+        l.push_back(2);
+        l.push_back(3);
+        l.push_back(4);
+        l.push_back(5);
+        NS::vector<int>::const_iterator ite = l.begin();
+        NS::vector<int>::const_iterator it = l.begin() + 2;
+        std::cout << "first=" << *ite << std::endl;
+        std::cout << "third=" << *it << std::endl;
+        std::cout << "difference=" << it - ite << std::endl;
+
+        std::cout << "\n=======================================" << std::endl;
+    }
+    std::cout << "\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< end of vector tests >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n"
+              << std::endl;
 }

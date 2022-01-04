@@ -6,7 +6,7 @@
 #    By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/08 13:43:12 by zdnaya            #+#    #+#              #
-#    Updated: 2022/01/03 23:08:32 by zdnaya           ###   ########.fr        #
+#    Updated: 2022/01/04 14:29:14 by zdnaya           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ INC=vector.hpp \
 all: $(SRC:.cpp=.o)
 	@echo "Compiling..."
 	@echo "Compiling..."
-	@clang++ -g -std=c++98 -pedantic -Wall -Wextra -Werror $(SRC) -o $(NAME)
+	@clang++ -g -std=c++98 -Wall -Wextra -Werror $(SRC) -o $(NAME)
 	@echo "Compiling... Done"
 
 fclean:

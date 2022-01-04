@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 21:59:39 by zainabdnaya       #+#    #+#             */
-/*   Updated: 2022/01/04 11:14:35 by zdnaya           ###   ########.fr       */
+/*   Updated: 2022/01/04 14:17:16 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,18 +183,23 @@ namespace ft
         ~RBT()
         {
             int i = -1;
+            if (Tend->right == Tend )
+                return;
             if (TNULL->right != Tend)
             {
-                this->clear();
+                if (size() > 0 && i == -1)
+                {
+                    clear_tree(this->root);
+                    i = 1;
+                }
                 alloc.destroy(TNULL);
                 alloc.deallocate(TNULL, 1);
                 TNULL->right = Tend;
-                i = 1;
             }
             if (Tend->right != Tend)
             {
-                if (i == -1)
-                    this->clear();
+                if ( size() > 0 && i == -1)
+                    clear_tree(this->root);
                 alloc.destroy(Tend);
                 alloc.deallocate(Tend, 1);
                 Tend->right = Tend;
@@ -337,58 +342,6 @@ namespace ft
             root->isBlack = true; // root is always black
             root->parent = Tend;
             // root->isLeft = -1;
-        }
-
-        int height_right(node *_node)
-        {
-            node *tmp = _node->right;
-            int h = 0;
-            while (tmp != NULL)
-            {
-                if (tmp->isBlack == true)
-                    h++;
-                tmp = tmp->right;
-            }
-            tmp = _node->right;
-            while (tmp != NULL)
-            {
-                node *tmp2 = tmp->left;
-                while (tmp2 != NULL)
-                {
-                    if (tmp2->isBlack == true)
-                        h++;
-                    tmp2 = tmp2->left;
-                }
-                tmp = tmp->right;
-            }
-            return h;
-        }
-
-        int height_left(node *_node)
-        {
-            node *tmp = _node->left;
-            int h = 0;
-            while (tmp != NULL)
-            {
-                if (tmp->isBlack == true)
-                    h++;
-                tmp = tmp->left;
-            }
-
-            tmp = _node->left;
-            while (tmp != NULL)
-            {
-                node *tmp2 = tmp->right;
-                while (tmp2 != NULL)
-                {
-                    if (tmp2->isBlack == true)
-                        h++;
-                    tmp2 = tmp2->right;
-                }
-                tmp = tmp->left;
-            }
-
-            return h;
         }
 
         void delete_fix_rbt(node *x)
@@ -563,41 +516,6 @@ namespace ft
                 root->isBlack = true;
         }
 
-        // void print(node *node, std::string indent, bool last)
-        // {
-        //     if (node != TNULL)
-        //     {
-        //         std::cout << indent;
-        //         if (last)
-        //         {
-        //             std::cout << "R----";
-        //             indent += "   ";
-        //         }
-        //         else
-        //         {
-        //             std::cout << "L----";
-        //             indent += "|  ";
-        //         }
-
-        //         std::string sColor = node->isBlack == false ? "RED" : "BLACK";
-        //         std::cout << node->data.first << "(" << sColor << ")" << std::endl;
-        //         // node = node->left;
-        //         print(node->left, indent, false);
-        //         // node = node->right;
-        //         print(node->right, indent, true);
-        //     }
-        // // }
-        // void check_print_rbt()
-        // {
-        //     if (root)
-        //         print(this->root, "", true);
-        // }
-
-        // int isRBTProper()
-        // {
-        //     return this->isRBProper(root);
-        // }
-
         node *successor(node *n)
         {
             if (n && n->right != TNULL)
@@ -677,9 +595,7 @@ namespace ft
         // add empty
         bool empty() const
         {
-            if (root == TNULL)
-                return true;
-            return false;
+            return _size == 0;
         }
         // add size
         size_type size() const
@@ -708,7 +624,6 @@ namespace ft
         {
             while (first != last)
             {
-                // std::cout << "erase " << first.it->data.first << std::endl;
                 erase(first);
                 ++first;
             }
@@ -728,11 +643,11 @@ namespace ft
         // swap
         void swap(RBT &other)
         {
-
-            root = other.root;
-            _size = other._size;
-            Tend = other.Tend;
-            TNULL = other.TNULL;
+            std::swap(root, other.root);
+            std::swap(Tend, other.Tend);
+            std::swap(TNULL, other.TNULL);
+            std::swap(alloc, other.alloc);
+            std::swap(_size, other._size);
         }
         // find
         iterator find(const T &data)
@@ -815,10 +730,10 @@ namespace ft
         {
             if (n && n != TNULL && n != Tend)
             {
-                clear_tree(n->left);
-                clear_tree(n->right);
-                if (n->left != Tend && n->right != Tend)
+                if (n->left != Tend || n->right != Tend)
                 {
+                    clear_tree(n->left);
+                    clear_tree(n->right);
                     alloc.destroy(n);
                     alloc.deallocate(n, 1);
                 }
@@ -832,6 +747,7 @@ namespace ft
         void clear()
         {
             clear_tree(root);
+            _size = 0;
         }
         // searsh by iterator
 

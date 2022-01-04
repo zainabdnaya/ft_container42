@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 00:06:02 by zdnaya            #+#    #+#             */
-/*   Updated: 2022/01/04 11:12:36 by zdnaya           ###   ########.fr       */
+/*   Updated: 2022/01/04 13:59:22 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ namespace ft
 		typedef typename tree::const_reverse_iterator const_reverse_iterator;
 		typedef typename tree::size_type size_type;
 		typedef typename tree::difference_type difference_type;
-		typedef typename tree::node_allocator allocator_type;
+		typedef typename tree::node_allocator allocator_types;
+		typedef  Alloc allocator_type;
 		typedef typename tree::reference reference;
 		typedef typename tree::pointer pointer;
 		typedef typename tree::const_reference const_reference;
@@ -86,7 +87,10 @@ namespace ft
 		{
 			if (this != &_m)
 			{
+				// this->_tree.clear();
+				this->clear();
 				this->_tree.~RBT();
+				// _alloc.dealocate(this->_tree.get_node_begin(), 1);
 				this->_tree = _m._tree;
 				this->_size = _m._size;
 			}
@@ -153,7 +157,6 @@ namespace ft
 
 		ft::pair<iterator, bool> insert(const value_type &_v)
 		{
-			std::cout << " im here\n";
 
 			if (this->_tree.find(_v) != this->_tree.end())
 				return (ft::pair<iterator, bool>(_tree.find(_v), false));
@@ -178,6 +181,8 @@ namespace ft
 		size_type erase(const Key &x)
 		{
 			_tree.erase(ft::pair<const Key, mapped_type>(x, mapped_type()));
+			if(_tree.count(ft::pair<const Key, mapped_type>(x, mapped_type())) == 0)
+				return 1;
 			return 0;
 		}
 
@@ -194,16 +199,15 @@ namespace ft
 		void clear()
 		{
 			this->_tree.clear();
+			this->_size = 0;
 		}
 
 		// swap
 		void swap(map &_m)
 		{
-			_tree.~RBT();
-
-			ft::swap(this->_size, _m._size);
-			ft::swap(this->_alloc, _m._alloc);
-			ft::swap(this->_comp, _m._comp);
+			std::swap(this->_size, _m._size);
+			std::swap(this->_alloc, _m._alloc);
+			std::swap(this->_comp, _m._comp);
 			this->_tree.swap(_m._tree);
 		}
 		// empty
@@ -298,7 +302,7 @@ namespace ft
 
 	private:
 		size_type _size;
-		allocator_type _alloc;
+		allocator_types _alloc;
 		key_compare _comp;
 		tree _tree;
 	};

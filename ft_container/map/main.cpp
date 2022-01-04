@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 13:42:09 by zainabdnaya       #+#    #+#             */
-/*   Updated: 2022/01/03 19:51:24 by zdnaya           ###   ########.fr       */
+/*   Updated: 2022/01/04 14:01:31 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,10 @@ int main()
 		std::cout << "map1.begin(): " << (*it).first << std::endl;
 		std::cout << "=======================================" << std::endl;
 	}
-	// assign operator=()
+	// // assign operator=()
 	{
-		// std::cout << "\nassign operator=()" << std::endl;
-		// std::cout << "=======================================" << std::endl;
+		std::cout << "\nassign operator=()" << std::endl;
+		std::cout << "=======================================" << std::endl;
 		NS::map<int, int> map1;
 		map1.insert(NS::make_pair(5, 1));
 		map1.insert(NS::make_pair(2, 2));
@@ -114,7 +114,7 @@ int main()
 		std::cout << "\n==============here I m =========================" << std::endl;
 	}
 
-	// // clear()
+	// // // clear()
 	{
 		std::cout << "\nclear()" << std::endl;
 		std::cout << "=======================================" << std::endl;
@@ -350,7 +350,7 @@ int main()
 		std::cout << "=======================================" << std::endl;
 		NS::map<int, int> map1;
 		print_map(map1, "map1");
-		NS::map<int, int>::_alloc_type alloc = map1.get_allocator();
+		NS::map<int, int>::allocator_type alloc = map1.get_allocator();
 		NS::pair<const int, int> *ptr = alloc.allocate(1);
 		alloc.deallocate(ptr, 1);
 		std::cout << "alloc max size: " << alloc.max_size() << std::endl;
