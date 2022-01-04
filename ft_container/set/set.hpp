@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 00:06:02 by zdnaya            #+#    #+#             */
-/*   Updated: 2022/01/03 22:30:58 by zdnaya           ###   ########.fr       */
+/*   Updated: 2022/01/04 18:26:52 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ namespace ft
         typedef typename tree::const_reverse_iterator const_reverse_iterator;
         typedef typename tree::size_type size_type;
         typedef typename tree::difference_type difference_type;
-        typedef typename tree::allocator_type allocator_type;
+        typedef typename tree::allocator_type allocator_types;
+        typedef Alloc allocator_type;
         typedef typename tree::reference reference;
         typedef typename tree::const_reference const_reference;
         typedef typename tree::pointer pointer;
@@ -147,8 +148,9 @@ namespace ft
 
             if (this->_tree.find(_v) != this->_tree.end())
                 return (ft::pair<iterator, bool>(_tree.find(_v), false));
-
+            
             this->_tree.insert_node(_v);
+            this->_size = this->_tree._size;
             return (ft::pair<iterator, bool>(_tree.find(_v), true));
         }
         template <class InputIterator>
@@ -186,15 +188,17 @@ namespace ft
         // swap
         void swap(set &_m)
         {
-            ft::swap(this->_size, _m._size);
-            ft::swap(this->_alloc, _m._alloc);
-            ft::swap(this->_comp, _m._comp);
+            std::swap(this->_size, _m._size);
+            std::swap(this->_alloc, _m._alloc);
+            std::swap(this->_comp, _m._comp);
             this->_tree.swap(_m._tree);
         }
         // empty
         bool empty() const
         {
-            return (this->_tree.empty());
+            if(this->_size == 0)
+                return true;
+            return false;
         }
         // size
         size_type size() const
@@ -268,9 +272,10 @@ namespace ft
 
     private:
         size_type _size;
-        allocator_type _alloc;
+        allocator_types _alloc;
         key_compare _comp;
         tree _tree;
+        
     };
 }
 #endif

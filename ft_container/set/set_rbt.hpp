@@ -129,10 +129,9 @@ namespace ft
     class _set
     {
     public:
-        // typedef Key  key_type;
         typedef T value_type; // pair<key_type, val> --> T
         typedef struct Node<value_type> node;
-        typedef  Alloc allocator;
+        typedef Alloc allocator;
         typedef typename Alloc::template rebind<node>::other allocator_type;
         typedef typename Alloc::pointer pointer;
         typedef typename Alloc::const_pointer const_pointer;
@@ -152,19 +151,11 @@ namespace ft
         Compare comp;
         size_type _size;
         allocator_type alloc;
+       
         node *root;
-        allocator _alloc;
         node *TNULL;
         node *Tend;
 
-        int isRBProper(node *n)
-        {
-            if (n == NULL)
-                return 1;
-            if (n->isBlack == false && ((n->left != NULL && n->left->isBlack == false) || (n->right != NULL && n->right->isBlack == false)))
-                return 0;
-            return isRBProper(n->left) && isRBProper(n->right);
-        }
 
         _set()
         {
@@ -340,7 +331,6 @@ namespace ft
             // root->isLeft = -1;
         }
 
-     
         void delete_fix__set(node *x)
         {
             node *tmp;
@@ -630,9 +620,7 @@ namespace ft
         // add empty
         bool empty() const
         {
-            if (root == TNULL)
-                return true;
-            return false;
+            return _size == 0;
         }
         // add size
         size_type size() const
@@ -643,8 +631,8 @@ namespace ft
         // max size
         size_type max_size() const
         {
-            // return std::min<size_type>(this->_alloc.max_size(), std::numeric_limits<difference_type>::max());
-            return alloc.max_size();
+            return std::min<size_type>(this->alloc.max_size(), std::numeric_limits<difference_type>::max());
+            // return alloc.max_size();
         }
 
         // erase
@@ -678,11 +666,10 @@ namespace ft
         // swap
         void swap(_set &other)
         {
-
-            root = other.root;
-            _size = other._size;
-            Tend = other.Tend;
-            TNULL = other.TNULL;
+            std::swap(root, other.root);
+            std::swap(TNULL, other.TNULL);
+            std::swap(Tend, other.Tend);
+            std::swap(_size, other._size);
         }
         // find
         iterator find(const T &data)
@@ -782,6 +769,7 @@ namespace ft
         void clear()
         {
             clear_tree(root);
+            _size = 0;
         }
         // searsh by iterator
 
@@ -802,6 +790,8 @@ namespace ft
             else
                 return TNULL->data;
         }
+        //get_allocator
+
         allocator_type get_allocator() const
         {
             return alloc;
