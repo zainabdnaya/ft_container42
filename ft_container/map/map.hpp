@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 00:06:02 by zdnaya            #+#    #+#             */
-/*   Updated: 2022/01/04 16:27:49 by zdnaya           ###   ########.fr       */
+/*   Updated: 2022/01/04 18:46:17 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,8 +160,9 @@ namespace ft
 
 			if (this->_tree.find(_v) != this->_tree.end())
 				return (ft::pair<iterator, bool>(_tree.find(_v), false));
-
+			
 			this->_tree.insert_node(_v);
+			this->_size++;
 			return (ft::pair<iterator, bool>(_tree.find(_v), true));
 		}
 		template <class InputIterator>

@@ -10,9 +10,6 @@
 // /*                                                                            */
 // /* ************************************************************************** */
 
-// #include <iostream>
-// #include <map>
-// #include <new>
 #include "./map.hpp"
 #include <map>
 
@@ -25,8 +22,7 @@
 //     }
 // }
 #include <iostream>
-// #include "map."
-// define COLORS for terminal
+
 #define RED "\033[0;31m"
 #define GREEN "\033[0;32m"
 #define YELLOW "\033[0;33m"
@@ -37,60 +33,51 @@
 
 #ifndef NS
 #define NS ft
-#endif 
+#endif
 
 template <typename T, typename U>
-void print_namespace(NS::map<T, U> const &mp)
+void print_namespace(ft::map<T, U> const &mp)
 {
 	mp.empty();
 	std::cout << "\nNAMESPACE : ft" << std::endl;
 }
 
 template <typename T, typename U>
-void print_namespace(std::map<T, U> &mp)
+void print_namespace(std::map<T, U> const &mp)
 {
 	mp.empty();
 	std::cout << "\nNAMESPACE : std" << std::endl;
-	std::cout << "\nmap Size: " << mp.size();
-	std::cout << "\nmap ["
-			  << "] contains: ";
-	if (mp.size() == 0)
-		return;
-	else
-		std::cout << "\n\n";
-	for (typename std::map<T, U>::iterator it = mp.begin(); it != mp.end(); ++it)
-	{
-		std::cout << "[" << it->first << "]"
-				  << " = " << it->second << std::endl;
-	}
-	std::cout << std::endl;
 }
 
 template <typename T, typename U>
 void print_map(NS::map<T, U> &mp, char const *label)
 {
-	// std::cout << mp.size() << "\nhere I m\n";
-
-	std::cout << "\nmap Size: " << mp.size();
-	std::cout << "\nmap [" << label << "] contains: ";
-	if (mp.size() == 0)
-		return;
-	else
-		std::cout << "\n\n";
-	for (typename NS::map<T, U>::iterator it = mp.begin(); it != mp.end(); ++it)
+	if (!mp.empty())
 	{
-		std::cout << "[" << it->first << "]"
-				  << " = " << it->second << std::endl;
+		std::cout << "\nmap Size: " << mp.size();
+		std::cout << "\nmap [" << label << "] contains: ";
+		if (!mp.size())
+			std::cout << "nothing";
+		else
+			std::cout << "\n\n";
+		for (typename NS::map<T, U>::iterator it = mp.begin(); it != mp.end(); ++it)
+		{
+			std::cout << "[" << it->first << "]"
+					  << " = " << it->second << std::endl;
+		}
+		std::cout << std::endl;
 	}
-	std::cout << std::endl;
 }
 
-int main()
+int main(void)
 {
-	// NS::map<int, int> maptGolbal;
-	// print_namespace(maptGolbal);
 
-	// // begin()
+	std::cout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< map tests >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n"
+			  << std::endl;
+	NS::map<int, int> maptGolbal;
+	print_namespace(maptGolbal);
+
+	// begin()
 	{
 		std::cout << "\nbegin() & end() " << std::endl;
 		std::cout << "=======================================" << std::endl;
@@ -104,7 +91,7 @@ int main()
 		std::cout << "map1.begin(): " << (*it).first << std::endl;
 		std::cout << "=======================================" << std::endl;
 	}
-	// // assign operator=()
+	// assign operator=()
 	{
 		std::cout << "\nassign operator=()" << std::endl;
 		std::cout << "=======================================" << std::endl;
@@ -120,11 +107,10 @@ int main()
 		map2 = map1;
 		std::cout << "after assigning map1 to map2" << std::endl;
 		print_map(map2, "map2");
-		// map2.clear();
-		std::cout << "\n==============here I m =========================" << std::endl;
+		std::cout << "=======================================" << std::endl;
 	}
 
-	// // // clear()
+	// clear()
 	{
 		std::cout << "\nclear()" << std::endl;
 		std::cout << "=======================================" << std::endl;
@@ -134,7 +120,6 @@ int main()
 		map1.insert(NS::make_pair(10, 3));
 		map1.insert(NS::make_pair(4, 4));
 		print_map(map1, "map1");
-		// print_namespace(map1);
 		map1.clear();
 		std::cout << "after clearing map1" << std::endl;
 		print_map(map1, "map1");
@@ -144,19 +129,6 @@ int main()
 	// count()
 	{
 		std::cout << "\ncount()" << std::endl;
-		std::cout << "=======================================" << std::endl;
-		NS::map<int, int> map1;
-		map1.insert(NS::make_pair(5, 1));
-		map1.insert(NS::make_pair(2, 2));
-		map1.insert(NS::make_pair(10, 3));
-		map1.insert(NS::make_pair(4, 4));
-		print_map(map1, "map1");
-		std::cout << "map1.count(5): " << map1.count(5) << std::endl;
-		std::cout << "map1.count(6): " << map1.count(6) << std::endl;
-		std::cout << "=======================================" << std::endl;
-	}
-	{
-		std::cout << "\nstd::count()" << std::endl;
 		std::cout << "=======================================" << std::endl;
 		NS::map<int, int> map1;
 		map1.insert(NS::make_pair(5, 1));
@@ -186,6 +158,8 @@ int main()
 		std::cout << "map1.empty(): " << map1.empty() << std::endl;
 		std::cout << "=======================================" << std::endl;
 	}
+
+	// find()
 	{
 		std::cout << "\nfind()" << std::endl;
 		std::cout << "=======================================" << std::endl;
@@ -205,6 +179,7 @@ int main()
 		std::cout << "=======================================" << std::endl;
 	}
 
+	// insert()
 	{
 		std::cout << "\ninsert()" << std::endl;
 		std::cout << "=======================================" << std::endl;
@@ -240,8 +215,8 @@ int main()
 		print_map(map3, "map3");
 		std::cout << "=======================================" << std::endl;
 	}
-	// erase()
 
+	// erase()
 	{
 		std::cout << "\nerase()" << std::endl;
 		std::cout << "=======================================" << std::endl;
@@ -257,9 +232,7 @@ int main()
 		print_map(map1, "map1");
 		std::cout << "map1.erase(0): " << map1.erase(0) << std::endl;
 		NS::map<int, int>::iterator it = map1.begin();
-		// std::cout << "it: " << (*it).first << std::endl;
 		std::advance(it, 2);
-		// std::cout << "it: " << map1.begin()->first << std::endl;
 		map1.erase(map1.begin(), it);
 		print_map(map1, "map1");
 		map1.erase(map1.begin());
@@ -268,14 +241,15 @@ int main()
 		std::cout << "=======================================" << std::endl;
 	}
 
+	// max_size()
 	{
 		std::cout << "\nmax_size()" << std::endl;
 		std::cout << "=======================================" << std::endl;
 		NS::map<int, int> map1;
-		std::cout << "map1.max_size(): [" << map1.max_size() << "]" << std::to_string(map1.max_size()).length() << std::endl;
+		std::cout << "map1.max_size(): " << map1.max_size() << std::endl;
 		std::cout << "=======================================" << std::endl;
 	}
-	
+
 	// swap()
 	{
 		std::cout << "\nswap()" << std::endl;
@@ -298,6 +272,7 @@ int main()
 		std::cout << "=======================================" << std::endl;
 	}
 
+	// lower_bound()
 	{
 		std::cout << "\nlower_bound()" << std::endl;
 		std::cout << "=======================================" << std::endl;
@@ -367,6 +342,7 @@ int main()
 
 		std::cout << "=======================================" << std::endl;
 	}
+
 	// const iterators
 	{
 		std::cout << "\nconst iterators" << std::endl;
@@ -404,4 +380,7 @@ int main()
 
 		std::cout << "=======================================" << std::endl;
 	}
+
+	std::cout << "\n<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< end of map tests >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n"
+			  << std::endl;
 }

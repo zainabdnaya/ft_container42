@@ -8,7 +8,7 @@ INC= *.hpp
 all: $(SRC:.cpp=.o)
 	@echo "Compiling..."
 	@echo "Compiling..."
-	@clang++  -std=c++98  -Wall -Wextra -Werror -pedantic $(SRC) -g -o $(NAME)
+	@clang++ -g -std=c++98  -Wall -Wextra -Werror -pedantic $(SRC) -o $(NAME)
 	@echo "Compiling... Done"
 
 fclean:

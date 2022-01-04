@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 21:59:39 by zainabdnaya       #+#    #+#             */
-/*   Updated: 2022/01/04 16:28:20 by zdnaya           ###   ########.fr       */
+/*   Updated: 2022/01/04 18:48:11 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,17 +156,11 @@ namespace ft
         node *TNULL;
         node *Tend;
         size_type _size;
-        int isRBProper(node *n)
-        {
-            if (n == NULL)
-                return 1;
-            if (n->isBlack == false && ((n->left != NULL && n->left->isBlack == false) || (n->right != NULL && n->right->isBlack == false)))
-                return 0;
-            return isRBProper(n->left) && isRBProper(n->right);
-        }
+        
 
         RBT()
         {
+            _size = 0;
             TNULL = alloc.allocate(1);
             Tend = alloc.allocate(1);
             Tend->right = TNULL;
@@ -177,7 +171,6 @@ namespace ft
             Tend->left = root;
             Tend->parent = Tend;
             comp = Compare();
-            _size = 0;
         }
 
         ~RBT()
