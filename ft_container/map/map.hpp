@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 00:06:02 by zdnaya            #+#    #+#             */
-/*   Updated: 2022/01/03 19:49:44 by zdnaya           ###   ########.fr       */
+/*   Updated: 2022/01/04 11:12:36 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,26 +68,22 @@ namespace ft
 		explicit map(const key_compare &comp = key_compare(),
 					 const allocator_type &alloc = allocator_type()) : _size(0), _alloc(alloc), _comp(comp), _tree()
 		{
-			std::cout << "map constructor0" << std::endl;
 		}
 		template <class InputIterator>
 		map(InputIterator first, InputIterator last,
 			const key_compare &comp = key_compare(),
 			const allocator_type &alloc = allocator_type()) : _size(0), _alloc(alloc), _comp(comp), _tree()
 		{
-			std::cout << "map constructor1" << std::endl;
 			for (InputIterator it = first; it != last; ++it)
 				this->insert(*it);
 		}
 
 		map(const map &_m) : _size(0), _alloc(_m._alloc), _comp(_m._comp), _tree(_m._tree)
 		{
-			std::cout << "map constructor2" << std::endl;
 		}
 
 		map &operator=(const map &_m)
 		{
-			std::cout << "map operator=" << std::endl;
 			if (this != &_m)
 			{
 				this->_tree.~RBT();
@@ -99,7 +95,6 @@ namespace ft
 
 		~map()
 		{
-			std::cout << "map destructor" << std::endl;
 		}
 
 		// begin

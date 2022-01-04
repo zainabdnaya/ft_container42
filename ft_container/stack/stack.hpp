@@ -6,14 +6,14 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 10:50:55 by zainabdnaya       #+#    #+#             */
-/*   Updated: 2022/01/01 10:52:13 by zdnaya           ###   ########.fr       */
+/*   Updated: 2022/01/04 11:11:36 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STACK_HPP
 #define STACK_HPP
 
-#include "../vectors/vector.hpp"
+#include "../vector/vector.hpp"
 
 class vector;
 namespace ft
@@ -25,9 +25,11 @@ namespace ft
 		typedef T value_type;
 		typedef size_t size_type;
 		typedef Container container_type;
-
 		// default constructor / constructor with parameter
-		explicit stack(const container_type &ctnr = container_type()) : c(ctnr) {}
+		explicit stack(const container_type &ctnr = container_type()) 
+		{
+			c = ctnr;
+		}
 
 		// destructor
 		virtual ~stack() {}

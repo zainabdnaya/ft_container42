@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 21:59:39 by zainabdnaya       #+#    #+#             */
-/*   Updated: 2022/01/03 19:21:37 by zdnaya           ###   ########.fr       */
+/*   Updated: 2022/01/04 11:14:35 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,13 +182,6 @@ namespace ft
 
         ~RBT()
         {
-            std::cout << "destructor called" << std::endl;
-            // if (root->left != Tend)
-            // {
-            //     alloc.deallocate(root, 1);
-            //     root->left = Tend;
-            // }
-
             int i = -1;
             if (TNULL->right != Tend)
             {
@@ -473,7 +466,6 @@ namespace ft
         node *search(value_type key)
         {
             node *tmp = root;
-            // std::cout << "here I m " << (tmp == Tend ? "Tend" : "TNULL") << key.first << std::endl;
             while (tmp != Tend && tmp != TNULL)
             {
                 if (comp(key.first, tmp->data.first))
@@ -525,11 +517,7 @@ namespace ft
             node *_node = search(data);
 
             if (_node == TNULL)
-            {
-                std::cout << "Key not found in the tree " << data.first << std::endl;
                 return;
-            }
-
             node *x = TNULL;
             node *y = TNULL;
             y = _node;
@@ -575,40 +563,40 @@ namespace ft
                 root->isBlack = true;
         }
 
-        void print(node *node, std::string indent, bool last)
-        {
-            if (node != TNULL)
-            {
-                std::cout << indent;
-                if (last)
-                {
-                    std::cout << "R----";
-                    indent += "   ";
-                }
-                else
-                {
-                    std::cout << "L----";
-                    indent += "|  ";
-                }
+        // void print(node *node, std::string indent, bool last)
+        // {
+        //     if (node != TNULL)
+        //     {
+        //         std::cout << indent;
+        //         if (last)
+        //         {
+        //             std::cout << "R----";
+        //             indent += "   ";
+        //         }
+        //         else
+        //         {
+        //             std::cout << "L----";
+        //             indent += "|  ";
+        //         }
 
-                std::string sColor = node->isBlack == false ? "RED" : "BLACK";
-                std::cout << node->data.first << "(" << sColor << ")" << std::endl;
-                // node = node->left;
-                print(node->left, indent, false);
-                // node = node->right;
-                print(node->right, indent, true);
-            }
-        }
-        void check_print_rbt()
-        {
-            if (root)
-                print(this->root, "", true);
-        }
+        //         std::string sColor = node->isBlack == false ? "RED" : "BLACK";
+        //         std::cout << node->data.first << "(" << sColor << ")" << std::endl;
+        //         // node = node->left;
+        //         print(node->left, indent, false);
+        //         // node = node->right;
+        //         print(node->right, indent, true);
+        //     }
+        // // }
+        // void check_print_rbt()
+        // {
+        //     if (root)
+        //         print(this->root, "", true);
+        // }
 
-        int isRBTProper()
-        {
-            return this->isRBProper(root);
-        }
+        // int isRBTProper()
+        // {
+        //     return this->isRBProper(root);
+        // }
 
         node *successor(node *n)
         {
