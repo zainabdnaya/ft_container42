@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 21:59:39 by zainabdnaya       #+#    #+#             */
-/*   Updated: 2022/01/04 14:17:16 by zdnaya           ###   ########.fr       */
+/*   Updated: 2022/01/04 16:28:20 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -728,7 +728,7 @@ namespace ft
         // clear_tree
         void clear_tree(node *n)
         {
-            if (n && n != TNULL && n != Tend)
+            if (n && n !=  Tend && n  != TNULL)
             {
                 if (n->left != Tend || n->right != Tend)
                 {

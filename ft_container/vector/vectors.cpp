@@ -7,7 +7,7 @@
 #include <cmath>
 
 #ifndef NS
-#define NS ft
+#define NS  std
 #endif
 
 template <typename T>

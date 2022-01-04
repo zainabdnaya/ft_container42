@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 00:06:02 by zdnaya            #+#    #+#             */
-/*   Updated: 2022/01/04 13:59:22 by zdnaya           ###   ########.fr       */
+/*   Updated: 2022/01/04 16:27:49 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,10 @@ namespace ft
 		{
 			if (this != &_m)
 			{
-				// this->_tree.clear();
-				this->clear();
-				this->_tree.~RBT();
-				// _alloc.dealocate(this->_tree.get_node_begin(), 1);
+				this->_tree.clear();
+				this->_tree.~RBT();	
+				// _alloc.deallocate(this->_tree.get_node_end(), 1);
+				// _alloc.deal
 				this->_tree = _m._tree;
 				this->_size = _m._size;
 			}
