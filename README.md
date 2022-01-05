@@ -1,6 +1,12 @@
 # ft_container42
 
 The aim of this project is to The multiple available containers in C++ , so we gonna re-implement them!
+Here are the specificities of the five containers:
+
+      Vector: a dynamic array that allows insertion at the end of the container. Elements can be easily access thanks with the corresponding index, but it's not the most optimal container if a lot of insertion / deletion are needed.
+      Map: a sorted container using an Red-Black tree (auto-equilibrates itself to optimize the time to find a value in the tree), in order to store the data like in a dictionnary (a key associated to its value).
+      Stack: a container adaptator (LIFO, last in first out).
+      Set: a container that store unique elements following a specific order,is implimented as Red-Black tree (auto-equilibrates itself to optimize the time to find a value in the tree).
 
 # Resources
 
@@ -57,7 +63,6 @@ When writing a generic algorithm or other function that uses iterators, you can 
     };
 
 It's so useful because it's a key part in using type traits, a way to restrict templates to types that have certain properties.
-
 
 ## Red Black Tree
 

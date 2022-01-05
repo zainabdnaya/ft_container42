@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 00:06:02 by zdnaya            #+#    #+#             */
-/*   Updated: 2022/01/04 18:26:52 by zdnaya           ###   ########.fr       */
+/*   Updated: 2022/01/04 21:10:39 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,17 +59,28 @@ namespace ft
         explicit set(const key_compare &comp = key_compare(),
                      const allocator_type &alloc = allocator_type()) : _size(0), _alloc(alloc), _comp(comp), _tree()
         {
+
         }
         template <class InputIterator>
         set(InputIterator first, InputIterator last,
             const key_compare &comp = key_compare(),
             const allocator_type &alloc = allocator_type()) : _size(0), _alloc(alloc), _comp(comp), _tree()
         {
+            this->clear();
             this->insert(first, last);
         }
 
-        set(const set &_m) : _size(0), _alloc(_m._alloc), _comp(_m._comp), _tree(_m._tree)
+        set(const set &_m) 
         {
+            if ( this != &_m)
+            {
+                this->clear();
+                this->_tree.~tree();
+                this->_tree = _m._tree;
+                this->_size = _m._size;
+                this->_alloc = _m._alloc;
+                this->_comp = _m._comp;    
+            }
         }
 
         set &operator=(const set &_m)

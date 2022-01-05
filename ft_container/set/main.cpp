@@ -6,7 +6,7 @@
 /*   By: zdnaya <zdnaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 12:32:29 by zainabdnaya       #+#    #+#             */
-/*   Updated: 2022/01/04 18:28:17 by zdnaya           ###   ########.fr       */
+/*   Updated: 2022/01/04 21:08:15 by zdnaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,7 +205,7 @@ int main()
 
 	// set constructors
 	{
-		std::cout << "\nmap constructors" << std::endl;
+		std::cout << "\n set constructors" << std::endl;
 		std::cout << "=======================================" << std::endl;
 		NS::set<int> set1;
 		set1.insert(5);
@@ -218,7 +218,7 @@ int main()
 		std::cout << "=======================================" << std::endl;
 	}
 
-	// erase()
+	// // erase()
 	{
 		std::cout << "\nerase()" << std::endl;
 		std::cout << "=======================================" << std::endl;
@@ -243,7 +243,7 @@ int main()
 		std::cout << "=======================================" << std::endl;
 	}
 
-	// max_size()
+	// // max_size()
 	{
 		std::cout << "\nmax_size()" << std::endl;
 		std::cout << "=======================================" << std::endl;
@@ -251,7 +251,7 @@ int main()
 		std::cout << "set1.max_size(): " << set1.max_size() << std::endl;
 	}
 
-	// // swap()
+	// // // swap()
 	{
 		std::cout << "\nswap()" << std::endl;
 		std::cout << "=======================================" << std::endl;
